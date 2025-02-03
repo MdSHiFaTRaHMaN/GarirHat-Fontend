@@ -25,7 +25,7 @@ const WhyGarirHat = () => {
           <img src={Minutes} alt="" />
           <h3 className="text-xl font-semibold">Minutes, not hours</h3>
           <p className="text-gray-400 max-w-xs mt-2">
-            Time-saving tools to help you find the right car in a snap.
+            Time-saving tools to help you find the right Car in a snap.
           </p>
         </div>
         {/* Shop Your Way */}
