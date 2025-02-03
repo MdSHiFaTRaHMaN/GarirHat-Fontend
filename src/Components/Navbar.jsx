@@ -13,7 +13,7 @@ const Navbar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <div className="bg-black text-white">
-      <div className="w-full lg:w-10/12 mx-auto flex items-center justify-between px-6 py-4">
+      <div className="w-full lg:w-10/12 mx-auto flex items-center justify-between px-6 py-3">
         <div className="flex items-center space-x-2">
           <h1 className="text-2xl font-bold">
             <span className="text-white">Garir</span>
