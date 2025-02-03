@@ -1,12 +1,12 @@
 import { Outlet } from "react-router-dom";
-import Navber from "../components/Navber";
 import ButtomBer from "../components/ButtomBer";
+import Topbar from "../components/Topbar";
 
 
 const Main = () => {
   return (
     <div>
-      <Navber />
+      <Topbar />
       <Outlet />
       <ButtomBer />
     </div>
