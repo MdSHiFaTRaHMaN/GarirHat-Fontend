@@ -9,7 +9,7 @@ import {
 import { useState } from "react";
 import LoginModal from "./LoginModel";
 
-const Navbar = () => {
+const Navber = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <div className="bg-black text-white">
@@ -79,4 +79,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default Navber;
