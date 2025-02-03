@@ -33,7 +33,7 @@ const CarType = () => {
     { name: "HYBRIDS", image: Car },
     { name: "PLUG-IN HYBRIDS (PHEV)", image: Car },
     { name: "HATCHBACKS", image: Car },
-    { name: "HATCHBACKS", image: Car },
+    { name: "ROYELS ROYES", image: Car },
     { name: "HATCHBACKS", image: Car },
   ];
 
