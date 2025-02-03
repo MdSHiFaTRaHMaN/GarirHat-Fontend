@@ -16,10 +16,10 @@ const Navbar = () => {
       <div className="w-full lg:w-10/12 mx-auto flex items-center justify-between px-6 py-3">
         <div className="flex items-center space-x-2">
           <h1 className="text-2xl font-bold">
-            <span className="text-white">Garir</span>
+            <span className="text-white">GARIR</span>
             <span className="text-blue-500">H</span>
-            <span className="text-red-500">a</span>
-            <span className="text-purple-500">t</span>
+            <span className="text-red-500">A</span>
+            <span className="text-purple-500">T</span>
           </h1>
           <Menu
             mode="horizontal"
