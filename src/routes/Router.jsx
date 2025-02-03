@@ -3,7 +3,6 @@ import Home from "../pages/home/Home";
 import Main from "../layout/Main";
 import Login from "../pages/Login";
 import SignUp from "../pages/SignUp";
-import UsedCar from "../pages/usedcarpage/UsedCar";
 
 const Router = createBrowserRouter([
     {
@@ -22,12 +21,6 @@ const Router = createBrowserRouter([
                 path: '/singup',
                 element: <SignUp></SignUp>
             },
-            {
-                path: '/usedcar',
-                element: <UsedCar />
-            }
-            
-            
         ]
     },
     

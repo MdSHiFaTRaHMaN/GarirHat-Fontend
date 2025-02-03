@@ -1,147 +1,58 @@
-import { Button, Input, Select } from "antd";
-import React, { useState } from "react";
-import BannarImg from '../../assets/images/trave.jpg'
+import { Input } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
+import { FaCar, FaBolt, FaChevronRight } from "react-icons/fa";
+import { BsCarFrontFill } from "react-icons/bs";
+import BannarImg from "../../assets/images/bannar-image.jpg";
 
-const Bannar = () => {
-  const [activeTab, setActiveTab] = useState("buy");
-  const CarCondition = [
-    {
-      value: "new",
-      label: "New",
-    },
-    {
-      value: "used",
-      label: "Used",
-    },
-    {
-      value: "certified",
-      label: "Certified",
-    },
-  ];
-
+const Banner = () => {
   return (
     <div
-      className="w-full bg-center bg-cover h-[38rem]"
-      style={{
-        backgroundImage: `url(${BannarImg})`,
-      }}
+      className="w-full h-[38rem] bg-cover bg-center relative"
+      style={{ backgroundImage: `url(${BannarImg})` }}
     >
-      <div className="flex items-center justify-center w-full h-full bg-gray-900/40">
-        <div className="text-center space-y-6">
-          <h1 className="text-3xl font-semibold text-white lg:text-4xl mb-12">
-            Car shopping <span className="text-blue-400">your way</span>
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black/50 flex items-center justify-center px-4">
+        <div className="text-center max-w-3xl w-full">
+          {/* Title */}
+          <h1 className="text-3xl lg:text-5xl font-semibold text-white">
+            Car buying shaped to your life
           </h1>
-          <div className="bg-white p-7 rounded-3xl">
-            {/* Tabs */}
-            <div className="flex justify-center space-x-4 -mt-[47px] ">
-              <div className="bg-white rounded-full p-1">
-                <button
-                  onClick={() => setActiveTab("buy")}
-                  className={`px-6 py-2 text-sm font-medium rounded-full transition ${
-                    activeTab === "buy"
-                      ? "bg-black text-white"
-                      : "bg-white text-gray-700"
-                  }`}
-                >
-                  Buy
-                </button>
-                <button
-                  onClick={() => setActiveTab("sell")}
-                  className={`px-6 py-2 text-sm font-medium rounded-full transition ${
-                    activeTab === "sell"
-                      ? "bg-black text-white"
-                      : "bg-white text-gray-700"
-                  }`}
-                >
-                  Sell/Trade
-                </button>
+
+          {/* Search Bar */}
+          <div className="mt-6 flex items-center justify-center">
+            <Input
+              size="large"
+              placeholder="Search make, model, or type"
+              prefix={<SearchOutlined className="text-gray-500" />}
+              className="w-full max-w-lg rounded-full px-4 py-3"
+            />
+          </div>
+            
+          <div className="flex flex-wrap -m-4 text-center mt-7">
+            <div className="p-4 md:w-1/3 sm:w-1/2  ">
+              <div className="border-2 border-gray-200 p-3 py-7 rounded-lg bg-[#525556] hover:bg-gray-900">
+                <FaCar className="text-orange-500 text-5xl text-center mx-auto" />
+                <h2 className="text-xl text-white flex items-center justify-center">
+                  Shop New <FaChevronRight />
+                </h2>
               </div>
             </div>
-            {/* Tab Content */}
-            <div className="mt-4">
-              {activeTab === "buy" ? (
-                <div className="flex flex-col lg:flex-row gap-4 p-6 bg-gray-100 rounded-lg shadow-md">
-                  {/* First Select */}
-                  <Select
-                    defaultValue="New"
-                    style={{
-                      width: 200,
-                    }}
-                    options={CarCondition}
-                    className="custom-select"
-                  />
 
-                  {/* Second Select */}
-                  <Select
-                    defaultValue="Used"
-                    style={{
-                      width: 200,
-                    }}
-                    options={CarCondition}
-                    className="custom-select"
-                  />
-
-                  {/* Third Select */}
-                  <Select
-                    defaultValue="Certified"
-                    style={{
-                      width: 200,
-                    }}
-                    options={CarCondition}
-                    className="custom-select"
-                  />
-
-                  {/* Input */}
-                  <Input
-                    placeholder="ZIP code"
-                    className="w-full lg:w-auto border-b-2 border-gray-300 focus:border-blue-500 focus:outline-none"
-                  />
-
-                  {/* Button */}
-                  <Button
-                    type="primary"
-                    className="bg-blue-600 text-white hover:bg-blue-700 px-6 py-2 rounded-md"
-                  >
-                    Search
-                  </Button>
-                </div>
-              ) : (
-                <div className="flex flex-col lg:flex-row gap-4 p-6 bg-gray-100 rounded-lg shadow-md">
-                  {/* First Select */}
-                  <Select
-                    defaultValue="Licench"
-                    style={{
-                      width: 200,
-                    }}
-                    options={CarCondition}
-                    className="custom-select"
-                  />
-
-                  {/* Second Select */}
-                  <Input
-                    placeholder="ZIP code"
-                    className="w-full lg:w-auto border-b-2 border-gray-300 focus:border-blue-500 focus:outline-none"
-                  />
-
-                  {/* Third Select */}
-                  <Select
-                    defaultValue="Certified"
-                    style={{
-                      width: 200,
-                    }}
-                    options={CarCondition}
-                    className="custom-select"
-                  />
-
-                  {/* Button */}
-                  <Button
-                    type="primary"
-                    className="bg-blue-600 text-white hover:bg-blue-700 px-6 py-2 rounded-md"
-                  >
-                    Get Your Offers
-                  </Button>
-                </div>
-              )}
+            <div className="p-4 md:w-1/3 sm:w-1/2 w-full">
+              <div className="border-2 border-gray-200 p-3 py-7 rounded-lg bg-[#525556] hover:bg-gray-900">
+                <BsCarFrontFill className="text-pink-500 text-5xl text-center mx-auto" />
+                <h2 className="text-xl text-white flex items-center justify-center">
+                  Shop Used <FaChevronRight />
+                </h2>
+              </div>
+            </div>
+            <div className="p-4 md:w-1/3 sm:w-1/2 w-full">
+              <div className="border-2 border-gray-200 p-3 py-7 rounded-lg bg-[#525556] hover:bg-gray-900">
+                <FaBolt className="text-blue-400 text-5xl text-center mx-auto" />
+                <h2 className="text-xl text-white flex items-center justify-center">
+                  Shop Electric <FaChevronRight />
+                </h2>
+              </div>
             </div>
           </div>
         </div>
@@ -150,4 +61,4 @@ const Bannar = () => {
   );
 };
 
-export default Bannar;
+export default Banner;

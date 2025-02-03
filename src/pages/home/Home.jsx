@@ -1,26 +1,24 @@
-import CarAbout from './CarAbout';
 import Bannar from './Bannar';
-import WhySellWithUs from './WhySellWithUs';
-import BudgetEstimator from './BudgetEstimator';
-import CarModel from './CarModel';
-import CarShowcase from './CarShowcase';
-import CarBodyType from './CarBodyType';
+import BuyOnline from './BuyOnline';
+import CarBrands from './CarBrands';
 import CarReview from './CarReview';
-import PopulerCar from './PopulerCar';
+import CarType from './CarType';
+import MatchCar from './MatchCar';
+import SellandTrade from './SellandTrade';
+import WhyGarirHat from './WhyGarirHat';
+
 
 const Home = () => {
     return (
         <div>
             <Bannar />
-            <BudgetEstimator />
-            <CarShowcase />
-            <CarBodyType />
-            <WhySellWithUs />
+            <BuyOnline />
+            <MatchCar />
+            <WhyGarirHat />
+            <CarBrands />
+            <SellandTrade />
+            <CarType />
             <CarReview />
-            <PopulerCar />
-            <CarAbout />
-            <CarModel />
-
         </div>
     );
 };
