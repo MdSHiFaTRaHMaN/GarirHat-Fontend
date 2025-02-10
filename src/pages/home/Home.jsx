@@ -1,24 +1,28 @@
-import Bannar from './Bannar';
-import BuyOnline from './BuyOnline';
-import CarBrands from './CarBrands';
-import CarReview from './CarReview';
-import CarType from './CarType';
-import MatchCar from './MatchCar';
-import SellandTrade from './SellandTrade';
-import WhyGarirHat from './WhyGarirHat';
+import CarCompare from "./CarCompare";
+import CarNews from "./CarNews";
+import CarStorics from "./CarStorics";
+import ElectricCars from "./ElectricCars";
+import Header from "./Header";
+import MostSearchCar from "./MostSearchCar";
+import NearbyLocation from "./NearbyLocation";
+import PopularBrands from "./PopularBrands";
+import TrustedUsedCars from "./TrustedUsedCars";
+import UpcomingCar from "./UpcomingCar";
 
 
 const Home = () => {
     return (
         <div>
-            <Bannar />
-            <BuyOnline />
-            <MatchCar />
-            <WhyGarirHat />
-            <CarBrands />
-            <SellandTrade />
-            <CarType />
-            <CarReview />
+            <Header />
+            <MostSearchCar />
+            <ElectricCars />
+            <UpcomingCar />
+            <TrustedUsedCars />
+            <PopularBrands />
+            <CarStorics />
+            <CarCompare />
+            <NearbyLocation />
+            <CarNews />
         </div>
     );
 };

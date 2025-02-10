@@ -1,8 +1,13 @@
 import { createBrowserRouter } from "react-router-dom";
 import Main from "../layout/Main";
 import Home from "../pages/home/Home";
-import Login from "../pages/Login";
-import SignUp from "../pages/SignUp";
+import NewCarPage from "../pages/newcar/NewCarPage";
+import CarDetails from "../pages/cardetails/CarDetails";
+import NewsAndStories from "../pages/newsandstory/NewsAndStories";
+import ExpertReviews from "../pages/carexpertreview/ExpertReviews";
+import CarReviewPage from "../pages/carreview/CarReviewPage";
+import UserReviewFrom from "../pages/UserReviewFrom";
+
 
 const Router = createBrowserRouter([
   {
@@ -14,13 +19,29 @@ const Router = createBrowserRouter([
         element: <Home></Home>,
       },
       {
-        path: "/login",
-        element: <Login></Login>,
+        path: "/new-car",
+        element: <NewCarPage />
       },
       {
-        path: "/singup",
-        element: <SignUp></SignUp>,
+        path: "/car-details",
+        element: <CarDetails />
       },
+      {
+        path: "/news-and-stories",
+        element: <NewsAndStories />
+      },
+      {
+        path: "/car-expert-review",
+        element: <ExpertReviews />
+      },
+      {
+        path: "/car-review",
+        element: <CarReviewPage />
+      },
+      {
+        path: "/user-review",
+        element: <UserReviewFrom />
+      }
     ],
   },
 ]);

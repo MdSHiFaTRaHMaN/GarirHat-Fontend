@@ -35,16 +35,16 @@ const LoginModal = ({ isVisible, onClose }) => {
       >
         <Form.Item
           name="username"
-          rules={[{ required: true, message: "Please input your username!" }]}
+          rules={[{ required: true, message: "Please input your Email or Phone Number!" }]}
         >
           <Input
             prefix={<UserOutlined className="text-gray-500 mr-2" />}
-            placeholder="Username"
+            placeholder="Enter Email or Phone Number"
             className="h-12"
           />
         </Form.Item>
 
-        <Form.Item
+        {/* <Form.Item
           name="password"
           rules={[{ required: true, message: "Please input your password!" }]}
         >
@@ -53,16 +53,15 @@ const LoginModal = ({ isVisible, onClose }) => {
             placeholder="Password"
             className="h-12"
           />
-        </Form.Item>
+        </Form.Item> */}
 
         <Form.Item>
-          <Button
-            type="primary"
-            htmlType="submit"
-            className="w-full bg-blue-500 hover:bg-blue-600 h-12 text-white rounded-md"
+          <button
+            type="submit"
+            className="w-full bg-ButtonColor hover:bg-ButtonHover h-12 text-white rounded-md"
           >
-            Login
-          </Button>
+            Send OTP
+          </button>
         </Form.Item>
       </Form>
 
