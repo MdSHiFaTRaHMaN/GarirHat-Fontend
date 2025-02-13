@@ -1,4 +1,5 @@
-import BannarImg from "../../assets/images/bannar-image.jpg";
+import { Link } from "react-router-dom";
+import BannarImg from "../../assets/images/bannar420.png";
 import { useState } from "react";
 
 const Header = () => {
@@ -19,7 +20,7 @@ const Header = () => {
     >
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/50 flex items-center px-4 ">
-        <div className="bg-white rounded-lg shadow-lg p-6 max-w-sm w-full ml-40">
+        <div className="bg-white rounded-lg shadow-lg p-6 max-w-sm w-full ml-32">
           <div className="w-80 bg-white">
             <h2 className="text-xl font-bold mb-4">Find your right car</h2>
             <div className="flex mb-4">
@@ -41,7 +42,7 @@ const Header = () => {
               </button>
             </div>
 
-            <div className="flex items-center gap-4 mb-4">
+            <div className="flex justify-center items-center gap-4 mb-4">
               <label className="flex items-center gap-2">
                 <input
                   type="radio"
@@ -110,12 +111,12 @@ const Header = () => {
               Search
             </button>
 
-            <a
-              href="#"
+            <Link
+              to="/new-car"
               className="block mt-4 text-center text-gray-600 underline"
             >
               Advanced Search
-            </a>
+            </Link>
           </div>
         </div>
       </div>

@@ -1,11 +1,15 @@
+import { useState } from "react";
 import { Modal, Input, Button, Form } from "antd";
 import { FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import { UserOutlined } from "@ant-design/icons";
 
 const LoginModal = ({ isVisible, onClose }) => {
+  const [showOtp, setShowOtp] = useState(false); // State to track OTP input visibility
+
   const onFinish = (values) => {
     console.log("Success:", values);
+    setShowOtp(true); // Show OTP input when form is submitted
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -15,10 +19,10 @@ const LoginModal = ({ isVisible, onClose }) => {
   return (
     <Modal
       open={isVisible}
-      onCancel={onClose} 
+      onCancel={onClose}
       footer={null}
       centered
-      closable={true} // নিশ্চিত করুন যে এটি true
+      closable={true}
     >
       <h2 className="text-center text-2xl font-semibold">Log in or sign up</h2>
       <p className="text-gray-800 text-center my-3">
@@ -26,44 +30,65 @@ const LoginModal = ({ isVisible, onClose }) => {
       </p>
 
       {/* Login Form */}
-      <Form
-        name="login"
-        initialValues={{ remember: true }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-        className="space-y-4"
-      >
-        <Form.Item
-          name="username"
-          rules={[{ required: true, message: "Please input your Email or Phone Number!" }]}
+      {!showOtp ? (
+        <Form
+          name="login"
+          initialValues={{ remember: true }}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+          className="space-y-4"
         >
-          <Input
-            prefix={<UserOutlined className="text-gray-500 mr-2" />}
-            placeholder="Enter Email or Phone Number"
-            className="h-12"
-          />
-        </Form.Item>
-
-        {/* <Form.Item
-          name="password"
-          rules={[{ required: true, message: "Please input your password!" }]}
-        >
-          <Input.Password
-            prefix={<LockOutlined className="text-gray-500 mr-2" />}
-            placeholder="Password"
-            className="h-12"
-          />
-        </Form.Item> */}
-
-        <Form.Item>
-          <button
-            type="submit"
-            className="w-full bg-ButtonColor hover:bg-ButtonHover h-12 text-white rounded-md"
+          <Form.Item
+            name="username"
+            rules={[
+              {
+                required: true,
+                message: "Please input your Email or Phone Number!",
+              },
+            ]}
           >
-            Send OTP
-          </button>
-        </Form.Item>
-      </Form>
+            <Input
+              prefix={<UserOutlined className="text-gray-500 mr-2" />}
+              placeholder="Enter Email or Phone Number"
+              className="h-12"
+            />
+          </Form.Item>
+
+          <Form.Item>
+            <button
+              type="submit"
+              className="w-full bg-ButtonColor hover:bg-ButtonHover h-12 font-semibold text-white rounded-md"
+            >
+              Send OTP
+            </button>
+          </Form.Item>
+        </Form>
+      ) : (
+        //nput OTP section)
+        <Form
+          name="otp"
+          initialValues={{ remember: true }}
+          onFinish={(values) => console.log("OTP Submitted:", values)}
+          className="space-y-4"
+        >
+          <Form.Item
+            name="otp"
+            rules={[{ required: true, message: "Enter OTP" }]}
+            className="flex justify-center"
+          >
+            <Input.OTP placeholder="Enter OTP" className="h-12" separator={(index) => (index === 2 ? '-' : undefined)}/>
+          </Form.Item>
+
+          <Form.Item>
+            <button
+              type="submit"
+              className="w-full bg-ButtonColor hover:bg-ButtonHover font-semibold h-12 text-white rounded-md"
+            >
+              Verify Now
+            </button>
+          </Form.Item>
+        </Form>
+      )}
 
       {/* Divider */}
       <div className="relative flex py-5 items-center">
@@ -73,17 +98,13 @@ const LoginModal = ({ isVisible, onClose }) => {
       </div>
 
       {/* Google Login */}
-      <Button
-        className="w-full flex items-center justify-center border border-gray-300 text-lg p-5 rounded-md hover:bg-gray-100 gap-2"
-      >
+      <Button className="w-full flex items-center justify-center border border-gray-300 text-lg p-5 rounded-md hover:bg-gray-100 gap-2">
         <FcGoogle size={22} />
         Continue with Google
       </Button>
 
       {/* Facebook Login */}
-      <Button
-        className="w-full flex items-center justify-center border border-gray-300 text-lg p-5 rounded-md hover:bg-gray-100 mt-3 gap-2"
-      >
+      <Button className="w-full flex items-center justify-center border border-gray-300 text-lg p-5 rounded-md hover:bg-gray-100 mt-3 gap-2">
         <FaFacebook className="text-blue-600" size={22} />
         Continue with Facebook
       </Button>

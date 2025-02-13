@@ -9,8 +9,8 @@ import {
   HomeOutlined,
   CarOutlined,
 } from "@ant-design/icons";
-import { Breadcrumb, Button, Carousel } from "antd";
-import { FaRupeeSign, FaMapMarkerAlt, FaBolt } from "react-icons/fa";
+import { Breadcrumb, Button, Carousel, Divider } from "antd";
+import { FaMapMarkerAlt, FaBolt } from "react-icons/fa";
 import Car1 from "../../assets/images/car-d1.jpg";
 import Car2 from "../../assets/images/car-d22.jpg";
 import Car3 from "../../assets/images/car-d33.jpg";
@@ -25,10 +25,14 @@ import Features from "./Features";
 import { Link } from "react-router-dom";
 import GalloryModel from "./GalleryModel";
 import { GrGallery } from "react-icons/gr";
+import Specifications from "./Specifications";
+import { TbCurrencyTaka } from "react-icons/tb";
+import ReportAdModel from "./ReportAdModel";
 
 const CarDetails = () => {
   const images = [Car1, Car2, Car3, Car4];
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isReportModal, setIsReportModal] = useState(false);
 
   const CustomArrow = ({ type, onClick }) => {
     const isPrev = type === "prev";
@@ -122,19 +126,17 @@ const CarDetails = () => {
             <p className="text-gray-500 text-sm">
               3,406 kms • Petrol • Automatic • 1st Owner
             </p>
-            <h3 className="text-3xl font-bold mt-2 flex items-center">
-              <FaRupeeSign className="mr-1" />
+            <h3 className="text-3xl font-semibold mt-2 flex items-center">
+              <TbCurrencyTaka className="mr-1" />
               90 Lakh
-              <span className="text-blue-500 text-sm ml-2">
-                Make Your Offer
-              </span>
             </h3>
-            <p className="text-gray-600 text-sm">
+            <p className="text-gray-600 text-sm mt-2">
               EMI starts @ ₹2,23,382/mo • New Car Price ₹1.06 Crore
             </p>
+            <Divider dashed />
             <div className="flex items-center mt-2 text-gray-600">
               <FaMapMarkerAlt className="mr-2" />
-              Vaishya Sabha, Kolkata
+              Manda, Dhaka
             </div>
           </div>
 
@@ -154,7 +156,10 @@ const CarDetails = () => {
 
           {/* Actions Section */}
           <div className="flex items-center justify-between text-gray-500 text-sm">
-            <span className="flex items-center cursor-pointer">
+            <span
+              onClick={() => setIsReportModal(true)}
+              className="flex items-center cursor-pointer"
+            >
               <ExclamationCircleOutlined className="mr-1" /> Report Ad
             </span>
             <span className="flex items-center cursor-pointer">
@@ -168,22 +173,31 @@ const CarDetails = () => {
         </div>
       </div>
       <div className="flex w-full lg:w-[89%] mx-auto">
+        {/* left side  */}
         <div className="w-full lg:w-7/12">
           <CarOverview />
+          <Features />
+          <Specifications />
           <EMICalculator />
           <CarReviews />
         </div>
+        {/* right side  */}
         <div className="w-full lg:w-5/12">
           <RecommendedUsedCars />
           <AddonService />
           <ResearchLinks />
         </div>
       </div>
-      <Features />
+
+      {/* model  */}
       <GalloryModel
         handleImage={images}
         isVisible={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+      />
+      <ReportAdModel
+        isVisible={isReportModal}
+        onClose={() => setIsReportModal(false)}
       />
     </div>
   );

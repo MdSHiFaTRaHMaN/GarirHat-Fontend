@@ -147,8 +147,8 @@ const UserReviewForm = () => {
         <div className="w-full mx-auto bg-white">
           {/* Your Overall Rating */}
           <div className="p-7 bg-gray-100 my-4 rounded text-center shadow-md">
-            <h2 className="text-lg font-semibold text-gray-700">Your overall rating:</h2>
-            <h1 className="text-2xl font-bold text-blue-600">{averageRating}/5</h1>
+            <h2 className="text-2xl font-semibold text-gray-700">Your overall rating:</h2>
+            <h1 className="text-2xl font-bold text-yellow-600">{averageRating}</h1>
           </div>
 
           {/* Review Text Area */}

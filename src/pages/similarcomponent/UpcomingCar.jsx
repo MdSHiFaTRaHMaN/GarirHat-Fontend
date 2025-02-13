@@ -1,5 +1,6 @@
 import { Card } from "antd";
 import CarImage from "../../assets/images/carshadow.jpg";
+import { TbCurrencyTaka } from "react-icons/tb";
 
 const UpcomingCar = () => {
   const latestCarsData = [
@@ -11,25 +12,25 @@ const UpcomingCar = () => {
     },
     {
       name: "Mahindra BE 6",
-      price: "₹ 18.90 - 26.90 Lakh*",
+      price: "18.90 - 26.90 Lakh*",
       image: CarImage,
       tag: null,
     },
     {
       name: "Mahindra XEV 9e",
-      price: "₹ 21.90 - 30.50 Lakh*",
+      price: "21.90 - 30.50 Lakh",
       image: CarImage,
       tag: null,
     },
     {
       name: "Kia Syros",
-      price: "₹ 9 - 17.80 Lakh*",
+      price: "9 - 17.80 Lakh*",
       image: CarImage,
       tag: null,
     },
     {
       name: "Honda City",
-      price: "₹ 11.82 - 16.55 Lakh*",
+      price: "11.82 - 16.55 Lakh*",
       image: CarImage,
       tag: null,
     },
@@ -48,7 +49,7 @@ const UpcomingCar = () => {
               <img
                 src={car.image}
                 alt={car.name}
-                className="w-[135px] h-16 rounded-md object-cover"
+                className="w-[115px] h-12 rounded-md object-cover"
               />
               {/* New Variant Tag */}
               {car.tag && (
@@ -61,7 +62,7 @@ const UpcomingCar = () => {
             {/* Car Info */}
             <div>
               <p className="text-sm font-medium">{car.name}</p>
-              <p className="text-sm text-gray-600">{car.price}</p>
+              <p className="text-sm text-gray-600 flex items-center"><TbCurrencyTaka />{car.price}</p>
             </div>
           </div>
         ))}

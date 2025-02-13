@@ -1,13 +1,24 @@
-import { Checkbox, Divider, Select, Tabs } from "antd";
+import { Checkbox, Divider, message, Select, Tabs } from "antd";
 import CarImage from "../../assets/images/car-d3.jpg";
 import { IoLocationOutline } from "react-icons/io5";
 import { FaChevronCircleRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { FiFilter } from "react-icons/fi";
-import { HeartOutlined } from "@ant-design/icons";
+import { HeartFilled, HeartOutlined } from "@ant-design/icons";
 import { TbCurrencyTaka } from "react-icons/tb";
+import { useState } from "react";
+import { FaShare } from "react-icons/fa6";
 
 const ShowAllCar = () => {
+  const [likedCars, setLikedCars] = useState({});
+
+  const toggleLike = (carId) => {
+    setLikedCars((prev) => ({
+      ...prev,
+      [carId]: !prev[carId],
+    }));
+    message.success("Added to favorites");
+  };
   // Generate 20 car objects dynamically
   const cars = Array.from({ length: 21 }, (_, index) => ({
     id: index + 1,
@@ -44,6 +55,26 @@ const ShowAllCar = () => {
     },
   ];
 
+   // Share url section
+   const handleShare = () => {
+    const url = window.location.href;
+
+    if (navigator.share) {
+      navigator
+        .share({
+          title: document.title,
+          url: url,
+        })
+        .then(() => console.log("Shared successfully"))
+        .catch((error) => console.error("Error sharing:", error));
+    } else {
+      navigator.clipboard
+        .writeText(url)
+        .then(() => alert("Link copied to clipboard!"))
+        .catch((err) => console.error("Failed to copy:", err));
+    }
+  };
+
   return (
     <div>
       <div>
@@ -51,9 +82,9 @@ const ShowAllCar = () => {
           Buying your dream car? Check Now!
         </h1>
         <p className="text-sm my-2">
-          GarirHat brings you the latest new cars in Bangladesh for 2025 with updated
-          prices. There are around 264 new car models available across 39
-          brands. Popular brands like Maruti, Tata, Kia, Toyota and Hyundai
+          GarirHat brings you the latest new cars in Bangladesh for 2025 with
+          updated prices. There are around 264 new car models available across
+          39 brands. Popular brands like Maruti, Tata, Kia, Toyota and Hyundai
           offer budget-friendly and fuel-efficient cars, making them top choices
           for buyers.
         </p>
@@ -102,8 +133,18 @@ const ShowAllCar = () => {
         {cars.map((car) => (
           <div
             key={car.id}
-            className="border rounded-lg w-80 bg-white shadow-lg"
+            className="border rounded-lg w-80 bg-white shadow-lg relative"
           >
+            <div
+              onClick={() => toggleLike(car.id)}
+              className="absolute top-2 right-2 cursor-pointer"
+            >
+              {likedCars[car.id] ? (
+                <HeartFilled className="text-red-600 text-xl" />
+              ) : (
+                <HeartOutlined className="text-red-600 text-xl" />
+              )}
+            </div>
             <img
               src={car.img} // Replace with actual image URL
               alt="Car"
@@ -112,22 +153,17 @@ const ShowAllCar = () => {
             <div className="mt-3 px-4 pb-4">
               <div className="flex items-center justify-between">
                 <h3 className="font-semibold text-lg">{car.name}</h3>
-                <HeartOutlined />
               </div>
-
               <p className="text-gray-600 text-sm">
                 {car.kms} • Petrol • Manual
               </p>
               <div className="mt-2 flex items-center justify-between">
                 <span className="text-xl font-bold text-black flex items-center">
-                <TbCurrencyTaka className="text-2xl font-extrabold"/>   {car.price}
+                  <TbCurrencyTaka className="text-2xl font-extrabold" />{" "}
+                  {car.price}
                 </span>
                 <Checkbox>Compare</Checkbox>
               </div>
-              {/* <p className="text-gray-400 line-through text-sm">
-                  {car.oldprice}
-                </p>
-                <p className="text-green-600 text-sm">Save {car.discount}</p> */}
               <Link to="/car-details">
                 <button className="text-red-600 font-semibold mt-2 flex items-center">
                   View Seller Details <FaChevronCircleRight className="ml-1" />
@@ -135,16 +171,21 @@ const ShowAllCar = () => {
               </Link>
               <Divider
                 variant="dashed"
-                style={{
-                  borderColor: "#4B5567",
-                }}
+                style={{ borderColor: "#4B5567" }}
                 dashed
-              >
-              </Divider>
+              />
+              <div className="flex items-center justify-between">
               <p className="text-gray-500 text-sm mt-2 flex items-center gap-1">
                 <IoLocationOutline />
                 {car.location}
               </p>
+              <FaShare
+                onClick={handleShare}
+                title="Share"
+                className="bg-black text-2xl text-white p-1.5 rounded-full cursor-pointer"
+              />
+              </div>
+              
             </div>
           </div>
         ))}

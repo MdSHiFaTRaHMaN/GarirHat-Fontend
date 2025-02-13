@@ -7,6 +7,11 @@ import NewsAndStories from "../pages/newsandstory/NewsAndStories";
 import ExpertReviews from "../pages/carexpertreview/ExpertReviews";
 import CarReviewPage from "../pages/carreview/CarReviewPage";
 import UserReviewFrom from "../pages/UserReviewFrom";
+import CarCollection from "../pages/carcollection/CarCollection";
+import CarVideosPage from "../pages/carvideopage/CarVideosPage";
+import TipsandAdvice from "../pages/tipsandadvice/TipsandAdvice";
+import FavoritesCar from "../pages/FavoritesCar";
+import UserProfile from "../pages/UserProfile";
 
 
 const Router = createBrowserRouter([
@@ -41,6 +46,26 @@ const Router = createBrowserRouter([
       {
         path: "/user-review",
         element: <UserReviewFrom />
+      },
+      {
+        path: "/car-collection",
+        element: <CarCollection />
+      },
+      {
+        path: "/car-videos",
+        element: <CarVideosPage />
+      },
+      {
+        path: "/tips-and-advice",
+        element: <TipsandAdvice />
+      },
+      {
+        path: "/favorites-car",
+        element: <FavoritesCar />
+      },
+      {
+        path: "/user-profile",
+        element: <UserProfile />
       }
     ],
   },

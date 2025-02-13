@@ -1,17 +1,17 @@
 import { useState } from "react";
-import NewsCard from "./NewsCard";
 import LatestCars from "../similarcomponent/LatestCars";
 import CarImage from "../../assets/images/new-car-collection.jpeg";
 import PopulerCar from "../similarcomponent/PopulerCar";
 import UpcomingCar from "../similarcomponent/UpcomingCar";
 import { Pagination } from "antd";
+import TipsandAdviceCard from "./TipsandAdviceCard";
 
-const NewsAndStories = () => {
+const TipsandAdvice = () => {
   const newsData = [
     {
       title: "Maharashtra Transport Department Makes HSRP Mandatory",
       description:
-        "Maharashtra Transport Department has made it mandatory for any vehicle sold before April 2019 to be affixed with an HSRP.",
+        "Various other factors beyond depreciation also affects a car’s value.",
       image: CarImage,
       author: "Kartik",
       date: "Feb 08, 2025",
@@ -19,7 +19,7 @@ const NewsAndStories = () => {
     {
       title: "Car News That Mattered This Week (February 3-7)",
       description:
-        "Apart from a partnership between new giant industries, this week also saw the price revisions of some models.",
+        "The majority of cars these days are equipped with this safety feature!.",
       image: CarImage,
       author: "Yashika",
       date: "Feb 08, 2025",
@@ -27,7 +27,7 @@ const NewsAndStories = () => {
     {
       title: "Electric Vehicles: The Future of Transportation?",
       description:
-        "With rising fuel prices and concerns about climate change, electric vehicles are becoming the preferred choice for many consumers.",
+        "This guide explains the types of signs, their meanings, and importance of signs in India to navigate a smooth traffic flow.",
       image: CarImage,
       author: "Rohan",
       date: "Feb 05, 2025",
@@ -43,7 +43,7 @@ const NewsAndStories = () => {
     {
       title: "Car Prices Expected to Increase Next Month",
       description:
-        "Due to rising material costs and supply chain issues, experts predict a hike in car prices starting next month.",
+        "Due to rising material costs and supply chain issues.",
       image: CarImage,
       author: "Vikram",
       date: "Feb 02, 2025",
@@ -51,7 +51,7 @@ const NewsAndStories = () => {
     {
       title: "Best Budget Cars Under $20,000 in 2025",
       description:
-        "Looking for an affordable yet feature-packed car? Here’s a list of the best budget-friendly cars under $20,000 this year.",
+        "Looking for an affordable yet feature-packed car?",
       image: CarImage,
       author: "Meera",
       date: "Jan 30, 2025",
@@ -59,7 +59,7 @@ const NewsAndStories = () => {
     {
       title: "New SUV Model Launched with Cutting-Edge Features",
       description:
-        "The latest SUV model promises advanced technology, comfort, and performance, setting a new benchmark in the industry.",
+        "The latest SUV model promises advanced technology.",
       image: CarImage,
       author: "Ananya",
       date: "Feb 04, 2025",
@@ -67,7 +67,7 @@ const NewsAndStories = () => {
     {
       title: "Car Prices Expected to Increase Next Month",
       description:
-        "Due to rising material costs and supply chain issues, experts predict a hike in car prices starting next month.",
+        "Due to rising material costs and supply chain issues.",
       image: CarImage,
       author: "Vikram",
       date: "Feb 02, 2025",
@@ -85,8 +85,7 @@ const NewsAndStories = () => {
       <div className="w-full lg:w-8/12">
         {/* Title */}
         <h1 className="text-3xl font-bold text-gray-900 text-center lg:text-left">
-          Car News Bangladesh - All Latest Car Information and Auto News
-          Bangladesh
+        Car Driving Tips
         </h1>
 
         {/* Search Bar */}
@@ -107,7 +106,7 @@ const NewsAndStories = () => {
         <div className="mt-6 space-y-4">
           {filteredNews.length > 0 ? (
             filteredNews.map((news, index) => (
-              <NewsCard key={index} news={news} />
+              <TipsandAdviceCard key={index} news={news} />
             ))
           ) : (
             <p className="text-center text-gray-500">No results found</p>
@@ -131,4 +130,4 @@ const NewsAndStories = () => {
   );
 };
 
-export default NewsAndStories;
+export default TipsandAdvice;

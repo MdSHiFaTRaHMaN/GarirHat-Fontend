@@ -1,7 +1,6 @@
 import { FiHeart, FiSearch } from "react-icons/fi";
-import Logo from "../assets/images/logo.png";
+import Logo from "../assets/images/garirhatlogo.png";
 import { PiUserCircleDashedBold } from "react-icons/pi";
-
 import Topmenu from "./Topmenu";
 import { Link } from "react-router-dom";
 import LoginModal from "./LoginModel";
@@ -9,14 +8,14 @@ import { useState } from "react";
 const Navbar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   return (
-    <div className="bg-white sticky top-0 z-40">
+    <div className="bg-gray-50 sticky top-0 z-40">
       {/* First Line: Logo and Tagline */}
       <nav className=" p-2 w-full lg:w-10/12 mx-auto">
         <div className="container mx-auto flex items-center justify-between">
           {/* Logo Section */}
           <div className="flex items-center space-x-2">
             <Link to="/">
-              <img src={Logo} alt="" width={120} />
+              <img src={Logo} alt="" width={160} />
             </Link>
           </div>
 
@@ -40,7 +39,9 @@ const Navbar = () => {
 
           {/* Icons Section */}
           <div className="flex items-center space-x-6">
-            <FiHeart className="text-gray-500 hover:text-red-700" size={20} />
+            <Link to="/favorites-car">
+              <FiHeart className="text-gray-500 hover:text-red-700" size={20} />
+            </Link>
             <button
               onClick={() => setIsModalOpen(true)}
               className="flex items-center space-x-2 hover:bg-gray-200 p-2 rounded-full"

@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Slider, Button } from "antd";
-import { FaRupeeSign } from "react-icons/fa";
 import CalculatorImg from "../../assets/images/emicalculator.png"
+import EMIBackupModel from "./EMIBackupModel";
+import { FaBangladeshiTakaSign } from "react-icons/fa6";
 
 const EMICalculator = () => {
   const [loanAmount, setLoanAmount] = useState(9000000);
@@ -16,8 +17,16 @@ const EMICalculator = () => {
 
   const emi = calculateEMI(loanAmount, interestRate, duration * 12);
 
+  const [isModalOpen, setIsModalOpen] = useState([false, false]);
+
+  const toggleModal = (idx, target) => {
+    setIsModalOpen((p) => {
+      p[idx] = target;
+      return [...p];
+    });
+  };
   return (
-    <div className="flex justify-center items-center p-6 bg-gray-50">
+    <div className="flex justify-center items-center p-5 bg-gray-50 border shadow-lg rounded-lg">
       <div className="p-8 w-full">
         {/* Header Section */}
         <h2 className="text-2xl font-bold text-gray-900">EMI Calculator</h2>
@@ -29,11 +38,11 @@ const EMICalculator = () => {
         <div className="mt-6">
           <h3 className="text-lg font-semibold text-gray-700">Loan Amount</h3>
           <div className="flex justify-between items-center mt-2">
-            <span className="text-gray-500 text-sm">₹0</span>
+            <span className="text-gray-500 text-sm">৳ 0</span>
             <span className="bg-gray-200 px-3 py-1 rounded-md text-gray-700 font-semibold">
-              ₹{(loanAmount / 100000).toFixed(2)} Lakh
+            ৳{(loanAmount / 100000).toFixed(2)} Lakh
             </span>
-            <span className="text-gray-500 text-sm">₹89,99,999</span>
+            <span className="text-gray-500 text-sm">৳ 89,99,999</span>
           </div>
           <Slider
             min={0}
@@ -74,10 +83,10 @@ const EMICalculator = () => {
           <div>
             <p className="text-gray-500 text-sm">Your Monthly EMI</p>
             <h3 className="text-2xl font-bold flex items-center">
-              <FaRupeeSign className="mr-1" /> {emi.toLocaleString()}
+              <FaBangladeshiTakaSign  className="mr-1" /> {emi.toLocaleString()}
             </h3>
           </div>
-          <button className="text-blue-500 font-semibold">View Breakup</button>
+          <button onClick={() => toggleModal(0, true)} className="text-blue-500 font-semibold">View Breakup</button>
         </div>
 
         {/* Disclaimer */}
@@ -98,6 +107,7 @@ const EMICalculator = () => {
       <div>
         <img src={CalculatorImg} alt="CalculatorImg" />
       </div>
+      <EMIBackupModel isModalOpen={isModalOpen} toggleModal={toggleModal} />
     </div>
   );
 };
