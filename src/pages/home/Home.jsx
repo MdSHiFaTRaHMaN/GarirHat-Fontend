@@ -20,7 +20,7 @@ const Home = () => {
             <TrustedUsedCars />
             <PopularBrands />
             <CarStorics />
-            <CarCompare />
+            {/* <CarCompare /> */}
             <NearbyLocation />
             <CarNews />
         </div>

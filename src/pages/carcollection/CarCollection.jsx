@@ -8,7 +8,7 @@ const CarCollection = () => {
   return (
     <div>
       <CollectionBannar />
-      <div className="flex w-full lg:w-10/12 mx-auto p-5">
+      <div className="grid lg:flex w-full lg:w-10/12 mx-auto p-5">
         <div className="w-full lg:w-8/12">
           <CollectionList />
         </div>

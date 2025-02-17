@@ -3,6 +3,8 @@ import CarImage from "../assets/images/bdcar.jpg";
 import { FaBangladeshiTakaSign, FaShare } from "react-icons/fa6";
 import { IoLocationOutline } from "react-icons/io5";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { BiShare } from "react-icons/bi";
+import { ShareAltOutlined } from "@ant-design/icons";
 
 const cars = [
   { name: "Nexaro Proxima 4X", price: "65,00,000 Taka", img: CarImage },
@@ -36,13 +38,13 @@ const FavoritesCar = () => {
     }
   };
   return (
-    <div className="py-10 w-full lg:w-10/12 mx-auto">
+    <div className="py-10 w-full lg:w-10/12 mx-auto p-4">
       <h2 className="text-3xl font-bold uppercase">Your Favorite Cars List</h2>
       <p className="text-gray-600 max-w-2xl mt-2">
         Explore your handpicked collection of dream cars. Save your favorites
         and make your perfect choice with top-notch performance and luxury.
       </p>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mt-10 px-5 lg:px-0.5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-10 px-2 lg:px-0.5">
         {cars.map((car, index) => (
           <Card
             key={index}
@@ -73,13 +75,7 @@ const FavoritesCar = () => {
                 <Button className="bg-ButtonColor border-none !importent hover:!bg-ButtonHover !text-white p-2 w-full">
                   View Details
                 </Button>
-                <span className="cursor-pointer bg-black py-1.5 px-2 rounded-full">
-                  <FaShare
-                    onClick={handleShare}
-                    title="Share"
-                    className=" text-lg text-white"
-                  />
-                </span>
+                <ShareAltOutlined onClick={handleShare} className="text-xl" />
               </div>
             </div>
           </Card>

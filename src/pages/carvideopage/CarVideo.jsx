@@ -17,7 +17,7 @@ const CarVideo = () => {
       </h1>
 
       {/* Search Bar */}
-      <div className="flex gap-3 items-center">
+      <div className="grid lg:flex gap-3 items-center">
         <Select placeholder="Select Brand" className="w-full h-12">
           <Option value="Mahindra">Mahindra</Option>
           <Option value="Tesla">Tesla</Option>
@@ -37,7 +37,7 @@ const CarVideo = () => {
       </div>
 
       {/* Video Section */}
-      <div className="mt-6 bg-white flex gap-5 ">
+      <div className="mt-6 bg-white grid lg:flex gap-5 ">
         <iframe
           className="w-full h-[295px] rounded-lg"
           src="https://www.youtube.com/embed/QEZry7fdej0?si=9XIXPCkdv7KHRq6v"

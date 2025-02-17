@@ -1,6 +1,7 @@
 import { Button } from "antd";
 import { ArrowRightOutlined } from "@ant-design/icons";
 import Tamim from "../../assets/images/tamim.png"
+import { Link } from "react-router-dom";
 
 const newsArticles = [
   {
@@ -76,12 +77,12 @@ const CarNews = () => {
           ))}
         </div>
         <div className="text-center mt-6">
-        <a
-          href="/all-car-visual-stories"
+        <Link
+          to="/news-and-stories"
           className="inline-block px-6 py-2 text-sm font-semibold text-white bg-ButtonColor rounded hover:bg-ButtonHover transition-all"
         >
           View All Latest News &rarr;
-        </a>
+        </Link>
       </div>
       </div>
     </div>

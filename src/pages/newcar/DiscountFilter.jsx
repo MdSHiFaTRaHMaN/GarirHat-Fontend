@@ -6,9 +6,9 @@ const DiscountFilter = () => {
 
   // Discount options with labels and counts
   const discountOptions = [
-    { label: "Upto ₹20,000", count: "9", value: "one" },
-    { label: "Upto ₹50,000", count: "51", value: "two" },
-    { label: "Above ₹1,00,000", count: "43", value: "three" },
+    { label: "Upto ৳20,000", count: "9", value: "one" },
+    { label: "Upto ৳50,000", count: "51", value: "two" },
+    { label: "Above ৳1,00,000", count: "43", value: "three" },
     { label: "All Discounts", count: "420", value: "all" },
   ];
 

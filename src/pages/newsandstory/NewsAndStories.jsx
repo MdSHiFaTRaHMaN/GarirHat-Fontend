@@ -98,7 +98,7 @@ const NewsAndStories = () => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
-          <button className="bg-orange-500 text-white px-16 py-2 rounded-md w-full sm:w-auto">
+          <button className="bg-ButtonColor hover:bg-ButtonHover text-white px-16 py-2 rounded-md w-full sm:w-auto">
             Search
           </button>
         </div>
@@ -113,12 +113,16 @@ const NewsAndStories = () => {
             <p className="text-center text-gray-500">No results found</p>
           )}
         </div>
-        <Pagination
-          align="center"
-          defaultCurrent={1}
-          total={100}
-          className="my-5"
-        />
+        <div className="flex justify-center items-center w-full my-5">
+          <Pagination
+            defaultCurrent={1}
+            total={100}
+            pageSize={10}
+            showSizeChanger
+            responsive 
+            className="p-2"
+          />
+        </div>
       </div>
 
       {/* Right Section (Latest Cars) */}

@@ -7,13 +7,13 @@ const Comparisons = [
     car1: {
       name: "Hyryder",
       brand: "Toyota",
-      price: "₹11.14 - 20.19 Lakh",
+      price: "৳11.14 - 20.19 Lakh",
       image: Car1,
     },
     car2: {
       name: "Grand Vitara",
       brand: "Maruti",
-      price: "₹11.19 - 20.09 Lakh",
+      price: "৳11.19 - 20.09 Lakh",
       image: Car2,
     },
     link: "#",
@@ -23,13 +23,13 @@ const Comparisons = [
     car1: {
       name: "Rumion",
       brand: "Toyota",
-      price: "₹10.44 - 13.73 Lakh",
+      price: "৳10.44 - 13.73 Lakh",
       image: Car1,
     },
     car2: {
       name: "Ertiga",
       brand: "Maruti",
-      price: "₹8.69 - 13.03 Lakh",
+      price: "৳8.69 - 13.03 Lakh",
       image: Car2,
     },
     link: "#",
@@ -39,13 +39,13 @@ const Comparisons = [
     car1: {
       name: "FRONX",
       brand: "Maruti",
-      price: "₹7.52 - 13.04 Lakh",
+      price: "৳7.52 - 13.04 Lakh",
       image: Car1,
     },
     car2: {
       name: "Taisor",
       brand: "Toyota",
-      price: "₹7.74 - 13.04 Lakh",
+      price: "৳7.74 - 13.04 Lakh",
       image: Car2,
     },
     link: "#",
@@ -55,13 +55,13 @@ const Comparisons = [
     car1: {
       name: "FRONX",
       brand: "Maruti",
-      price: "₹7.52 - 13.04 Lakh",
+      price: "৳7.52 - 13.04 Lakh",
       image: Car1,
     },
     car2: {
       name: "Taisor",
       brand: "Toyota",
-      price: "₹7.74 - 13.04 Lakh",
+      price: "৳7.74 - 13.04 Lakh",
       image: Car2,
     },
     link: "#",

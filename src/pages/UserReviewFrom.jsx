@@ -72,7 +72,7 @@ const UserReviewForm = () => {
   return (
     <div className="flex flex-col items-center p-6 max-w-2xl mx-auto bg-white shadow-lg rounded-lg">
       <h2 className="text-2xl font-bold text-center text-gray-800">
-        Rate & Review Skoda Kylag and Win Amazon Vouchers worth ₹1000
+        Rate & Review Skoda Kylag and Win Amazon Vouchers worth ৳1000
       </h2>
 
       {/* Rating Section */}

@@ -10,7 +10,7 @@ const ResearchLinks = () => {
   ];
 
   return (
-    <div className="mx-auto p-4 bg-white">
+    <div className="mx-auto p-10 bg-white">
       <h2 className="text-lg font-semibold mb-4">For Your Further Research</h2>
       <ul className="space-y-3">
         {links.map((link, index) => (

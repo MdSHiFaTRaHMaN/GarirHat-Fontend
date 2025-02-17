@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import BannarImg from "../../assets/images/bannar420.png";
+import BannarImg from "../../assets/images/car-new-bannar.png";
 import { useState } from "react";
 
 const Header = () => {
@@ -15,18 +15,18 @@ const Header = () => {
 
   return (
     <div
-      className="w-full h-[38rem] bg-cover bg-center relative"
+      className="w-full h-[25rem] lg:h-[563px] bg-cover bg-center"
       style={{ backgroundImage: `url(${BannarImg})` }}
     >
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black/50 flex items-center px-4 ">
-        <div className="bg-white rounded-lg shadow-lg p-6 max-w-sm w-full ml-32">
-          <div className="w-80 bg-white">
+      <div className="inset-0  flex items-center px-4">
+        <div className="bg-white rounded-lg shadow-lg p-2 lg:p-6  max-w-[290px] md:max-w-[350px] lg:max-w-sm w-full ml-0 lg:ml-32 mt-7 lg:mt-16">
+          <div className="lg:w-80 bg-white w-full">
             <h2 className="text-xl font-bold mb-4">Find your right car</h2>
             <div className="flex mb-4">
               <button
                 className={`flex-1 py-2 text-center rounded-l-lg ${
-                  carType === "new" ? "bg-black text-white" : "bg-gray-200"
+                  carType === "new" ? "bg-ButtonColor text-white" : "bg-gray-200"
                 }`}
                 onClick={() => setCarType("new")}
               >
@@ -34,7 +34,7 @@ const Header = () => {
               </button>
               <button
                 className={`flex-1 py-2 text-center rounded-r-lg ${
-                  carType === "used" ? "bg-black text-white" : "bg-gray-200"
+                  carType === "used" ? "bg-ButtonColor text-white" : "bg-gray-200"
                 }`}
                 onClick={() => setCarType("used")}
               >

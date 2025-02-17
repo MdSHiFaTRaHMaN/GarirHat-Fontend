@@ -27,7 +27,7 @@ const Specifications = () => {
       key: "1",
       label: <span className="text-base">Engine & Transmission</span>,
       children: (
-        <div className="grid grid-cols-2 gap-4 text-gray-700">
+        <div className="grid lg:grid-cols-2 gap-4 text-gray-700">
           {Object.entries(feature).map(([key, value], index) => (
             <p key={index} className="flex items-center">
               <FaCheck className="text-green-500 mr-2" />
@@ -43,7 +43,7 @@ const Specifications = () => {
       key: "2",
       label: <span className="text-base">Fuel & Performance</span>,
       children: (
-        <div className="grid grid-cols-2 gap-4 text-gray-700">
+        <div className="grid lg:grid-cols-2 gap-4 text-gray-700">
           {Object.entries(feature).map(([key, value], index) => (
             <p key={index} className="flex items-center">
               <FaCheck className="text-green-500 mr-2" />
@@ -59,7 +59,7 @@ const Specifications = () => {
       key: "3",
       label: <span className="text-base">Suspension, Steering & Brakes</span>,
       children: (
-        <div className="grid grid-cols-2 gap-4 text-gray-700">
+        <div className="grid lg:grid-cols-2 gap-4 text-gray-700">
           {Object.entries(feature).map(([key, value], index) => (
             <p key={index} className="flex items-center">
               <FaCheck className="text-green-500 mr-2" />
@@ -75,7 +75,7 @@ const Specifications = () => {
       key: "4",
       label: <span className="text-base">Dimensions & Capacity</span>,
       children: (
-        <div className="grid grid-cols-2 gap-4 text-gray-700">
+        <div className="grid lg:grid-cols-2 gap-4 text-gray-700">
           {Object.entries(feature).map(([key, value], index) => (
             <p key={index} className="flex items-center">
               <FaCheck className="text-green-500 mr-2" />
@@ -93,7 +93,7 @@ const Specifications = () => {
     {
       key: "1",
       label: (
-        <p className="text-red-500 mt-2 text-base cursor-pointer">
+        <p className="text-TextColor mt-2 text-base cursor-pointer">
           View all Features ➤
         </p>
       ),

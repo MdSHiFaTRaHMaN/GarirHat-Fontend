@@ -1,5 +1,5 @@
 import { Checkbox, Divider, message, Select, Tabs } from "antd";
-import CarImage from "../../assets/images/car-d3.jpg";
+import CarImage from "../../assets/images/new-car-collection.jpeg";
 import { IoLocationOutline } from "react-icons/io5";
 import { FaChevronCircleRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -8,6 +8,7 @@ import { HeartFilled, HeartOutlined } from "@ant-design/icons";
 import { TbCurrencyTaka } from "react-icons/tb";
 import { useState } from "react";
 import { FaShare } from "react-icons/fa6";
+import { LuShare2 } from "react-icons/lu";
 
 const ShowAllCar = () => {
   const [likedCars, setLikedCars] = useState({});
@@ -19,7 +20,7 @@ const ShowAllCar = () => {
     }));
     message.success("Added to favorites");
   };
-  // Generate 20 car objects dynamically
+
   const cars = Array.from({ length: 21 }, (_, index) => ({
     id: index + 1,
     name: `2024 Mercedes-Benz ${index + 1}`,
@@ -32,39 +33,20 @@ const ShowAllCar = () => {
     location: "Ballygunge RS, Kolkata",
     img: CarImage,
   }));
-  const items = [
-    {
-      key: "1",
-      label: "Under 3 Lakh",
-    },
-    {
-      key: "2",
-      label: "Under 5 Lakh",
-    },
-    {
-      key: "3",
-      label: "SUV Cars",
-    },
-    {
-      key: "4",
-      label: "Sedan Cars",
-    },
-    {
-      key: "5",
-      label: "Luxury Car",
-    },
+
+  const filterOptions = [
+    { key: "1", label: "Under 3 Lakh" },
+    { key: "2", label: "Under 5 Lakh" },
+    { key: "3", label: "SUV Cars" },
+    { key: "4", label: "Sedan Cars" },
+    { key: "5", label: "Luxury Car" },
   ];
 
-   // Share url section
-   const handleShare = () => {
+  const handleShare = () => {
     const url = window.location.href;
-
     if (navigator.share) {
       navigator
-        .share({
-          title: document.title,
-          url: url,
-        })
+        .share({ title: document.title, url: url })
         .then(() => console.log("Shared successfully"))
         .catch((error) => console.error("Error sharing:", error));
     } else {
@@ -76,116 +58,108 @@ const ShowAllCar = () => {
   };
 
   return (
-    <div>
-      <div>
-        <h1 className="text-2xl font-semibold">
+    <div className="px-4 md:px-8 lg:px-10 py-6">
+      {/* Header Section */}
+      <div className="mb-6">
+        <h1 className="text-2xl font-semibold text-gray-800">
           Buying your dream car? Check Now!
         </h1>
-        <p className="text-sm my-2">
+        <p className="text-sm text-gray-600 my-2">
           GarirHat brings you the latest new cars in Bangladesh for 2025 with
           updated prices. There are around 264 new car models available across
-          39 brands. Popular brands like Maruti, Tata, Kia, Toyota and Hyundai
+          39 brands. Popular brands like Maruti, Tata, Kia, Toyota, and Hyundai
           offer budget-friendly and fuel-efficient cars, making them top choices
           for buyers.
         </p>
       </div>
-      <div className="flex justify-between">
-        <Tabs defaultActiveKey="1" items={items} className="static top-0" />
+
+      {/* Tabs & Filter Section */}
+      <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+        <Tabs
+          defaultActiveKey="1"
+          items={filterOptions}
+          className="w-full md:w-auto"
+        />
         <Select
           defaultValue="Relevance"
-          style={{
-            width: 165,
-          }}
+          style={{ width: 165 }}
           suffixIcon={<FiFilter style={{ color: "red", fontSize: "16px" }} />}
           options={[
-            {
-              value: "relevance",
-              label: "Relevance",
-            },
-            {
-              value: "distance",
-              label: "Distance",
-            },
-            {
-              value: "added-time",
-              label: "Added Time",
-            },
-            {
-              value: "l-to-h",
-              label: "Price - Low to High",
-            },
-            {
-              value: "h to-l",
-              label: "Price - High to Low",
-            },
-            {
-              value: "K-l-to-h",
-              label: "Kms - Low to High",
-            },
-            {
-              value: "new-old",
-              label: "Model - Newest to Oldest",
-            },
+            { value: "relevance", label: "Relevance" },
+            { value: "distance", label: "Distance" },
+            { value: "added-time", label: "Added Time" },
+            { value: "l-to-h", label: "Price - Low to High" },
+            { value: "h to-l", label: "Price - High to Low" },
+            { value: "K-l-to-h", label: "Kms - Low to High" },
+            { value: "new-old", label: "Model - Newest to Oldest" },
           ]}
         />
       </div>
-      <div className="w-full p-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-3">
+
+      {/* Car Grid Section */}
+      <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 mt-6">
         {cars.map((car) => (
           <div
             key={car.id}
-            className="border rounded-lg w-80 bg-white shadow-lg relative"
+            className="relative border rounded-lg bg-white shadow-md overflow-hidden"
           >
+            {/* Like Button */}
             <div
               onClick={() => toggleLike(car.id)}
-              className="absolute top-2 right-2 cursor-pointer"
+              className="absolute top-2 right-2 cursor-pointer bg-white p-1 rounded-full shadow-md"
             >
               {likedCars[car.id] ? (
-                <HeartFilled className="text-red-600 text-xl" />
+                <HeartFilled className="text-TextColor text-xl bg-white p-1 rounded-full" />
               ) : (
-                <HeartOutlined className="text-red-600 text-xl" />
+                <HeartOutlined className="text-TextColor text-xl bg-white p-1 rounded-full" />
               )}
             </div>
-            <img
-              src={car.img} // Replace with actual image URL
-              alt="Car"
-              className="rounded-t-lg w-full"
-            />
-            <div className="mt-3 px-4 pb-4">
-              <div className="flex items-center justify-between">
-                <h3 className="font-semibold text-lg">{car.name}</h3>
-              </div>
+
+            {/* Car Image */}
+            <img src={car.img} alt="Car" className="w-full h-48 object-cover" />
+
+            {/* Car Details */}
+            <div className="p-4">
+              <h3 className="font-semibold text-lg text-gray-900">
+                {car.name}
+              </h3>
               <p className="text-gray-600 text-sm">
-                {car.kms} • Petrol • Manual
+                {car.kms} • {car.fuel} • {car.transmission}
               </p>
+
+              {/* Price Section */}
               <div className="mt-2 flex items-center justify-between">
                 <span className="text-xl font-bold text-black flex items-center">
                   <TbCurrencyTaka className="text-2xl font-extrabold" />{" "}
                   {car.price}
                 </span>
-                <Checkbox>Compare</Checkbox>
               </div>
+
+              {/* View Seller Details */}
               <Link to="/car-details">
-                <button className="text-red-600 font-semibold mt-2 flex items-center">
-                  View Seller Details <FaChevronCircleRight className="ml-1" />
+                <button className="text-TextColor font-semibold mt-2 flex items-center">
+                  View Car Details <FaChevronCircleRight className="ml-1" />
                 </button>
               </Link>
-              <Divider
-                variant="dashed"
-                style={{ borderColor: "#4B5567" }}
-                dashed
-              />
+
+              {/* Divider */}
+              <Divider style={{ borderColor: "#4B5567" }} dashed />
+
+              {/* Location & Share */}
               <div className="flex items-center justify-between">
-              <p className="text-gray-500 text-sm mt-2 flex items-center gap-1">
-                <IoLocationOutline />
-                {car.location}
-              </p>
-              <FaShare
-                onClick={handleShare}
-                title="Share"
-                className="bg-black text-2xl text-white p-1.5 rounded-full cursor-pointer"
-              />
+                <p className="text-gray-500 text-sm flex items-center gap-1">
+                  <IoLocationOutline />
+                  {car.location}
+                </p>
+                <h3 onClick={handleShare} className="flex items-center gap-1">
+                  <LuShare2 className="mt-[3px]"/> Share
+                </h3>
+                {/* <FaShare
+                  onClick={handleShare}
+                  title="Share"
+                  className="bg-black text-2xl text-white p-2 rounded-full cursor-pointer"
+                /> */}
               </div>
-              
             </div>
           </div>
         ))}

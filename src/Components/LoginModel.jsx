@@ -8,7 +8,9 @@ const LoginModal = ({ isVisible, onClose }) => {
   const [showOtp, setShowOtp] = useState(false); // State to track OTP input visibility
 
   const onFinish = (values) => {
-    console.log("Success:", values);
+    console.log("Success:", values.username);
+    const number = values.username;
+    console.log(number)
     setShowOtp(true); // Show OTP input when form is submitted
   };
 

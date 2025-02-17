@@ -1,13 +1,12 @@
 import { Card, Button, Rate, Tag, Image } from "antd";
-import {
-  EditOutlined,
-  CheckCircleOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
-import Profile from "../assets/images/Al-Hasan.jpg";
+import { CheckCircleOutlined, UserOutlined } from "@ant-design/icons";
+import Profile from "../../assets/images/Al-Hasan.jpg";
 import { useState } from "react";
-import { RxDashboard } from "react-icons/rx";
-const UserProfile = () => {
+import { FaFacebookSquare, FaWhatsappSquare } from "react-icons/fa";
+import { TfiEmail } from "react-icons/tfi";
+import VendorOtherCar from "./VendorOtherCar";
+
+const VendorInfo = () => {
   const [error, setError] = useState(false);
   return (
     <div className="flex justify-center items-center bg-gray-100 p-4">
@@ -30,7 +29,7 @@ const UserProfile = () => {
               />
             )}
           </div>
-          <div className="flex-1">
+          <div className="flex-1 items-center">
             <div className="flex items-center justify-between w-full">
               <h2 className="text-xl font-semibold">Shakib Al Hasan</h2>
               <Tag color="green">Vendor</Tag>
@@ -40,9 +39,6 @@ const UserProfile = () => {
               <h2 className="font-bold text-amber-700 text-2xl">3.5/5</h2>
             </div>
             <div className="flex gap-2 mt-2">
-              <Button icon={<EditOutlined />} size="small">
-                Edit Profile
-              </Button>
               <Button
                 type="primary"
                 icon={<CheckCircleOutlined />}
@@ -50,9 +46,11 @@ const UserProfile = () => {
               >
                 Verified
               </Button>
-              <Button icon={<RxDashboard />} size="small" href="https://garirhat-admin.onrender.com">
-                Open DashBoard
-              </Button>
+              <div className="flex gap-2">
+                <FaWhatsappSquare className="text-2xl text-green-500" />
+                <TfiEmail className="text-2xl text-red-600" />
+                <FaFacebookSquare className="text-2xl text-blue-600" />
+              </div>
             </div>
           </div>
         </div>
@@ -71,7 +69,10 @@ const UserProfile = () => {
               <strong>Email:</strong> shakibalhasan@gmail.com
             </p>
             <p>
-              <strong>Country:</strong> Bangladesh
+              <strong>Divition:</strong> Dhaka
+            </p>
+            <p>
+              <strong>Zilla:</strong> Dhaka
             </p>
             <p>
               <strong>Address:</strong> - Manda, Dhaka, Bangladesh
@@ -106,21 +107,14 @@ const UserProfile = () => {
           </div>
         </div>
 
-        {/* Company Details */}
-        <div className="p-4">
-          <h3 className="text-lg font-semibold">Company Details</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-            <p>
-              <strong>Website URL:</strong> -
-            </p>
-            <p>
-              <strong>Company Achievements:</strong> -
-            </p>
-          </div>
+        {/* More vendor Details */}
+        <div className="p-1">
+          <h3 className="text-lg font-semibold">Vendor Other Cars</h3>
+           <VendorOtherCar />
         </div>
       </Card>
     </div>
   );
 };
 
-export default UserProfile;
+export default VendorInfo;

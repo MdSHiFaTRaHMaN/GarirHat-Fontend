@@ -13,7 +13,7 @@ const ModelYearFilter = ({ onYearChange }) => {
 
   return (
     <div className="p-4 bg-white">
-      <div className="flex justify-between text-sm font-semibold text-orange-600 mb-2">
+      <div className="flex justify-between text-sm font-semibold text-TextColor mb-2">
         <span>{yearRange[0]}</span>
         <span>{yearRange[1]}</span>
       </div>
@@ -24,10 +24,10 @@ const ModelYearFilter = ({ onYearChange }) => {
         step={1}
         value={yearRange}
         onChange={handleChange}
-        trackStyle={{ backgroundColor: "#f25c27", height: 5 }}
+        trackStyle={{ backgroundColor: "#3eb4e7", height: 5 }}
         handleStyle={{
-          borderColor: "#f25c27",
-          backgroundColor: "#f25c27",
+          borderColor: "#3eb4e7",
+          backgroundColor: "#3eb4e7",
         }}
       />
     </div>

@@ -28,6 +28,7 @@ import { GrGallery } from "react-icons/gr";
 import Specifications from "./Specifications";
 import { TbCurrencyTaka } from "react-icons/tb";
 import ReportAdModel from "./ReportAdModel";
+import SafetyNotice from "./SafetyNotice";
 
 const CarDetails = () => {
   const images = [Car1, Car2, Car3, Car4];
@@ -64,7 +65,7 @@ const CarDetails = () => {
   return (
     <div className="bg-white">
       <Breadcrumb
-        className="ml-20 mt-4"
+        className="ml-5 lg:ml-20 mt-4"
         items={[
           {
             title: (
@@ -88,7 +89,7 @@ const CarDetails = () => {
           },
         ]}
       />
-      <div className=" w-full lg:w-11/12 mx-auto overflow-hidden flex gap-8 flex-col lg:flex-row p-6">
+      <div className=" w-full lg:w-11/12 mx-auto overflow-hidden flex gap-8 flex-col lg:flex-row p-2 lg:p-6">
         {/* Left Image Section */}
         <div className="lg:w-3/5">
           <Carousel
@@ -118,20 +119,21 @@ const CarDetails = () => {
           </Carousel>
         </div>
         {/* Right Content Section */}
-        <div className="lg:w-2/5 p-6 flex flex-col justify-between h-[370px] shadow-md bg-white scale-y-105 ">
+        <div className="w-full md:w-2/3 lg:w-2/5 p-6 flex flex-col justify-between bg-white shadow-md rounded-lg transition-transform scale-y-105">
+          {/* Car Info */}
           <div>
-            <h2 className="text-2xl font-semibold">
+            <h2 className="text-xl md:text-2xl font-semibold">
               2024 BMW X5 xDrive40i xLine
             </h2>
-            <p className="text-gray-500 text-sm">
+            <p className="text-gray-500 text-sm md:text-base">
               3,406 kms • Petrol • Automatic • 1st Owner
             </p>
-            <h3 className="text-3xl font-semibold mt-2 flex items-center">
+            <h3 className="text-2xl md:text-3xl font-semibold mt-2 flex items-center">
               <TbCurrencyTaka className="mr-1" />
               90 Lakh
             </h3>
-            <p className="text-gray-600 text-sm mt-2">
-              EMI starts @ ₹2,23,382/mo • New Car Price ₹1.06 Crore
+            <p className="text-gray-600 text-sm md:text-base mt-2">
+              EMI starts @ ৳2,23,382/mo • New Car Price ৳1.06 Crore
             </p>
             <Divider dashed />
             <div className="flex items-center mt-2 text-gray-600">
@@ -141,51 +143,54 @@ const CarDetails = () => {
           </div>
 
           {/* Button & Trending Section */}
-          <div className="mt-1">
-            <Button
-              type="primary"
-              className="w-full bg-orange-500 hover:bg-orange-600 !important"
-            >
-              View Seller Details
-            </Button>
-            <p className="text-gray-600 flex items-center mt-2 text-sm">
-              <FaBolt className="text-yellow-500 mr-1" /> Trending Car! High
-              chances of sale in next 6 days
+          <div className="mt-4">
+            <Link to="/vendor-info">
+              <Button
+                type="primary"
+                className="w-full bg-ButtonColor hover:bg-ButtonHover text-white font-semibold py-5 text-lg"
+              >
+                View Seller Details
+              </Button>
+            </Link>
+            <p className="text-gray-600 flex items-center mt-3 text-sm md:text-base">
+              <FaBolt className="text-yellow-500 mr-2 text-lg" /> Trending Car!
+              High chances of sale in next 6 days
             </p>
           </div>
 
           {/* Actions Section */}
-          <div className="flex items-center justify-between text-gray-500 text-sm">
+          <div className="flex flex-wrap justify-between text-gray-500 text-sm mt-4">
             <span
               onClick={() => setIsReportModal(true)}
-              className="flex items-center cursor-pointer"
+              className="flex items-center cursor-pointer hover:text-red-500 transition"
             >
               <ExclamationCircleOutlined className="mr-1" /> Report Ad
             </span>
-            <span className="flex items-center cursor-pointer">
+            <span className="flex items-center cursor-pointer hover:text-blue-500 transition">
               <MessageOutlined className="mr-1" /> Chat with Seller
             </span>
-            <span className="flex items-center cursor-pointer">
+            <span className="flex items-center cursor-pointer hover:text-green-500 transition">
               <ShareAltOutlined className="mr-1" /> Share
             </span>
-            <HeartOutlined className="cursor-pointer" />
+            {/* <HeartOutlined className="cursor-pointer hover:text-red-500 transition" /> */}
           </div>
         </div>
       </div>
-      <div className="flex w-full lg:w-[89%] mx-auto">
-        {/* left side  */}
-        <div className="w-full lg:w-7/12">
+      <div className="flex flex-col lg:flex-row w-full lg:w-[89%] mx-auto gap-6 px-4 lg:px-0">
+        {/* Left Side Content */}
+        <div className="w-full lg:w-7/12 space-y-6">
           <CarOverview />
           <Features />
           <Specifications />
           <EMICalculator />
           <CarReviews />
         </div>
-        {/* right side  */}
-        <div className="w-full lg:w-5/12">
+
+        {/* Right Side Content */}
+        <div className="w-full lg:w-5/12 space-y-6">
           <RecommendedUsedCars />
-          <AddonService />
           <ResearchLinks />
+          <SafetyNotice />
         </div>
       </div>
 

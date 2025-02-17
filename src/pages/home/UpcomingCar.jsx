@@ -5,53 +5,54 @@ import Carimage2 from "../../assets/images/car-d22.jpg";
 import Carimage3 from "../../assets/images/car-d33.jpg";
 import Carimage4 from "../../assets/images/car-d4.jpg";
 import { FaCircleChevronRight } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 
 const cars = [
   {
     name: "Kia Syros",
-    price: "₹ 9 - 17.80 Lakh",
+    price: "৳ 9 - 17.80 Lakh",
     image: Carimage,
     model: "Hatchback",
   },
   {
     name: "Skoda Kylq",
-    price: "₹ 7.89 - 14.40 Lakh",
+    price: "৳ 7.89 - 14.40 Lakh",
     image: Carimage2,
     model: "Sedan",
   },
   {
     name: "Mahindra Scorpio N",
-    price: "₹ 13.99 - 24.69 Lakh",
+    price: "৳ 13.99 - 24.69 Lakh",
     image: Carimage3,
     model: "MUV",
   },
   {
     name: "Toyota Fortuner",
-    price: "₹ 33.78 - 51.94 Lakh",
+    price: "৳ 33.78 - 51.94 Lakh",
     image: Carimage4,
     model: "Luxury",
   },
   {
     name: "Toyota Fortuner",
-    price: "₹ 33.78 - 51.94 Lakh",
+    price: "৳ 33.78 - 51.94 Lakh",
     image: Carimage3,
     model: "SUV",
   },
   {
     name: "Hyundai i20",
-    price: "₹ 6.99 - 11.88 Lakh",
+    price: "৳ 6.99 - 11.88 Lakh",
     image: Carimage2,
     model: "Hatchback",
   },
   {
     name: "Maruti Suzuki Ciaz",
-    price: "₹ 8.89 - 12.99 Lakh",
+    price: "৳ 8.89 - 12.99 Lakh",
     image: Carimage,
     model: "Sedan",
   },
   {
     name: "BMW X5",
-    price: "₹ 80.90 - 97.90 Lakh",
+    price: "৳ 80.90 - 97.90 Lakh",
     image: Carimage4,
     model: "Luxury",
   },
@@ -83,7 +84,9 @@ const UpcomingCar = () => {
       <Carousel responsive={responsive}>
         {cars.map((car, index) => (
           <div key={index} className="bg-white rounded-lg shadow-lg p-4 m-2 ">
-            <h4 className="absolute z-40 bg-white px-1 m-2 rounded text-xs font-semibold">Realse date 20, 09 2025</h4>
+            <h4 className="absolute z-40 bg-white px-1 m-2 rounded text-xs font-semibold">
+              Realse date 20, 09 2025
+            </h4>
             <img
               src={car.image}
               alt={car.name}
@@ -97,18 +100,16 @@ const UpcomingCar = () => {
           </div>
         ))}
       </Carousel>
-
-      <a
-        href="#"
-        className=" text-orange-500 hover:underline flex items-center gap-2 my-3 font-bold"
-      >
-        View All Cars <FaCircleChevronRight />
-      </a>
+      <div className="text-center mt-6">
+        <Link
+          to="/car-collection"
+          className="inline-block px-6 py-2 text-sm font-semibold text-white bg-ButtonColor rounded hover:bg-ButtonHover transition-all"
+        >
+          View All Cars &rarr;
+        </Link>
+      </div>
     </div>
   );
 };
 
 export default UpcomingCar;
-
-
-

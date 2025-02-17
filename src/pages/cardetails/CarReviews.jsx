@@ -47,7 +47,7 @@ const CarReviews = () => {
   const [showAllReviews, setShowAllReviews] = useState(false);
 
   // প্রথমে ১টি রিভিউ দেখানো হবে, এরপর showAllReviews স্টেট true হলে সব দেখাবে
-  const visibleReviews = showAllReviews ? reviewsData : reviewsData.slice(0, 1);
+  const visibleReviews = showAllReviews ? reviewsData : reviewsData.slice(0, 2);
 
   return (
     <div className="flex justify-center items-center bg-gray-50 border rounded-lg">

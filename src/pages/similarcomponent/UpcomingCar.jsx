@@ -1,12 +1,13 @@
 import { Card } from "antd";
 import CarImage from "../../assets/images/carshadow.jpg";
 import { TbCurrencyTaka } from "react-icons/tb";
+import { Link } from "react-router-dom";
 
 const UpcomingCar = () => {
   const latestCarsData = [
     {
       name: "Rolls-Royce Ghost Series II",
-      price: "₹ 8.95 - 10.52 Cr*",
+      price: "৳ 8.95 - 10.52 Cr*",
       image: CarImage,
       tag: null,
     },
@@ -70,9 +71,9 @@ const UpcomingCar = () => {
 
       {/* View More Button */}
       <div className="mt-4">
-        <a href="#" className="text-orange-500 text-sm font-semibold">
+        <Link to="/used-car" className="text-TextColor text-sm font-semibold">
           View All Latest Cars →
-        </a>
+        </Link>
       </div>
     </Card>
   );

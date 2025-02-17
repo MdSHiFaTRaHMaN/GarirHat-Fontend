@@ -145,12 +145,16 @@ const ExpertReviews = () => {
             </div>
           ))}
         </div>
-        <Pagination
-          align="center"
-          defaultCurrent={1}
-          total={100}
-          className="my-5"
-        />
+        <div className="flex justify-center items-center w-full my-5">
+          <Pagination
+            defaultCurrent={1}
+            total={100}
+            pageSize={10}
+            showSizeChanger
+            responsive
+            className="p-2"
+          />
+        </div>
       </div>
       {/* Right Section (Latest Cars) */}
       <div className="w-full lg:w-4/12">

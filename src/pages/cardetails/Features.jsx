@@ -43,7 +43,7 @@ const Features = () => {
       key: "1",
       label: <span className="text-base">Comfort & Convenience</span>,
       children: (
-        <div className="grid grid-cols-2 gap-4 text-gray-700">
+        <div className="grid lg:grid-cols-2 gap-4 text-gray-700">
           {feature.map((list, index) => (
             <p key={index} className="flex items-center">
               <FaCheck className="text-green-500 mr-2" /> {list}
@@ -56,7 +56,7 @@ const Features = () => {
       key: "2",
       label:<span className="text-base">Interior</span>,
       children: (
-        <div className="grid grid-cols-2 gap-4 text-gray-700">
+        <div className="grid lg:grid-cols-2 gap-4 text-gray-700">
           {feature.map((list, index) => (
             <p key={index} className="flex items-center">
               <FaCheck className="text-green-500 mr-2" /> {list}
@@ -69,7 +69,7 @@ const Features = () => {
       key: "3",
       label: <span className="text-base">Exterior</span>,
       children: (
-        <div className="grid grid-cols-2 gap-4 text-gray-700">
+        <div className="grid lg:grid-cols-2 gap-4 text-gray-700">
           {feature.map((list, index) => (
             <p key={index} className="flex items-center">
               <FaCheck className="text-green-500 mr-2" /> {list}
@@ -82,7 +82,7 @@ const Features = () => {
       key: "4",
       label: <span className="text-base">Safety</span>,
       children: (
-        <div className="grid grid-cols-2 gap-4 text-gray-700">
+        <div className="grid lg:grid-cols-2 gap-4 text-gray-700">
           {feature.map((list, index) => (
             <p key={index} className="flex items-center">
               <FaCheck className="text-green-500 mr-2" /> {list}
@@ -95,7 +95,7 @@ const Features = () => {
       key: "5",
       label: <span className="text-base">Entertainment & Communication</span>,
       children: (
-        <div className="grid grid-cols-2 gap-4 text-gray-700">
+        <div className="grid lg:grid-cols-2 gap-4 text-gray-700">
           {feature.map((list, index) => (
             <p key={index} className="flex items-center">
               <FaCheck className="text-green-500 mr-2" /> {list}
@@ -109,7 +109,7 @@ const Features = () => {
     {
       key: "1",
       label: (
-        <p className="text-red-500 mt-2 text-base cursor-pointer">
+        <p className="text-TextColor mt-2 text-base cursor-pointer">
           View all Features ➤
         </p>
       ),

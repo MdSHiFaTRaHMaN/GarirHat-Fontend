@@ -2,10 +2,11 @@ import { Card, Collapse } from "antd";
 import { HeartOutlined, EnvironmentOutlined } from "@ant-design/icons";
 import CarImage from "../../assets/images/car-d22.jpg";
 import { FaBangladeshiTakaSign, FaShare } from "react-icons/fa6";
+import { FiShare2 } from "react-icons/fi";
 
 const RecommendedUsedCars = () => {
-   // Share url section
-   const handleShare = () => {
+  // Share url section
+  const handleShare = () => {
     const url = window.location.href;
 
     if (navigator.share) {
@@ -64,7 +65,7 @@ const RecommendedUsedCars = () => {
                     src={car.image}
                     className="rounded-t-lg"
                   />
-                  <HeartOutlined className="absolute top-1 right-1 text-red-500 text-xl bg-white p-1 rounded-full shadow-md cursor-pointer" />
+                  <HeartOutlined className="absolute top-1 right-1 text-TextColor text-xl bg-white p-1 rounded-full shadow-md cursor-pointer" />
                 </div>
               }
             >
@@ -80,7 +81,7 @@ const RecommendedUsedCars = () => {
                 <div className="flex justify-between items-center mt-2">
                   <a
                     href="#"
-                    className="text-red-500 font-semibold flex items-center"
+                    className="text-TextColor font-semibold flex items-center"
                   >
                     View Seller Details ➤
                   </a>
@@ -89,10 +90,9 @@ const RecommendedUsedCars = () => {
                   <span>
                     <EnvironmentOutlined className="mr-1" /> {car.location}
                   </span>
-                  <FaShare
+                  <FiShare2
                     onClick={handleShare}
-                    title="Share"
-                    className="bg-black text-2xl text-white p-1.5 rounded-full"
+                    className="text-xl text-TextColor"
                   />
                 </div>
               </div>
@@ -118,7 +118,7 @@ const RecommendedUsedCars = () => {
                     src={car.image}
                     className="rounded-t-lg"
                   />
-                  <HeartOutlined className="absolute top-1 right-1 text-red-500 text-xl bg-white p-1 rounded-full shadow-md cursor-pointer" />
+                  <HeartOutlined className="absolute top-1 right-1 text-TextColor text-xl bg-white p-1 rounded-full shadow-md cursor-pointer" />
                 </div>
               }
             >
@@ -134,7 +134,7 @@ const RecommendedUsedCars = () => {
                 <div className="flex justify-between items-center mt-2">
                   <a
                     href="#"
-                    className="text-red-500 font-semibold flex items-center"
+                    className="text-TextColor font-semibold flex items-center"
                   >
                     View Seller Details ➤
                   </a>
@@ -143,10 +143,9 @@ const RecommendedUsedCars = () => {
                   <span>
                     <EnvironmentOutlined className="mr-1" /> {car.location}
                   </span>
-                  <FaShare
+                  <FiShare2
                     onClick={handleShare}
-                    title="Share"
-                    className="bg-black text-2xl text-white p-1.5 rounded-full"
+                    className="text-xl text-TextColor"
                   />
                 </div>
               </div>
@@ -157,9 +156,8 @@ const RecommendedUsedCars = () => {
     },
   ];
 
- 
   return (
-    <div className="p-6 bg-white">
+    <div className="p-2 lg:p-6 bg-white">
       <h2 className="text-xl font-bold">Recommended Used Cars</h2>
       <p className="text-gray-500 text-sm mb-4">
         Showing 5 more cars you might like
@@ -173,7 +171,7 @@ const RecommendedUsedCars = () => {
             cover={
               <div className="relative">
                 <img alt={car.name} src={car.image} className="rounded-t-lg" />
-                <HeartOutlined className="absolute top-1 right-1 text-red-500 text-xl bg-white p-1 rounded-full shadow-md cursor-pointer" />
+                <HeartOutlined className="absolute top-1 right-1 text-TextColor text-xl bg-white p-1 rounded-full shadow-md cursor-pointer" />
               </div>
             }
           >
@@ -189,7 +187,7 @@ const RecommendedUsedCars = () => {
               <div className="flex justify-between items-center mt-2">
                 <a
                   href="#overview"
-                  className="text-red-500 font-semibold flex items-center"
+                  className="text-TextColor font-semibold flex items-center"
                 >
                   View Seller Details ➤
                 </a>
@@ -198,10 +196,9 @@ const RecommendedUsedCars = () => {
                 <span>
                   <EnvironmentOutlined className="mr-1" /> {car.location}
                 </span>
-                <FaShare
+                <FiShare2
                   onClick={handleShare}
-                  title="Share"
-                  className="bg-black text-2xl text-white p-1.5 rounded-full"
+                  className="text-xl text-TextColor"
                 />
               </div>
             </div>

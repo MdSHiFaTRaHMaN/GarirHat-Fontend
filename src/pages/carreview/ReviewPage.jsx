@@ -57,7 +57,7 @@ const ReviewPage = () => {
     },
   ];
   return (
-    <div className="container w-full lg:w-10/12 mx-auto p-5 border shadow-md rounded-lg my-3">
+    <div className="container w-full lg:w-10/12 mx-auto p-3 border shadow-md rounded-lg my-3">
       <h2 className="text-2xl font-bold">New Car User Reviews</h2>
       <p className="text-gray-600">
         Read genuine reviews from car buyers and owners to know the pros and
@@ -65,7 +65,7 @@ const ReviewPage = () => {
       </p>
       <Carousel responsive={responsive} className="mt-5">
         {reviews.map((review) => (
-          <Card key={review.id} className="p-3 shadow-lg rounded-lg m-3">
+          <Card key={review.id} className="p-1 shadow-lg rounded-lg m-3">
             <img
               src={review.image}
               alt={review.car}

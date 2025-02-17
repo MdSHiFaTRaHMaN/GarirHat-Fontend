@@ -1,27 +1,31 @@
-import { Select, Button } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
+import { Divider } from "antd";
 import ReviewImage from "../../assets/images/reviewbannar.jpg";
 import { useState } from "react";
 import { FaSearch } from "react-icons/fa";
 
-const { Option } = Select;
-
 const ReviewBannar = () => {
   const [brand, setBrand] = useState("");
   const [model, setModel] = useState("");
+
   return (
     <div
-      className="relative w-full h-[400px] flex items-center bg-cover bg-center"
+      className="relative w-full h-[350px] md:h-[400px] flex items-center justify-center bg-cover bg-center"
       style={{ backgroundImage: `url(${ReviewImage})` }}
     >
       <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-      <div className="relative z-10 px-4 w-10/12 mx-auto">
-        <h1 className="text-3xl md:text-5xl font-semibold mb-4 text-white">
-          10,000+ Genuine Reviews To <br /> Find The Right Car!
+
+      <div className="relative z-10 px-4 w-full max-w-5xl text-center">
+        {/* Heading */}
+        <h1 className="text-2xl sm:text-3xl md:text-5xl font-semibold text-white mb-6">
+          10,000+ Genuine Reviews To <br className="hidden sm:block" /> Find The
+          Right Car!
         </h1>
-        <div className="flex items-center gap-2 mt-4 text-black bg-white p-2 rounded-lg shadow-md max-w-4xl">
+
+        {/* Search Bar */}
+        <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-2 text-black bg-white p-3 rounded-lg shadow-md w-full max-w-4xl mx-auto">
+          {/* Brand Select */}
           <select
-            className="w-full p-2"
+            className="w-full sm:w-auto flex-1 p-2 border-none rounded-md focus:border-none"
             value={brand}
             onChange={(e) => setBrand(e.target.value)}
           >
@@ -32,9 +36,16 @@ const ReviewBannar = () => {
             <option value="honda">Honda</option>
             <option value="ford">Ford</option>
           </select>
-          <span className="w-[1px] h-[40px] bg-black"></span>
+
+          <span className="hidden sm:block w-[1px] h-10 bg-gray-300"></span>
+          <Divider className="block lg:hidden"
+            style={{
+              borderColor: "#1F1F1F",
+            }}
+          />
+          {/* Model Select */}
           <select
-            className="w-full p-2"
+            className="w-full sm:w-auto flex-1 p-2 border-none rounded-md"
             value={model}
             onChange={(e) => setModel(e.target.value)}
           >
@@ -46,7 +57,8 @@ const ReviewBannar = () => {
             <option value="mustang">Mustang</option>
           </select>
 
-          <button className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white p-3 px-16 rounded-md">
+          {/* Search Button */}
+          <button className="flex items-center gap-2 bg-ButtonColor hover:bg-ButtonHover text-white p-3 rounded-md w-full sm:w-auto">
             <FaSearch /> Search
           </button>
         </div>

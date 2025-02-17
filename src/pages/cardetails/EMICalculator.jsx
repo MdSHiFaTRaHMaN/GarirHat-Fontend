@@ -27,7 +27,7 @@ const EMICalculator = () => {
   };
   return (
     <div className="flex justify-center items-center p-5 bg-gray-50 border shadow-lg rounded-lg">
-      <div className="p-8 w-full">
+      <div className="p-2 lg:p-8 w-full">
         {/* Header Section */}
         <h2 className="text-2xl font-bold text-gray-900">EMI Calculator</h2>
         <p className="text-gray-500 text-sm mt-1">
@@ -50,8 +50,8 @@ const EMICalculator = () => {
             step={100000}
             value={loanAmount}
             onChange={(value) => setLoanAmount(value)}
-            trackStyle={{ backgroundColor: "orange" }}
-            handleStyle={{ borderColor: "orange" }}
+            trackStyle={{ backgroundColor: "#3eb4e7" }}
+            handleStyle={{ borderColor: "#3eb4e7" }}
           />
         </div>
 
@@ -64,7 +64,7 @@ const EMICalculator = () => {
                 key={year}
                 onClick={() => setDuration(year)}
                 className={`w-12 h-12 flex justify-center items-center rounded-full font-semibold ${
-                  duration === year ? "bg-orange-500 text-white" : "bg-gray-200 text-gray-700"
+                  duration === year ? "bg-ButtonColor text-white" : "bg-gray-200 text-gray-700"
                 }`}
               >
                 {year}
@@ -96,7 +96,7 @@ const EMICalculator = () => {
 
         {/* Call to Action */}
         <div className="mt-6">
-          <Button className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 rounded-lg">
+          <Button className="w-full bg-ButtonColor hover:!bg-ButtonHover text-white hover:!text-white font-semibold py-5 rounded-lg">
             Interested in Loan
           </Button>
         </div>

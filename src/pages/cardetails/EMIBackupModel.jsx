@@ -33,26 +33,26 @@ const EMIBackupModel = ({ isModalOpen, toggleModal }) => {
       children: (
         <Card className="p-4 shadow-md rounded-xl">
           <h2 className="text-lg font-semibold">Your monthly EMI</h2>
-          <p className="text-2xl font-bold">₹1,33,905</p>
+          <p className="text-2xl font-bold">৳1,33,905</p>
           <p className="text-sm text-gray-500">
             Rate of interest @ 14.5%* for 4 Years
           </p>
           <div className="mt-4 space-y-2">
             <div className="flex justify-between">
               <span className="text-green-500">Down payment</span>
-              <span>₹5,39,500</span>
+              <span>৳5,39,500</span>
             </div>
             <div className="flex justify-between">
               <span className="text-blue-500">Loan amount</span>
-              <span>₹48,55,500</span>
+              <span>৳48,55,500</span>
             </div>
             <div className="flex justify-between">
               <span className="text-orange-500">Interest amount</span>
-              <span>₹15,71,940</span>
+              <span>৳15,71,940</span>
             </div>
             <div className="flex justify-between font-bold text-lg">
               <span>Payable amount</span>
-              <span>₹69,66,940</span>
+              <span>৳69,66,940</span>
             </div>
           </div>
         </Card>
@@ -64,7 +64,7 @@ const EMIBackupModel = ({ isModalOpen, toggleModal }) => {
       children: (
         <Card className="p-4 shadow-md rounded-xl">
           <h2 className="text-lg font-semibold">Year-wise EMI calculator</h2>
-          <p className="text-sm text-gray-500">For Loan amount • ₹48,55,500</p>
+          <p className="text-sm text-gray-500">For Loan amount • ৳48,55,500</p>
           <table className="w-full mt-4 border-collapse border border-gray-200">
             <thead>
               <tr className="bg-gray-100">
@@ -75,16 +75,16 @@ const EMIBackupModel = ({ isModalOpen, toggleModal }) => {
             </thead>
             <tbody>
               {[
-                { tenure: "5 Years", interest: "₹19,99,020", emi: "₹1,14,242" },
+                { tenure: "5 Years", interest: "৳19,99,020", emi: "৳1,14,242" },
                 {
                   tenure: "4 Years",
-                  interest: "₹15,71,940",
-                  emi: "₹1,33,905",
+                  interest: "৳15,71,940",
+                  emi: "৳1,33,905",
                   popular: true,
                 },
-                { tenure: "3 Years", interest: "₹11,61,252", emi: "₹1,67,132" },
-                { tenure: "2 Years", interest: "₹7,67,124", emi: "₹2,34,276" },
-                { tenure: "1 Year", interest: "₹3,89,760", emi: "₹4,37,105" },
+                { tenure: "3 Years", interest: "৳11,61,252", emi: "৳1,67,132" },
+                { tenure: "2 Years", interest: "৳7,67,124", emi: "৳2,34,276" },
+                { tenure: "1 Year", interest: "৳3,89,760", emi: "৳4,37,105" },
               ].map((item, index) => (
                 <tr key={index} className="border">
                   <td className="p-2 border flex items-center gap-2">

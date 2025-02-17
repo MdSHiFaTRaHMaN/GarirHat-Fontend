@@ -48,7 +48,7 @@ const AddonService = () => {
               <span className="text-black flex items-center">
                 <FaRupeeSign className="text-lg" /> 1003
               </span>
-              <span className="text-gray-500 line-through ml-2">₹1127</span>
+              <span className="text-gray-500 line-through ml-2">৳1127</span>
               <span className="text-green-600 ml-2 text-sm">12% OFF</span>
             </div>
 
@@ -73,7 +73,7 @@ const ServiceCard = ({ image, title, price }) => {
     <div className="flex flex-col items-center bg-gray-100 p-3 rounded-lg shadow-md ">
       <img src={image} alt={title} className="rounded-md w-28 h-28 object-cover" />
       <h4 className="text-sm font-semibold mt-2 text-center">{title}</h4>
-      <p className="text-gray-600 text-xs">Worth ₹{price}</p>
+      <p className="text-gray-600 text-xs">Worth ৳{price}</p>
     </div>
   );
 };

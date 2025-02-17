@@ -1,6 +1,7 @@
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import Brand from "../../assets/images/toyato.png"
+import { Link } from "react-router-dom";
 
 const brands = [
   { name: "Maruti", logo: Brand},
@@ -50,10 +51,13 @@ const PopularBrands = () => {
           </div>
         ))}
       </Carousel>
-      <div className="text-center mt-4">
-        <a href="/all-brands" className="text-orange-500 font-semibold">
+      <div className="text-center mt-6">
+        <Link
+          to="/new-car#carbrand"
+          className="inline-block px-6 py-2 text-sm font-semibold text-white bg-ButtonColor rounded hover:bg-ButtonHover transition-all"
+        >
           View All Brands &rarr;
-        </a>
+        </Link>
       </div>
     </div>
   );

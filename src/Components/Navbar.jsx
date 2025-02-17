@@ -1,5 +1,5 @@
 import { FiHeart, FiSearch } from "react-icons/fi";
-import Logo from "../assets/images/garirhatlogo.png";
+import Logo from "../assets/images/garirhatlogo007.png";
 import { PiUserCircleDashedBold } from "react-icons/pi";
 import Topmenu from "./Topmenu";
 import { Link } from "react-router-dom";
@@ -8,7 +8,7 @@ import { useState } from "react";
 const Navbar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   return (
-    <div className="bg-gray-50 sticky top-0 z-40">
+    <div className="bg-gray-50 sticky top-0 !z-50">
       {/* First Line: Logo and Tagline */}
       <nav className=" p-2 w-full lg:w-10/12 mx-auto">
         <div className="container mx-auto flex items-center justify-between">

@@ -42,32 +42,28 @@ const TipsandAdvice = () => {
     },
     {
       title: "Car Prices Expected to Increase Next Month",
-      description:
-        "Due to rising material costs and supply chain issues.",
+      description: "Due to rising material costs and supply chain issues.",
       image: CarImage,
       author: "Vikram",
       date: "Feb 02, 2025",
     },
     {
       title: "Best Budget Cars Under $20,000 in 2025",
-      description:
-        "Looking for an affordable yet feature-packed car?",
+      description: "Looking for an affordable yet feature-packed car?",
       image: CarImage,
       author: "Meera",
       date: "Jan 30, 2025",
     },
     {
       title: "New SUV Model Launched with Cutting-Edge Features",
-      description:
-        "The latest SUV model promises advanced technology.",
+      description: "The latest SUV model promises advanced technology.",
       image: CarImage,
       author: "Ananya",
       date: "Feb 04, 2025",
     },
     {
       title: "Car Prices Expected to Increase Next Month",
-      description:
-        "Due to rising material costs and supply chain issues.",
+      description: "Due to rising material costs and supply chain issues.",
       image: CarImage,
       author: "Vikram",
       date: "Feb 02, 2025",
@@ -85,7 +81,7 @@ const TipsandAdvice = () => {
       <div className="w-full lg:w-8/12">
         {/* Title */}
         <h1 className="text-3xl font-bold text-gray-900 text-center lg:text-left">
-        Car Driving Tips
+          Car Driving Tips
         </h1>
 
         {/* Search Bar */}
@@ -97,7 +93,7 @@ const TipsandAdvice = () => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
-          <button className="bg-orange-500 text-white px-16 py-2 rounded-md w-full sm:w-auto">
+          <button className="bg-ButtonColor hover:bg-ButtonHover font-semibold text-white px-16 py-2 rounded-md w-full sm:w-auto">
             Search
           </button>
         </div>
@@ -112,12 +108,16 @@ const TipsandAdvice = () => {
             <p className="text-center text-gray-500">No results found</p>
           )}
         </div>
-        <Pagination
-          align="center"
-          defaultCurrent={1}
-          total={100}
-          className="my-5"
-        />
+        <div className="flex justify-center items-center w-full my-5">
+          <Pagination
+            defaultCurrent={1}
+            total={100}
+            pageSize={10}
+            showSizeChanger
+            responsive
+            className="p-2"
+          />
+        </div>
       </div>
 
       {/* Right Section (Latest Cars) */}

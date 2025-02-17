@@ -5,12 +5,15 @@ import UpNextVideos from "./UpnextVideos";
 
 const CarVideosPage = () => {
   return (
-    <div className="w-full lg:w-10/12 mx-auto p-5 flex">
+    <div className="w-full max-w-7xl mx-auto p-4 flex flex-col lg:flex-row gap-6">
+      {/* Left Section - Video Content */}
       <div className="w-full lg:w-9/12">
         <CarVideo />
         <UpNextVideos />
       </div>
-      <div className="w-full lg:w-3/12">
+
+      {/* Right Section - Sidebar (Latest Cars & Upcoming Cars) */}
+      <div className="w-full lg:w-3/12 space-y-6">
         <LatestCars />
         <UpcomingCar />
       </div>

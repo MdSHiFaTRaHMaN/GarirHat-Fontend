@@ -5,9 +5,9 @@ export default {
     extend: {
       colors: {
         'WhiteColor': '#ffffff',
-        'ButtonColor': '#f97316',
-        'ButtonHover': '#ea580c',
-        'TextColor': '#2e1065'
+        'ButtonColor': '#3EB4E7',
+        'ButtonHover': '#096f9e',
+        'TextColor': '#3EB4E7'
       },
     },
   },

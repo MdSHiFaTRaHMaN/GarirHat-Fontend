@@ -15,12 +15,12 @@ const BudgetFilter = () => {
   const [budget, setBudget] = useState([0, 50000000]); // Min & Max
 
   return (
-    <div className="">
+    <div className="" id="carbrand">
       {/* Header */}
         <div>
           {/* Budget Slider */}
           <div className="mb-4">
-            <div className="flex justify-between text-sm font-semibold text-orange-600">
+            <div className="flex justify-between text-sm font-semibold text-TextColor">
               <span className="flex items-center"><TbCurrencyTaka />{budget[0].toLocaleString()}</span>
               <span className="flex items-center"><TbCurrencyTaka />{budget[1].toLocaleString()}</span>
             </div>
@@ -31,10 +31,10 @@ const BudgetFilter = () => {
               step={100000}
               defaultValue={budget}
               onChange={(value) => setBudget(value)}
-              trackStyle={{ backgroundColor: "#f25c27", height: 5 }}
+              trackStyle={{ backgroundColor: "#3eb4e7", height: 5 }}
               handleStyle={{
-                borderColor: "#f25c27",
-                backgroundColor: "#f25c27",
+                borderColor: "#3eb4e7",
+                backgroundColor: "#3eb4e7",
               }}
             />
           </div>
