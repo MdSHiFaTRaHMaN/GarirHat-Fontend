@@ -1,39 +1,38 @@
 import { useEffect, useState } from "react";
 import {
-  HeartOutlined,
   ShareAltOutlined,
   MessageOutlined,
   ExclamationCircleOutlined,
   LeftOutlined,
   RightOutlined,
-  HomeOutlined,
-  CarOutlined,
 } from "@ant-design/icons";
-import { Breadcrumb, Button, Carousel, Divider } from "antd";
-import { FaMapMarkerAlt, FaBolt } from "react-icons/fa";
-import Car1 from "../../assets/images/car-d1.jpg";
-import Car2 from "../../assets/images/car-d22.jpg";
-import Car3 from "../../assets/images/car-d33.jpg";
-import Car4 from "../../assets/images/car-d4.jpg";
+import { Button, Carousel, Divider, message } from "antd";
+import { FaMapMarkerAlt, FaBolt, FaOrcid } from "react-icons/fa";
 import CarOverview from "./CarOverview";
 import RecommendedUsedCars from "./RecommendedUsedCars";
-import AddonService from "./AddonService";
 import EMICalculator from "./EMICalculator";
 import CarReviews from "./CarReviews";
 import ResearchLinks from "./ResearchLinks";
 import Features from "./Features";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import GalloryModel from "./GalleryModel";
 import { GrGallery } from "react-icons/gr";
 import Specifications from "./Specifications";
 import { TbCurrencyTaka } from "react-icons/tb";
 import ReportAdModel from "./ReportAdModel";
 import SafetyNotice from "./SafetyNotice";
+import MessangerModel from "../../components/MessangerModel";
+import InterestedModel from "./InterestedModel";
+import { useSingleVechile } from "../../api/api";
+import LoadingWhile from "../../components/LoadingWhile";
 
 const CarDetails = () => {
-  const images = [Car1, Car2, Car3, Car4];
+  const { vehicleID } = useParams();
+  const { singleVechile, isLoading } = useSingleVechile(vehicleID);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMessangerModel, setIsMessangerModel] = useState(false);
   const [isReportModal, setIsReportModal] = useState(false);
+  const [interestedModel, setInterestedModel] = useState(false);
 
   const CustomArrow = ({ type, onClick }) => {
     const isPrev = type === "prev";
@@ -61,34 +60,19 @@ const CarDetails = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+  const handleCopy = (text) => {
+    navigator.clipboard
+      .writeText(text)
+      .then(() => message.success("Copied to clipboard!"))
+      .catch(() => message.error("Failed to copy"));
+  };
+  if (isLoading) {
+    return <LoadingWhile />;
+  }
 
   return (
     <div className="bg-white">
-      <Breadcrumb
-        className="ml-5 lg:ml-20 mt-4"
-        items={[
-          {
-            title: (
-              <Link to="/">
-                <HomeOutlined />
-              </Link>
-            ),
-          },
-          {
-            title: (
-              <>
-                <CarOutlined />
-                <span className="font-semibold">Used Car</span>
-              </>
-            ),
-          },
-          {
-            title: (
-              <span className="font-semibold">2024 BMW X5 xDrive4i xLine</span>
-            ),
-          },
-        ]}
-      />
+      {/* {singleVechile.map((singleCar) => ( */}
       <div className=" w-full lg:w-11/12 mx-auto overflow-hidden flex gap-8 flex-col lg:flex-row p-2 lg:p-6">
         {/* Left Image Section */}
         <div className="lg:w-3/5">
@@ -100,58 +84,72 @@ const CarDetails = () => {
             autoplay={false}
             className="h-96"
           >
-            {images.map((src, index) => (
+            {singleVechile.images.map((src, index) => (
               <div key={index} className="relative">
                 <img
                   src={src}
                   alt={`Car Image ${index + 1}`}
-                  className="w-full h-96 object-cover rounded-lg"
+                  className="w-full h-[400px] object-cover rounded-lg"
                 />
                 <span
                   onClick={() => setIsModalOpen(true)}
                   className="absolute bottom-3 right-3 bg-white text-black font-semibold text-xs px-2 py-1 rounded flex items-center gap-1 cursor-pointer hover:scale-105 transition-transform duration-300"
                 >
                   <GrGallery />
-                  {images.length} PHOTOS
+                  {singleVechile.images.length} PHOTOS
                 </span>
               </div>
             ))}
           </Carousel>
         </div>
         {/* Right Content Section */}
-        <div className="w-full md:w-2/3 lg:w-2/5 p-6 flex flex-col justify-between bg-white shadow-md rounded-lg transition-transform scale-y-105">
+        <div className="w-full md:w-2/3 lg:w-2/5 p-6 flex flex-col justify-between bg-white border rounded transition-transform scale-y-105">
           {/* Car Info */}
           <div>
             <h2 className="text-xl md:text-2xl font-semibold">
-              2024 BMW X5 xDrive40i xLine
+              {singleVechile.year_of_manufacture} {singleVechile.make}{" "}
+              {singleVechile.model}
             </h2>
             <p className="text-gray-500 text-sm md:text-base">
-              3,406 kms • Petrol • Automatic • 1st Owner
+              {singleVechile.mileage || "N/A"} kms •{" "}
+              {singleVechile.fuel_type || "N/A"} •{" "}
+              {singleVechile.transmission || "N/A"} •{" "}
+              {singleVechile.vehicle_condition || "N/A"}
             </p>
             <h3 className="text-2xl md:text-3xl font-semibold mt-2 flex items-center">
               <TbCurrencyTaka className="mr-1" />
-              90 Lakh
+              {singleVechile.discount_price || "80 Lakh"}
             </h3>
-            <p className="text-gray-600 text-sm md:text-base mt-2">
+            {/* <p className="text-gray-600 text-sm md:text-base mt-2">
               EMI starts @ ৳2,23,382/mo • New Car Price ৳1.06 Crore
-            </p>
+            </p> */}
             <Divider dashed />
             <div className="flex items-center mt-2 text-gray-600">
               <FaMapMarkerAlt className="mr-2" />
-              Manda, Dhaka
+              {singleVechile.upzila},{singleVechile.district},{" "}
+              {singleVechile.division}
             </div>
           </div>
 
           {/* Button & Trending Section */}
           <div className="mt-4">
-            <Link to="/vendor-info">
+            <div className="flex w-full gap-2">
+              <Link to="/vendor-info" className="w-full">
+                <Button
+                  type="primary"
+                  className="w-full bg-ButtonColor hover:bg-ButtonHover text-white font-semibold py-5 text-lg"
+                >
+                  View Seller Details
+                </Button>
+              </Link>
               <Button
+                onClick={() => setInterestedModel(true)}
                 type="primary"
-                className="w-full bg-ButtonColor hover:bg-ButtonHover text-white font-semibold py-5 text-lg"
+                className="w-full font-semibold py-5 text-lg"
               >
-                View Seller Details
+                Interested
               </Button>
-            </Link>
+            </div>
             <p className="text-gray-600 flex items-center mt-3 text-sm md:text-base">
               <FaBolt className="text-yellow-500 mr-2 text-lg" /> Trending Car!
               High chances of sale in next 6 days
@@ -161,27 +159,40 @@ const CarDetails = () => {
           {/* Actions Section */}
           <div className="flex flex-wrap justify-between text-gray-500 text-sm mt-4">
             <span
+              title="Copy"
+              className="flex items-center cursor-pointer hover:text-red-500 transition"
+              onClick={() => handleCopy(singleVechile.vehicle_code)}
+            >
+              <FaOrcid className="mr-1 text-TextColor" />{" "}
+              {singleVechile.vehicle_code}
+            </span>
+            <span
               onClick={() => setIsReportModal(true)}
               className="flex items-center cursor-pointer hover:text-red-500 transition"
             >
-              <ExclamationCircleOutlined className="mr-1" /> Report Ad
+              <ExclamationCircleOutlined className="mr-1 text-TextColor" />{" "}
+              Report Ad
             </span>
-            <span className="flex items-center cursor-pointer hover:text-blue-500 transition">
-              <MessageOutlined className="mr-1" /> Chat with Seller
+            <span
+              onClick={() => setIsMessangerModel(true)}
+              className="flex items-center cursor-pointer hover:text-blue-500 transition"
+            >
+              <MessageOutlined className="mr-1 text-TextColor" /> Chat with
+              Seller
             </span>
             <span className="flex items-center cursor-pointer hover:text-green-500 transition">
-              <ShareAltOutlined className="mr-1" /> Share
+              <ShareAltOutlined className="mr-1 text-TextColor" /> Share
             </span>
-            {/* <HeartOutlined className="cursor-pointer hover:text-red-500 transition" /> */}
           </div>
         </div>
       </div>
+      {/* ))} */}
       <div className="flex flex-col lg:flex-row w-full lg:w-[89%] mx-auto gap-6 px-4 lg:px-0">
         {/* Left Side Content */}
         <div className="w-full lg:w-7/12 space-y-6">
-          <CarOverview />
+          <CarOverview singleVechile={singleVechile} />
           <Features />
-          <Specifications />
+          <Specifications singleVechile={singleVechile} />
           <EMICalculator />
           <CarReviews />
         </div>
@@ -196,13 +207,23 @@ const CarDetails = () => {
 
       {/* model  */}
       <GalloryModel
-        handleImage={images}
+        handleImage={singleVechile.images}
         isVisible={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       />
       <ReportAdModel
         isVisible={isReportModal}
         onClose={() => setIsReportModal(false)}
+      />
+      <MessangerModel
+        isMessangerModel={isMessangerModel}
+        onClose={() => setIsMessangerModel(false)}
+      />
+      <InterestedModel
+        isVisible={interestedModel}
+        onClose={() => setInterestedModel(false)}
+        vechileId={singleVechile.id}
+        vendorId={singleVechile.vendor_id}
       />
     </div>
   );

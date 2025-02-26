@@ -1,12 +1,55 @@
 import { FiHeart, FiSearch } from "react-icons/fi";
-import Logo from "../assets/images/garirhatlogo007.png";
+import Logo from "../assets/images/garirhatfinallogo.png";
 import { PiUserCircleDashedBold } from "react-icons/pi";
 import Topmenu from "./Topmenu";
 import { Link } from "react-router-dom";
 import LoginModal from "./LoginModel";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../authprovider/AuthProvider";
+import { FaRegUserCircle, FaUser } from "react-icons/fa";
+import { Dropdown, Space } from "antd";
+import { TbLogout2 } from "react-icons/tb";
+import UserProfileModel from "./UserProfileModel";
 const Navbar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isProfileModal, setIsProfileModal] = useState(false);
+  const { user, logOut } = useContext(AuthContext);
+
+  const items = [
+    {
+      key: "1",
+      label: "My Account",
+      disabled: true,
+    },
+    {
+      type: "divider",
+    },
+    {
+      key: "2",
+      label: (
+        <span 
+        onClick={() => setIsProfileModal(true)}
+          className="flex items-center gap-1 font-semibold"
+        >
+          <FaUser />
+          Profile
+        </span>
+      ),
+    },
+    {
+      key: "3",
+      label: (
+        <span
+          onClick={logOut}
+          className="flex items-center gap-1 font-semibold"
+        >
+          <TbLogout2 />
+          Logout
+        </span>
+      ),
+    },
+  ];
+
   return (
     <div className="bg-gray-50 sticky top-0 !z-50">
       {/* First Line: Logo and Tagline */}
@@ -15,7 +58,7 @@ const Navbar = () => {
           {/* Logo Section */}
           <div className="flex items-center space-x-2">
             <Link to="/">
-              <img src={Logo} alt="" width={160} />
+              <img src={Logo} alt="" width={190} />
             </Link>
           </div>
 
@@ -38,19 +81,35 @@ const Navbar = () => {
           </div>
 
           {/* Icons Section */}
-          <div className="flex items-center space-x-6">
+          <div className="flex items-center gap-4">
             <Link to="/favorites-car">
-              <FiHeart className="text-gray-500 hover:text-red-700" size={20} />
+              <FiHeart className=" hover:text-TextColor" size={20} />
             </Link>
-            <button
-              onClick={() => setIsModalOpen(true)}
-              className="flex items-center space-x-2 hover:bg-gray-200 p-2 rounded-full"
-            >
-              <PiUserCircleDashedBold className="text-gray-500" size={20} />
-              <span className="hidden md:inline text-sm font-semibold text-gray-600">
-                Login / Register
-              </span>
-            </button>
+            {user ? (
+              <Dropdown
+                menu={{
+                  items,
+                }}
+                placement="bottomLeft"
+                trigger={["click"]}
+              >
+                <a onClick={(e) => e.preventDefault()}>
+                  <Space>
+                    <FaRegUserCircle size={20} className="mt-1" />
+                  </Space>
+                </a>
+              </Dropdown>
+            ) : (
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className="flex items-center space-x-2 hover:bg-gray-200 p-2 rounded-full"
+              >
+                <PiUserCircleDashedBold className="text-gray-500" size={20} />
+                <span className="hidden md:inline text-sm font-semibold text-gray-600">
+                  Login / Register
+                </span>
+              </button>
+            )}
           </div>
         </div>
       </nav>
@@ -58,6 +117,10 @@ const Navbar = () => {
         isVisible={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       />
+      <UserProfileModel
+        isVisible={isProfileModal}
+        onClose={() => setIsProfileModal(false)}
+       />
       {/* Second Line: Navigation and Search */}
       <Topmenu />
     </div>

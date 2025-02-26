@@ -5,10 +5,24 @@ import {
   AiOutlineComment,
 } from "react-icons/ai";
 import { FaYoutube } from "react-icons/fa";
+import { useAllBrand, useModelByBrand } from "../../api/api";
+import { useState } from "react";
 
 const { Option } = Select;
 
 const CarVideo = () => {
+  const { allBrand } = useAllBrand();
+  const [brandID, setBrandID] = useState();
+  const { modelByBrand } = useModelByBrand(brandID);
+
+  console.log(brandID);
+
+  const onSearch = (value) => {
+    console.log("search:", value);
+  };
+  const handleSelectBrand = (value) => {
+    setBrandID(value);
+  };
   return (
     <div className="mx-auto p-4">
       {/* Title */}
@@ -18,17 +32,29 @@ const CarVideo = () => {
 
       {/* Search Bar */}
       <div className="grid lg:flex gap-3 items-center">
-        <Select placeholder="Select Brand" className="w-full h-12">
-          <Option value="Mahindra">Mahindra</Option>
-          <Option value="Tesla">Tesla</Option>
-          <Option value="BMW">BMW</Option>
-        </Select>
-
-        <Select placeholder="Select Model" className="w-full h-12">
-          <Option value="XEV 9E">XEV 9E</Option>
-          <Option value="Model X">Model X</Option>
-          <Option value="X5">X5</Option>
-        </Select>
+        <Select
+          showSearch
+          placeholder="Select Brand"
+          className="w-full h-12"
+          optionFilterProp="label"
+          onSearch={onSearch}
+          options={allBrand.map((brand) => ({
+            value: brand.id,
+            label: brand.brand_name,
+          }))}
+          onChange={handleSelectBrand}
+        />
+        <Select
+          showSearch
+          className="w-full h-12"
+          placeholder="Select Car Model"
+          optionFilterProp="label"
+          options={modelByBrand?.data?.model?.map((model) => ({
+            value: model.id,
+            label: model.model_name,
+          }))}
+          disabled={!brandID}
+        />
 
         <button className="bg-ButtonColor hover:bg-ButtonHover flex items-center px-12 p-3 rounded-md text-white font-semibold">
           <AiOutlineSearch className="mr-1" />

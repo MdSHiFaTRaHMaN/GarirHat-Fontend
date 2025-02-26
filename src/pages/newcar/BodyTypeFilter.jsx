@@ -19,7 +19,6 @@ const BodyTypeFilter = () => {
         {bodyTypes.map((type, index) => (
           <label key={index} className="flex items-center space-x-3 cursor-pointer">
             <Checkbox />
-            <img src={type.img} alt={type.label} className="w-16 h-12 object-cover" />
             <span className="flex-1">{type.label}</span>
             <span className="text-gray-500">{type.count}</span>
           </label>

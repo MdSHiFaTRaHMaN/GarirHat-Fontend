@@ -1,6 +1,4 @@
-import { useState } from "react";
 import { Checkbox } from "antd";
-import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 
 const colors = [
   { name: "White", color: "#ffffff", count: 69 },
@@ -10,6 +8,10 @@ const colors = [
   { name: "Brown", color: "#8b4513", count: 10 },
   { name: "Black", color: "#000000", count: 7 },
   { name: "Orange", color: "#ff8000", count: 2 },
+  { name: "Green", color: "#008000", count: 2 },
+  { name: "Maroon", color: "#800000", count: 2 },
+  { name: "Yellow", color: "#FFFF00", count: 2 },
+  { name: "Violet", color: "#8F00FF", count: 2 },
 ];
 
 const ColorFilter = () => {

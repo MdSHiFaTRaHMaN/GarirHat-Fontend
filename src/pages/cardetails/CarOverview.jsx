@@ -1,64 +1,77 @@
-import { Tabs } from "antd";
-const { TabPane } = Tabs;
+import { BsCardChecklist, BsFuelPumpDieselFill } from "react-icons/bs";
+import { FaCalendarAlt, FaRegCalendarAlt } from "react-icons/fa";
+import { FaUserLarge } from "react-icons/fa6";
+import { GiCarDoor } from "react-icons/gi";
+import { MdAirlineSeatReclineNormal } from "react-icons/md";
+import { RiSettings2Fill } from "react-icons/ri";
+import { TbSettingsSpark } from "react-icons/tb";
 
-const CarOverview = () => {
-  const handleTabChange = (key) => {
-    const section = document.getElementById(key);
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  };
-  
-
+const CarOverview = ({ singleVechile }) => {
   return (
-    <div className="p-6 bg-white border shadow-lg rounded-lg">
-      {/* Tabs */}
-      {/* <Tabs
-        defaultActiveKey="1"
-        className="mb-4 sticky top-[123px] bg-white z-40"
-        onChange={handleTabChange}
-      >
-        <TabPane tab="OVERVIEW" key="overview" />
-        <TabPane tab="FEATURES" key="features" />
-        <TabPane tab="SPECIFICATIONS" key="specifications" />
-        <TabPane tab="ADDON SERVICES" key="addon-services" />
-      </Tabs> */}
-
+    <div className="p-6 bg-white border rounded">
       {/* OVERVIEW */}
       <div className="bg-white mb-6" id="overview">
         <h2 className="text-xl font-semibold mb-4">Car Overview</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-gray-700">
-          <p>
-            📅 Registration Year:{" "}
-            <span className="font-semibold">Dec 2024</span>
+          <p className="flex items-center gap-2">
+            <FaRegCalendarAlt className="text-TextColor" /> Registration Year:{" "}
+            <span className="font-semibold">
+              {singleVechile.registration_year || "N/A"}
+            </span>
           </p>
-          <p>
-            🛡️ Insurance: <span className="font-semibold">Comprehensive</span>
+          <p className="flex items-center gap-2">
+            <BsFuelPumpDieselFill className="text-TextColor" />
+            Fuel Type:{" "}
+            <span className="font-semibold">
+              {singleVechile.fuel_type || "N/A"}
+            </span>
           </p>
-          <p>
-            ⛽ Fuel Type: <span className="font-semibold">Petrol</span>
+          <p className="flex items-center gap-2">
+            <MdAirlineSeatReclineNormal className="text-TextColor" /> Seats:{" "}
+            <span className="font-semibold">
+              {singleVechile.seating_capacity || "N/A"} Seats
+            </span>
           </p>
-          <p>
-            🚗 Seats: <span className="font-semibold">5 Seats</span>
+          <p className="flex items-center gap-2">
+            <GiCarDoor  className="text-TextColor" />
+            Doors:{" "}
+            <span className="font-semibold">
+              {singleVechile.doors || "N/A"}
+            </span>
           </p>
-          <p>
-            📏 Kms Driven: <span className="font-semibold">3,406 Kms</span>
+          <p className="flex items-center gap-2">
+            <BsCardChecklist className="text-TextColor" />
+            RTO:{" "}
+            <span className="font-semibold">{singleVechile.rtn || "N/A"}</span>
           </p>
-          <p>
-            🏢 RTO: <span className="font-semibold">Kolkata</span>
+          <p className="flex items-center gap-2">
+            <FaUserLarge className="text-TextColor" />
+            Ownership:{" "}
+            <span className="font-semibold">
+              {singleVechile.vehicle_condition || "N/A"}
+            </span>
           </p>
-          <p>
-            👤 Ownership: <span className="font-semibold">First Owner</span>
+          <p className="flex items-center gap-2">
+            <TbSettingsSpark className="text-TextColor" />
+            Engine:
+            <span className="font-semibold">
+              {" "}
+              {singleVechile.engine_capacity_cc || "N/A"} cc
+            </span>
           </p>
-          <p>
-            🔧 Engine Displacement:
-            <span className="font-semibold"> 98 cc</span>
+          <p className="flex items-center gap-2">
+            <FaCalendarAlt className="text-TextColor" />
+            Year of Manufacture:{" "}
+            <span className="font-semibold">
+              {singleVechile.year_of_manufacture}
+            </span>
           </p>
-          <p>
-            ⚙️ Transmission: <span className="font-semibold">Automatic</span>
-          </p>
-          <p>
-            📅 Year of Manufacture: <span className="font-semibold">2024</span>
+          <p className="flex items-center gap-2">
+            <RiSettings2Fill className="text-TextColor" />
+            Transmission:{" "}
+            <span className="font-semibold">
+              {singleVechile.transmission || "N/A"}
+            </span>
           </p>
         </div>
       </div>

@@ -34,7 +34,7 @@ const FavoriteCar = () => {
                 <img src={CarShadow} width={70} height={100} alt={car} className="rounded-sm" />
                 <div>
                   <h3 className="font-semibold text-lg">{car}</h3>
-                  <Rate className="text-xl" allowHalf defaultValue={3.5} />
+                  <Rate className="text-xl text-TextColor" allowHalf defaultValue={3.5} />
                 </div>
               </Link>
             </Card>
@@ -69,7 +69,7 @@ const FavoriteCar = () => {
       <div className="w-full lg:w-4/12">
         <div className="p-4 border rounded-lg shadow-md bg-gray-50">
           <h3 className="text-lg font-semibold flex items-center gap-2 mb-3">
-            <LiaLightbulb className="text-yellow-500 text-2xl" /> Tips for a Good Review
+            <LiaLightbulb className="text-TextColor text-2xl" /> Tips for a Good Review
           </h3>
           <ul className="list-disc ml-6 text-gray-700 space-y-3 text-sm sm:text-base">
             <li>Tell us about your buying experience and why you chose this car.</li>

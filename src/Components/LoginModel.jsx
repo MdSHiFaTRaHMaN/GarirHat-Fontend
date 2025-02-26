@@ -1,22 +1,24 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Modal, Input, Button, Form } from "antd";
 import { FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { UserOutlined } from "@ant-design/icons";
+import { AuthContext } from "../authprovider/AuthProvider";
 
 const LoginModal = ({ isVisible, onClose }) => {
   const [showOtp, setShowOtp] = useState(false); // State to track OTP input visibility
 
   const onFinish = (values) => {
     console.log("Success:", values.username);
-    const number = values.username;
-    console.log(number)
-    setShowOtp(true); // Show OTP input when form is submitted
+    setShowOtp(true);
   };
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
+
+
+  const {handleGoogle} = useContext(AuthContext);
 
   return (
     <Modal
@@ -100,13 +102,13 @@ const LoginModal = ({ isVisible, onClose }) => {
       </div>
 
       {/* Google Login */}
-      <Button className="w-full flex items-center justify-center border border-gray-300 text-lg p-5 rounded-md hover:bg-gray-100 gap-2">
+      <Button onClick={handleGoogle} className="w-full flex items-center justify-center border bg-gray-200 shadow-md border-gray-300 text-lg p-5 rounded-md hover:bg-gray-100 gap-2">
         <FcGoogle size={22} />
         Continue with Google
       </Button>
 
       {/* Facebook Login */}
-      <Button className="w-full flex items-center justify-center border border-gray-300 text-lg p-5 rounded-md hover:bg-gray-100 mt-3 gap-2">
+      <Button className="w-full flex items-center justify-center bg-gray-200 shadow-md border border-gray-300 text-lg p-5 rounded-md hover:bg-gray-100 mt-3 gap-2">
         <FaFacebook className="text-blue-600" size={22} />
         Continue with Facebook
       </Button>

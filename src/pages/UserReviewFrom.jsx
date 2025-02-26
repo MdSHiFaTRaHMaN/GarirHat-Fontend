@@ -119,7 +119,7 @@ const UserReviewForm = () => {
               value={ratings[category]}
               onChange={(value) => handleRateChange(category, value)}
               character={({ index = 0 }) => customIcons[index + 1]}
-              className="text-center text-2xl"
+              className="text-center text-2xl text-TextColor"
             />
           </div>
         ))}
@@ -136,7 +136,7 @@ const UserReviewForm = () => {
                 value={ratings[category]}
                 onChange={(value) => handleRateChange(category, value)}
                 character={({ index = 0 }) => customIcons[index + 1]}
-                className="text-center text-2xl"
+                className="text-center text-2xl text-TextColor"
               />
             </div>
           ))}

@@ -3,7 +3,6 @@ import CarImage from "../assets/images/bdcar.jpg";
 import { FaBangladeshiTakaSign, FaShare } from "react-icons/fa6";
 import { IoLocationOutline } from "react-icons/io5";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { BiShare } from "react-icons/bi";
 import { ShareAltOutlined } from "@ant-design/icons";
 
 const cars = [

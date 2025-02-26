@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body{
+  font-family: 'Outfit', sans-serif;
+}
+
 :where(.css-dev-only-do-not-override-142vneq).ant-dropdown .ant-dropdown-menu,
 :where(.css-dev-only-do-not-override-142vneq).ant-dropdown-menu-submenu .ant-dropdown-menu {
   padding: 24px;
@@ -38,7 +42,7 @@
   justify-content: center;
   align-items: center;
   border-radius: 8px;
-  border: 1px solid #ff7a00;
+  border: 1px solid #5ccee5;
   background: #fff;
   transition: all 0.3s ease;
   min-width: 50px;
@@ -50,20 +54,19 @@
 
 /* Text Styling */
 .ant-pagination-item a {
-  color: #ff7a00;
+  color: #3EB4E7;
   padding: 10px 15px;
 }
 
 /* Active Page Styling */
 .ant-pagination-item-active {
-  background: #ff7a00 !important;
-  border-color: #ff7a00 !important;
+  background: #3EB4E7 !important;
+  border-color: #3EB4E7 !important;
 }
 
 .ant-pagination-item-active a {
   color: white !important;
 }
-
 /* Hover Effect */
 .ant-pagination-item:hover {
   background: rgba(255, 122, 0, 0.2);
@@ -74,7 +77,7 @@
 .ant-pagination-prev, 
 .ant-pagination-next {
   font-weight: bold;
-  color: #ff7a00;
+  color: #3EB4E7;
   min-width: 50px;
   height: 40px;
   display: flex;
@@ -87,10 +90,10 @@
 .ant-pagination-prev:hover, 
 .ant-pagination-next:hover {
   color: white;
-  background: #ff7a00;
+  background: #3EB4E7;
   border-radius: 6px;
   box-shadow: 0px 4px 8px rgba(255, 122, 0, 0.3);
 }
 .react-multiple-carousel__arrow{
-  z-index: 10;
+  z-index: 10 !important;
 }

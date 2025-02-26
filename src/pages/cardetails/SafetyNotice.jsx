@@ -2,7 +2,7 @@
 const SafetyNotice = () => {
   return (
     <div className="w-full py-6 px-4 flex justify-center">
-      <div className="bg-white shadow-sm rounded-md p-6 max-w-2xl w-full border">
+      <div className="bg-white rounded p-6 max-w-2xl w-full border">
         <h2 className="text-lg font-semibold text-center mb-3">Safety Notice</h2>
         <ul className="list-disc text-gray-700 pl-5 space-y-2 text-sm">
           <li>

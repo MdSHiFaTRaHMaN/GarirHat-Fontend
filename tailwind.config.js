@@ -9,6 +9,9 @@ export default {
         'ButtonHover': '#096f9e',
         'TextColor': '#3EB4E7'
       },
+      // fontFamily: {
+      //   MyStyle: ['Outfit', "sans-serif"],
+      // },
     },
   },
   plugins: [],

@@ -50,12 +50,12 @@ const CarReviews = () => {
   const visibleReviews = showAllReviews ? reviewsData : reviewsData.slice(0, 2);
 
   return (
-    <div className="flex justify-center items-center bg-gray-50 border rounded-lg">
+    <div className="flex justify-center items-center bg-gray-50 border rounded">
       <div className="bg-white p-6 w-full">
         {/* Header Section */}
         <h2 className="text-2xl font-bold text-gray-900">New Car User Reviews & Rating</h2>
         <div className="flex items-center mt-2">
-          <FaStar className="text-orange-500 text-3xl mr-2" />
+          <FaStar className="text-TextColor text-3xl mr-2" />
           <h3 className="text-3xl font-semibold">4.2</h3>
           <p className="text-gray-500 ml-2">Overall Rating</p>
         </div>
@@ -68,7 +68,7 @@ const CarReviews = () => {
               key={cat.label}
               onClick={() => setActiveTab(cat.label)}
               className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                activeTab === cat.label ? "bg-black text-white" : "bg-gray-200 text-gray-700"
+                activeTab === cat.label ? "bg-ButtonColor text-white" : "bg-gray-200 text-gray-700"
               }`}
             >
               {cat.label} ({cat.count})
@@ -126,7 +126,7 @@ const CarReviews = () => {
           <div className="mt-6 text-center">
             <Button
               type="text"
-              className="text-orange-500 font-semibold"
+              className="text-TextColor font-semibold"
               onClick={() => setShowAllReviews(true)}
             >
               View More Reviews

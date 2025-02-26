@@ -11,7 +11,6 @@ import CarCollection from "../pages/carcollection/CarCollection";
 import CarVideosPage from "../pages/carvideopage/CarVideosPage";
 import TipsandAdvice from "../pages/tipsandadvice/TipsandAdvice";
 import FavoritesCar from "../pages/FavoritesCar";
-import OTPLogin from "../components/OTPLogin";
 import VendorInfo from "../pages/vendorinfopage/VendorInfo";
 import About from "../pages/setting/About";
 import TermsandCondition from "../pages/setting/TermsandCondition";
@@ -19,7 +18,6 @@ import PrivacyPolicy from "../pages/setting/PrivacyPolicy";
 import CorporatePolicies from "../pages/setting/CorporatePolicies";
 import Investors from "../pages/setting/Investors";
 import FAQs from "../pages/setting/FAQs";
-
 
 const Router = createBrowserRouter([
   {
@@ -31,15 +29,11 @@ const Router = createBrowserRouter([
         element: <Home></Home>,
       },
       {
-        path: "/new-car",
+        path: "/:conditionParams",
         element: <NewCarPage />
       },
       {
-        path: "/used-car",
-        element: <NewCarPage />
-      },
-      {
-        path: "/car-details",
+        path: "/car-details/:vehicleID",
         element: <CarDetails />
       },
       {
@@ -101,10 +95,6 @@ const Router = createBrowserRouter([
       {
         path: "/faqs",
         element: <FAQs />
-      },
-      {
-        path: "/otp",
-        element: <OTPLogin />
       },
     ],
   },

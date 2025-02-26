@@ -125,7 +125,7 @@ const Features = () => {
     },
   ];
   return (
-    <div className="bg-white p-5 border shadow-lg rounded-lg" id="features">
+    <div className="bg-white p-5 border rounded" id="features">
       <h2 className="text-xl font-semibold mb-4">Features</h2>
       <div className="grid grid-cols-2 gap-4 text-gray-700">
         <p className="flex items-center">

@@ -15,7 +15,7 @@ const Topmenu = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   // Retrieve from localStorage
   const storedLocation = localStorage.getItem("selectedLocation");
-  console.log(storedLocation);
+  
   const newsreview = (
     <Menu
       className="space-y-1.5"
@@ -93,6 +93,69 @@ const Topmenu = () => {
     />
   );
 
+  const usedcar = (
+    <Menu
+      className="space-y-1.5"
+      items={[
+        {
+          key: "1",
+          label: (
+            <Link
+              onClick={() => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              to="/used-car"
+            >
+              Buy Used Car
+            </Link>
+          ),
+        },
+        { type: "divider" },
+        {
+          key: "2",
+          label: (
+            <Link
+              onClick={() => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              to="/recondition-car"
+            >
+              Recondition Car
+            </Link>
+          ),
+        },
+        { type: "divider" },
+        {
+          key: "3",
+          label: (
+            <Link
+              onClick={() => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              to="/pre-owned-car"
+            >
+              Pre-Owned Cars
+            </Link>
+          ),
+        },
+        { type: "divider" },
+        {
+          key: "4",
+          label: (
+            <Link
+              onClick={() => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              to="/loan-avaiable-car"
+            >
+              Loan Available Cars
+            </Link>
+          ),
+        },
+      ]}
+    />
+  );
+
   return (
     <div className="border-t shadow-lg bg-white">
       {/* Desktop & Tablet Navigation */}
@@ -105,31 +168,31 @@ const Topmenu = () => {
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
           >
-            <span className="font-semibold text-gray-700 text-sm">
+            <span className="whitespace-nowrap font-semibold text-gray-700 text-sm">
               NEW CARS
             </span>
           </Link>
-          <Link
-            to="/used-car"
-            onClick={() => {
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
-          >
-            <span className="font-semibold text-gray-700 text-sm">
-              USED CARS
-            </span>
-          </Link>
+          <Dropdown overlay={usedcar} trigger={["hover"]}>
+            <a onClick={(e) => e.preventDefault()}>
+              <Space>
+                <span className="whitespace-nowrap font-semibold text-gray-700 text-sm">
+                  USED CARS
+                </span>
+                <CaretDownOutlined className="text-gray-700" />
+              </Space>
+            </a>
+          </Dropdown>
           <a
             target="_blank"
             href="https://garirhat-admin.onrender.com"
-            className="font-semibold text-gray-700 text-sm"
+            className="whitespace-nowrap font-semibold text-gray-700 text-sm"
           >
             SELL MY CAR
           </a>
           <Dropdown overlay={newsreview} trigger={["hover"]}>
             <a onClick={(e) => e.preventDefault()}>
               <Space>
-                <span className="font-semibold text-gray-700 text-sm">
+                <span className="whitespace-nowrap font-semibold text-gray-700 text-sm">
                   NEWS & REVIEWS
                 </span>
                 <CaretDownOutlined className="text-gray-700" />
@@ -148,8 +211,8 @@ const Topmenu = () => {
         </div>
 
         {/* Location & Mobile Menu Button */}
-        <div className="flex items-center justify-between gap-4">
-          <div className="">
+        <div className="flex items-center justify-between w-full gap-4">
+          <div className=" bg-white w-2">
             <button
               className="md:hidden text-gray-700 text-xl"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -157,14 +220,14 @@ const Topmenu = () => {
               {isMobileMenuOpen ? <CloseOutlined /> : <MenuOutlined />}
             </button>
           </div>
-            <div
-              onClick={() => setIsModalOpen(true)}
-              className="flex items-centers text-gray-600 font-semibold gap-1 cursor-pointer ml-[115px]"
-            >
-              <GrLocation className="mt-1"/>
-              <h3>{storedLocation}</h3>
-              <FaSortDown />
-            </div>
+          <div
+            onClick={() => setIsModalOpen(true)}
+            className="text-gray-600 font-semibold gap-1 cursor-pointer flex items-center "
+          >
+            <GrLocation className="mt-1" />
+            <h3>{storedLocation || "Select Location"}</h3>
+            <FaSortDown />
+          </div>
         </div>
       </div>
 
@@ -181,16 +244,16 @@ const Topmenu = () => {
           >
             NEW CARS
           </Link>
-          <Link
-            to="/used-car"
-            onClick={() => {
-              setIsMobileMenuOpen(false);
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
-            className="font-semibold text-gray-700 text-sm"
-          >
-            USED CARS
-          </Link>
+          <Dropdown overlay={usedcar} trigger={["click"]}>
+            <a onClick={(e) => e.preventDefault()}>
+              <Space>
+                <span className="font-semibold text-gray-700 text-sm">
+                  USED CARS
+                </span>
+                <CaretDownOutlined className="text-gray-700" />
+              </Space>
+            </a>
+          </Dropdown>
           <a
             target="_blank"
             href="https://garirhat-admin.onrender.com"
