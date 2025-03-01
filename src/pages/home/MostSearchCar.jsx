@@ -1,63 +1,11 @@
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { Tabs } from "antd";
-import Carimage from "../../assets/images/car-d1.jpg";
-import Carimage2 from "../../assets/images/car-d22.jpg";
-import Carimage3 from "../../assets/images/car-d33.jpg";
-import Carimage4 from "../../assets/images/car-d4.jpg";
 import { Link } from "react-router-dom";
-const { TabPane } = Tabs;
-
-const cars = [
-  {
-    name: "Kia Syros",
-    price: "৳ 9 - 17.80 Lakh",
-    image: Carimage,
-    model: "Hatchback",
-  },
-  {
-    name: "Skoda Kylq",
-    price: "৳ 7.89 - 14.40 Lakh",
-    image: Carimage2,
-    model: "Sedan",
-  },
-  {
-    name: "Mahindra Scorpio N",
-    price: "৳ 13.99 - 24.69 Lakh",
-    image: Carimage3,
-    model: "MUV",
-  },
-  {
-    name: "Toyota Fortuner",
-    price: "৳ 33.78 - 51.94 Lakh",
-    image: Carimage4,
-    model: "Luxury",
-  },
-  {
-    name: "Toyota Fortuner",
-    price: "৳ 33.78 - 51.94 Lakh",
-    image: Carimage3,
-    model: "SUV",
-  },
-  {
-    name: "Hyundai i20",
-    price: "৳ 6.99 - 11.88 Lakh",
-    image: Carimage2,
-    model: "Hatchback",
-  },
-  {
-    name: "Maruti Suzuki Ciaz",
-    price: "৳ 8.89 - 12.99 Lakh",
-    image: Carimage,
-    model: "Sedan",
-  },
-  {
-    name: "BMW X5",
-    price: "৳ 80.90 - 97.90 Lakh",
-    image: Carimage4,
-    model: "Luxury",
-  },
-];
+import { useAllCarList } from "../../api/api";
+import { useState } from "react";
+import ComingImaage from "../../assets/images/UpcomingImage.jpg";
+import ShadowLoading from "../../components/ShadowLoading";
 
 const responsive = {
   superLargeDesktop: {
@@ -79,47 +27,75 @@ const responsive = {
 };
 
 const MostSearchCar = () => {
+  const [selectBrand, setSelectBrand] = useState("");
+  const { allCarList, isLoading } = useAllCarList({
+    selectBrand,
+  });
+
+  const filterOptions = [
+    { key: "1", label: "All Car" },
+    { key: "2", label: "Toyota" },
+    { key: "3", label: "Honda" },
+    { key: "4", label: "Nissan" },
+    { key: "5", label: "Mitsubishi" },
+    { key: "6", label: "Hyundai" },
+    { key: "7", label: "Mercedes-Benz" },
+    { key: "8", label: "BMW" },
+    { key: "9", label: "Ford" },
+    { key: "10", label: "Kia" },
+    { key: "11", label: "Suzuki" },
+  ];
+  const handleModelCar = (key) => {
+    const selectedOption = filterOptions.find((option) => option.key === key);
+    setSelectBrand(
+      selectedOption?.label === "All Car" ? "" : selectedOption?.label
+    );
+  };
+
   return (
     <div className="p-5 w-full lg:w-10/12 mx-auto shadow-lg rounded-lg m-7">
       <h2 className="text-2xl font-bold mb-4">The most searched cars</h2>
 
-      <Tabs defaultActiveKey="1">
-        {["All", "SUV", "Hatchback", "Sedan", "MUV", "Luxury"].map(
-          (category, idx) => (
-            <TabPane tab={category} key={idx + 1}>
-              <Carousel responsive={responsive}>
-                {cars
-                  .filter(
-                    (car) =>
-                      category === "All" ||
-                      car.model.toLowerCase() === category.toLowerCase()
-                  )
-                  .map((car, index) => (
-                    <div
-                      key={index}
-                      className="bg-white rounded-lg shadow-lg p-4 m-2 "
-                    >
-                      <img
-                        src={car.image}
-                        alt={car.name}
-                        className="rounded-lg mb-4 w-full h-40 object-cover"
-                      />
-                      <h3 className="text-lg font-semibold mb-2">{car.name}</h3>
-                      <p className="text-gray-600 mb-4 text-start">
-                        {car.price}
-                      </p>
-                      <Link to="/car-details">
-                        <button className="w-full mb-2 border border-ButtonColor hover:bg-ButtonHover p-2 text-ButtonColor hover:text-white font-semibold rounded-lg">
-                          View Car Details
-                        </button>
-                      </Link>
-                    </div>
-                  ))}
-              </Carousel>
-            </TabPane>
-          )
+      <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+        <Tabs
+          defaultActiveKey="1"
+          items={filterOptions}
+          className="w-full md:w-auto"
+          onChange={handleModelCar}
+        />
+      </div>
+
+      <Carousel responsive={responsive}>
+        {isLoading ? (
+          <ShadowLoading />
+        ) : allCarList.length === 0 ? (
+          <p className="text-center text-gray-500 font-semibold mt-4">
+            🚗 Car not available
+          </p>
+        ) : (
+          allCarList.map((car, index) => (
+            <div key={index} className="bg-white rounded-lg shadow-lg p-4 m-2 ">
+              <img
+                src={car.thumbnail_image || ComingImaage}
+                alt={car.make}
+                className="rounded-lg mb-4 w-full h-40 object-cover"
+              />
+              <h3 className="text-lg font-semibold mb-2">
+                {car.year_of_manufacture} {car.make} {car.model}
+              </h3>
+              <p className="text-gray-600 mb-4 text-start">
+                ৳ {car.discount_price} TK
+              </p>
+              <Link to={`/car-details/${car.id}`}>
+                <button className="w-full mb-2 border border-ButtonColor hover:bg-ButtonHover p-2 text-ButtonColor hover:text-white font-semibold rounded-lg">
+                  View Car Details
+                </button>
+              </Link>
+            </div>
+          ))
         )}
-      </Tabs>
+      </Carousel>
+
       <div className="text-center mt-6">
         <Link
           to="/new-car"

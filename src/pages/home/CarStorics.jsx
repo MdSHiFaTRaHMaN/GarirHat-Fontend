@@ -1,6 +1,5 @@
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { ArrowRightOutlined } from "@ant-design/icons";
 import CarImage from "../../assets/images/car-d2.jpg";
 import { Link } from "react-router-dom";
 
@@ -85,7 +84,7 @@ const CarStories = () => {
                 href={car.link}
                 className="text-TextColor font-semibold flex items-center space-x-1"
               >
-                <span>Read More</span> <ArrowRightOutlined />
+                <span>Read More &rarr;</span>
               </a>
             </div>
           </div>

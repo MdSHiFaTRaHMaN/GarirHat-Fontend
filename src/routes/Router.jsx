@@ -18,6 +18,9 @@ import PrivacyPolicy from "../pages/setting/PrivacyPolicy";
 import CorporatePolicies from "../pages/setting/CorporatePolicies";
 import Investors from "../pages/setting/Investors";
 import FAQs from "../pages/setting/FAQs";
+import AutoSuggest from "../AutoSuggest";
+import SearchReasult from "../pages/searchreasult/SearchReasult";
+import ProfilePageLayout from "../pages/userprofilepage/ProfilePageLayout";
 
 const Router = createBrowserRouter([
   {
@@ -96,6 +99,18 @@ const Router = createBrowserRouter([
         path: "/faqs",
         element: <FAQs />
       },
+      {
+        path: "/search-result",
+        element: <SearchReasult />
+      },
+      {
+        path: "/check",
+        element: <AutoSuggest />
+      },
+      {
+        path: "/user-profile",
+        element: <ProfilePageLayout />
+      }
     ],
   },
 ]);

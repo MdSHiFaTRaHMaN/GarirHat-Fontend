@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Slider, Checkbox } from "antd";
 import { TbCurrencyTaka } from "react-icons/tb";
+import { useBudgetCarList } from "../../api/api";
 
 const priceRanges = [
   { label: "Under '2 Lakh", count: 30 },
@@ -13,6 +14,9 @@ const priceRanges = [
 
 const BudgetFilter = () => {
   const [budget, setBudget] = useState([0, 50000000]); // Min & Max
+  const {BudgetFilter} = useBudgetCarList();
+
+  console.log("budget", budget)
 
   return (
     <div className="" id="carbrand">

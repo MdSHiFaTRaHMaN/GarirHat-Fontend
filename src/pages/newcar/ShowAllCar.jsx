@@ -8,23 +8,45 @@ import { HeartFilled, HeartOutlined } from "@ant-design/icons";
 import { TbCurrencyTaka } from "react-icons/tb";
 import { useState } from "react";
 import { LuShare2 } from "react-icons/lu";
-import { useAllCarList } from "../../api/api";
+import { API, useAllCarList, useUserProfile } from "../../api/api";
 import LoadingWhile from "../../components/LoadingWhile";
 
 const ShowAllCar = () => {
   const { conditionParams } = useParams();
   const [likedCars, setLikedCars] = useState({});
   const [selectBrand, setSelectBrand] = useState("");
-  const { allCarList, isLoading } = useAllCarList({conditionParams, selectBrand});
+  const { allCarList, isLoading } = useAllCarList({
+    conditionParams,
+    selectBrand,
+  });
+  console.log("conditionParams", conditionParams)
 
-  console.log(selectBrand);
+  const { userProfile } = useUserProfile();
+  const [loading, setLoading] = useState(false);
 
-  const toggleLike = (carId) => {
+  const toggleLike = async (carId) => {
+    const user_id = userProfile.id;
+    const vehicle_id = carId;
+
+    const wishList = { user_id, vehicle_id };
+
+    try {
+      setLoading(true);
+      const response = await API.post("/wishlist", wishList);
+      if (response.status == 200) {
+        // message.success("Wishlist Added Successfully");
+      }
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      message.error("Something went wrong");
+      setLoading(false);
+    }
+
     setLikedCars((prev) => ({
       ...prev,
       [carId]: !prev[carId],
     }));
-    message.success("Added to favorites");
   };
 
   const filterOptions = [
@@ -41,11 +63,15 @@ const ShowAllCar = () => {
     { key: "11", label: "Suzuki" },
   ];
 
-  const handleShare = () => {
+  const handleShare = (id) => {
+    console.log("id", id);
     const url = window.location.href;
     if (navigator.share) {
       navigator
-        .share({ title: document.title, url: url })
+        .share({
+          title: document.title,
+          url: `${window.location.origin}/car-details/${id}`,
+        })
         .then(() => console.log("Shared successfully"))
         .catch((error) => console.error("Error sharing:", error));
     } else {
@@ -56,10 +82,12 @@ const ShowAllCar = () => {
     }
   };
 
-  const handleModelCar = (key) =>{
-    const selectedOption = filterOptions.find(option => option.key === key);
-    setSelectBrand(selectedOption?.label === "All Car" ? "" : selectedOption?.label);  }
-
+  const handleModelCar = (key) => {
+    const selectedOption = filterOptions.find((option) => option.key === key);
+    setSelectBrand(
+      selectedOption?.label === "All Car" ? "" : selectedOption?.label
+    );
+  };
 
   return (
     <div className="px-4 md:px-8 lg:px-10 py-6">
@@ -70,10 +98,11 @@ const ShowAllCar = () => {
         </h1>
         <p className="text-sm text-gray-600 my-2">
           GarirHat brings you the latest new cars in Bangladesh for 2025 with
-          updated prices. There are around 264 new car models available across
-          39 brands. Popular brands like Maruti, Tata, Kia, Toyota, and Hyundai
-          offer budget-friendly and fuel-efficient cars, making them top choices
-          for buyers.
+          updated prices. A wide range of new car models from various brands is
+          available, offering budget-friendly and fuel-efficient options.
+          Whether you're looking for a stylish sedan, a powerful SUV, or an
+          economical compact car, you'll find the perfect match to suit your
+          needs. Stay updated with the best deals and features only on GarirHat!
         </p>
       </div>
       {/* Tabs & Filter Section */}
@@ -167,7 +196,7 @@ const ShowAllCar = () => {
                     {car.upzila}, {car.district}, {car.division}
                   </p>
                   <h3
-                    onClick={handleShare}
+                    onClick={() => handleShare(car.id)}
                     className="flex items-center gap-1 cursor-pointer"
                   >
                     <LuShare2 className="mt-[3px]" /> Share

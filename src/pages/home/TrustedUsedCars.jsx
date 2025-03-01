@@ -1,64 +1,21 @@
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { Tabs } from "antd";
-import Carimage from "../../assets/images/car-d1.jpg";
-import Carimage2 from "../../assets/images/car-d22.jpg";
-import Carimage3 from "../../assets/images/car-d33.jpg";
-import Carimage4 from "../../assets/images/car-d4.jpg";
-import { FaCircleChevronRight } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+import { useBudgetCarList } from "../../api/api";
+import { useState } from "react";
+import ShadowLoading from "../../components/ShadowLoading";
 const { TabPane } = Tabs;
+import UpcomingImage from "../../assets/images/UpcomingImage.jpg";
+import { BiSolidCar } from "react-icons/bi";
 
-const cars = [
-  {
-    name: "Kia Syros",
-    price: "৳ 9 - 17.80 Lakh",
-    priceRange: [9, 17.8],
-    image: Carimage,
-    model: "Hatchback",
-  },
-  {
-    name: "Skoda Kylq",
-    price: "৳ 7.89 - 14.40 Lakh",
-    priceRange: [7.89, 14.4],
-    image: Carimage2,
-    model: "Sedan",
-  },
-  {
-    name: "Mahindra Scorpio N",
-    price: "৳ 13.99 - 24.69 Lakh",
-    priceRange: [13.99, 24.69],
-    image: Carimage3,
-    model: "MUV",
-  },
-  {
-    name: "Toyota Fortuner",
-    price: "৳ 33.78 - 51.94 Lakh",
-    priceRange: [33.78, 51.94],
-    image: Carimage4,
-    model: "Luxury",
-  },
-  {
-    name: "Hyundai i20",
-    price: "৳ 6.99 - 11.88 Lakh",
-    priceRange: [6.99, 11.88],
-    image: Carimage2,
-    model: "Hatchback",
-  },
-  {
-    name: "Maruti Suzuki Ciaz",
-    price: "৳ 8.89 - 12.99 Lakh",
-    priceRange: [8.89, 12.99],
-    image: Carimage,
-    model: "Sedan",
-  },
-  {
-    name: "BMW X5",
-    price: "৳ 80.90 - 97.90 Lakh",
-    priceRange: [80.9, 97.9],
-    image: Carimage4,
-    model: "Luxury",
-  },
+const budgetCategories = [
+  { label: "1 - 10 Lakh", range: null },
+  { label: "10 - 20 Lakh", range: [1000000, 2000000] },
+  { label: "20 - 40 Lakh", range: [2000000, 4000000] },
+  { label: "40 - 60 Lakh", range: [4000000, 6000000] },
+  { label: "60 - 80 Lakh", range: [6000000, 8000000] },
+  { label: "80 - 1 Cors", range: [8000000, 10000000] },
 ];
 
 const responsive = {
@@ -81,48 +38,61 @@ const responsive = {
 };
 
 const TrustedUsedCars = () => {
+  const [startPrice, setStartPrice] = useState(1);
+  const [endPrice, setEndPrice] = useState(1000000);
+  const { budgetCarList, isLoading } = useBudgetCarList(startPrice, endPrice);
+
+  const handleTabChange = (key) => {
+    const selectedCategory = budgetCategories[key - 1];
+    if (selectedCategory.range) {
+      setStartPrice(selectedCategory.range[0]);
+      setEndPrice(selectedCategory.range[1]);
+    } else {
+      setStartPrice(1);
+      setEndPrice(1000000);
+    }
+  };
+
   return (
     <div className="p-5 w-full lg:w-10/12 mx-auto shadow-lg rounded-lg m-7">
       <h2 className="text-2xl font-bold mb-4">Trusted used cars by budget</h2>
-
-      <Tabs defaultActiveKey="1">
-        {[
-          { label: "GarirHat Used Cars", range: null },
-          { label: "1 - 5 Lakh", range: [1, 5] },
-          { label: "5 - 10 Lakh", range: [5, 10] },
-          { label: "10 - 15 Lakh", range: [10, 15] },
-        ].map((category, idx) => (
-          <TabPane tab={category.label} key={idx + 1}>
-            <Carousel responsive={responsive}>
-              {cars
-                .filter((car) => {
-                  if (!category.range) return true; // If no range, show all cars
-                  const [min, max] = category.range;
-                  return car.priceRange[0] >= min && car.priceRange[1] <= max;
-                })
-                .map((car, index) => (
-                  <div
-                    key={index}
-                    className="bg-white rounded-lg shadow-lg p-4 m-2"
-                  >
-                    <img
-                      src={car.image}
-                      alt={car.name}
-                      className="rounded-lg mb-4 w-full h-40 object-cover"
-                    />
-                    <h3 className="text-lg font-semibold mb-2">{car.name}</h3>
-                    <p className="text-gray-600 mb-4 text-start">
-                      {car.price}
-                    </p>
-                    <button className="w-full mb-2 border border-ButtonColor hover:bg-ButtonHover p-2 text-ButtonColor hover:text-white font-semibold rounded-lg">
-                      View Complete Offers
-                    </button>
-                  </div>
-                ))}
-            </Carousel>
+      <Tabs defaultActiveKey="1" onChange={handleTabChange}>
+        {budgetCategories.map((category, idx) => (
+          <TabPane tab={<h3 className="font-semibold">{category.label}</h3>} key={idx + 1}>
+            <p className="font-semibold">
+              Showing cars within: {startPrice} - {endPrice} Lakh
+            </p>
           </TabPane>
         ))}
       </Tabs>
+      <Carousel responsive={responsive}>
+        {isLoading ? (
+          <ShadowLoading />
+        ) : budgetCarList.length === 0 ? (
+          <p className="text-center text-gray-500 font-semibold mt-4 flex items-center gap-3">
+            <BiSolidCar /> Car not available
+          </p>
+        ) : (
+          budgetCarList.map((car, index) => (
+            <div key={index} className="bg-white rounded-lg shadow-lg p-4 m-2 ">
+              <img
+                src={car.thumbnail_image || UpcomingImage}
+                alt={car.make}
+                className="rounded-lg mb-4 w-full h-40 object-cover"
+              />
+              <h3 className="text-lg font-semibold mb-2 h-[45px]">
+                {car.year_of_manufacture} {car.make} {car.model}
+              </h3>
+              <p className="text-gray-600 mb-4 text-start">৳ {car.price} TK</p>
+              <Link to={`/car-details/${car.id}`}>
+                <button className="w-full mb-2 border border-ButtonColor hover:bg-ButtonHover p-2 text-ButtonColor hover:text-white font-semibold rounded-lg">
+                  View Car Details
+                </button>
+              </Link>
+            </div>
+          ))
+        )}
+      </Carousel>
       <div className="text-center mt-6">
         <Link
           to="/new-car"

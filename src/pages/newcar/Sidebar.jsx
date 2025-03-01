@@ -9,7 +9,6 @@ import KilometerFilter from "./KilometerFilter";
 import BodyTypeFilter from "./BodyTypeFilter";
 import TransmissionFilter from "./TransmissionFilter";
 import OwnershipFilter from "./OwnershipFilter";
-import PremiumSellersFilter from "./PremiumSellersFilter";
 import SitesFilter from "./SitesFilter";
 import DiscountFilter from "./DiscountFilter";
 import ColorFilter from "./ColorFilter";
@@ -28,13 +27,12 @@ const Sidebar = () => {
     "9",
     "10",
     "11",
-    "12"
   ]);
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const toggleCollapse = () => {
     if (isCollapsed) {
-      setActiveKeys(["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11","12"]); // Open all
+      setActiveKeys(["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"]); // Open all
     } else {
       setActiveKeys([]); 
     }
@@ -177,21 +175,6 @@ const Sidebar = () => {
         ]}
       />
       <Collapse
-        activeKey={activeKeys}
-        onChange={setActiveKeys}
-        expandIconPosition="end"
-        expandIcon={({ isActive }) => (isActive ? <FaMinus /> : <FaPlus />)}
-        items={[
-          {
-            key: "9",
-            label: (
-              <span className="font-semibold text-[18px]">Premium Sellers</span>
-            ),
-            children: <PremiumSellersFilter />,
-          },
-        ]}
-      />
-      <Collapse
         className="my-3"
         activeKey={activeKeys}
         onChange={setActiveKeys}
@@ -199,7 +182,7 @@ const Sidebar = () => {
         expandIcon={({ isActive }) => (isActive ? <FaMinus /> : <FaPlus />)}
         items={[
           {
-            key: "10",
+            key: "9",
             label: <span className="font-semibold text-[18px]">Seats</span>,
             children: <SitesFilter />,
           },
@@ -212,7 +195,7 @@ const Sidebar = () => {
         expandIcon={({ isActive }) => (isActive ? <FaMinus /> : <FaPlus />)}
         items={[
           {
-            key: "11",
+            key: "10",
             label: <span className="font-semibold text-[18px]">Discount</span>,
             children: <DiscountFilter />,
           },
@@ -226,7 +209,7 @@ const Sidebar = () => {
         expandIcon={({ isActive }) => (isActive ? <FaMinus /> : <FaPlus />)}
         items={[
           {
-            key: "12",
+            key: "11",
             label: <span className="font-semibold text-[18px]">Colors</span>,
             children: <ColorFilter />,
           },

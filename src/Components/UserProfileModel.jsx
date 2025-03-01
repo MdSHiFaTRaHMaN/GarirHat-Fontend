@@ -4,16 +4,16 @@ import {
   PhoneOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { Avatar, Button, Card, Input, Modal, Switch, Spin } from "antd";
+import { Button, Card, Input, Modal, Switch, Spin, Image } from "antd";
 import { useContext, useState } from "react";
 import { AuthContext } from "../authprovider/AuthProvider";
-import AlHasan from "../assets/images/Al-Hasan.jpg";
+import { useUserProfile } from "../api/api";
 
 const UserProfileModel = ({ isVisible, onClose }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { user, loading } = useContext(AuthContext);
   const [editUser, setEditUser] = useState(user);
-
+  const { userProfile } = useUserProfile();
   const handleEdit = () => {
     setEditUser(user); // Ensure we get the latest user data
     setIsModalOpen(true);
@@ -37,22 +37,22 @@ const UserProfileModel = ({ isVisible, onClose }) => {
     <Modal open={isVisible} onCancel={onClose} footer={null} centered>
       <Card className="max-w-md mx-auto mt-10" bordered>
         <div className="flex flex-col items-center text-center space-y-4">
-          <Avatar size={100} src={AlHasan} className="border border-gray-300" />
-          <h2 className="text-2xl font-bold">{user?.displayName || "N/A"}</h2>
+          <Image size={100} src={userProfile?.profile_pic} />
+          <h2 className="text-2xl font-bold">{userProfile?.name || "N/A"}</h2>
           <p className="text-gray-500 flex items-center">
-            <MailOutlined className="mr-2" /> {user?.email || "N/A"}
+            <MailOutlined className="mr-2" /> {userProfile?.email || "N/A"}
           </p>
           <p className="text-gray-500 flex items-center">
-            <PhoneOutlined className="mr-2" /> {user?.phoneNumber || "N/A"}
+            <PhoneOutlined className="mr-2" /> {userProfile?.phone || "N/A"}
           </p>
           <p className="text-gray-500">
             Status:{" "}
             <span
               className={
-                user?.emailVerified ? "text-green-500" : "text-red-500"
+                userProfile?.status ? "text-green-500" : "text-red-500"
               }
             >
-              {user?.emailVerified ? "Active" : "Inactive"}
+              {userProfile?.status ? "Active" : "Inactive"}
             </span>
           </p>
           <Button

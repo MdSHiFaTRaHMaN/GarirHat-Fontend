@@ -1,154 +1,58 @@
 import { Collapse } from "antd";
 import { FaCheck } from "react-icons/fa";
 
-const Features = () => {
+const Features = ({ features = [] }) => {
+  // Extract "Others" category features
+  const othersCategory = features.find(
+    (category) => category.name === "Others"
+  ) || { feature: [] };
+  const otherFeatures = othersCategory.feature || [];
+
   const panelStyle = {
-    border: "none",
+    // border: "none",
     background: "white",
   };
-  const feature = [
-    "Power Steering",
-    "Air Conditioner",
-    "Heater",
-    "Adjustable Steering",
-    "Height Adjustable Driver Seat",
-    "Automatic Climate Control",
-    "Air Quality Control",
-    "Remote Trunk Opener",
-    "Accessory Power Outlet",
-    "Trunk Light",
-    "Vanity Mirror",
-    "Rear Reading Lamp",
-    "Rear Seat Headrest",
-    "Adjustable Headrest",
-    "Rear Seat Centre Arm Rest",
-    "Height Adjustable Front Seat Belts",
-    "Rear AC Vents",
-    "Lumbar Support",
-    "Cruise Control",
-    "Smart Access Card Entry",
-    "KeyLess Entry",
-    "Engine Start/Stop Button",
-    "Voice Commands",
-    "Paddle Shifters",
-    "Central Console Armrest",
-    "Tailgate Ajar Warning",
-    "Hands-Free Tailgate",
-    "Lane Change Indicator",
-    "Automatic Headlamps",
-  ];
 
-  const items = [
-    {
-      key: "1",
-      label: <span className="text-base">Comfort & Convenience</span>,
+  // Filter out "Others" and prepare collapsible items
+  const collapsibleItems = features
+    .filter((category) => category.name !== "Others")
+    .map((category) => ({
+      key: category.id.toString(),
+      label: <span className="text-base">{category.name}</span>,
       children: (
         <div className="grid lg:grid-cols-2 gap-4 text-gray-700">
-          {feature.map((list, index) => (
-            <p key={index} className="flex items-center">
-              <FaCheck className="text-green-500 mr-2" /> {list}
-            </p>
-          ))}
+          {category.feature.length > 0 ? (
+            category.feature.map((item) => (
+              <p key={item.id} className="flex items-center">
+                <FaCheck className="text-green-500 mr-2" /> {item.feature_name}
+              </p>
+            ))
+          ) : (
+            <p className="text-gray-500">No features available</p>
+          )}
         </div>
       ),
-    },
-    {
-      key: "2",
-      label:<span className="text-base">Interior</span>,
-      children: (
-        <div className="grid lg:grid-cols-2 gap-4 text-gray-700">
-          {feature.map((list, index) => (
-            <p key={index} className="flex items-center">
-              <FaCheck className="text-green-500 mr-2" /> {list}
-            </p>
-          ))}
-        </div>
-      ),
-    },
-    {
-      key: "3",
-      label: <span className="text-base">Exterior</span>,
-      children: (
-        <div className="grid lg:grid-cols-2 gap-4 text-gray-700">
-          {feature.map((list, index) => (
-            <p key={index} className="flex items-center">
-              <FaCheck className="text-green-500 mr-2" /> {list}
-            </p>
-          ))}
-        </div>
-      ),
-    },
-    {
-      key: "4",
-      label: <span className="text-base">Safety</span>,
-      children: (
-        <div className="grid lg:grid-cols-2 gap-4 text-gray-700">
-          {feature.map((list, index) => (
-            <p key={index} className="flex items-center">
-              <FaCheck className="text-green-500 mr-2" /> {list}
-            </p>
-          ))}
-        </div>
-      ),
-    },
-    {
-      key: "5",
-      label: <span className="text-base">Entertainment & Communication</span>,
-      children: (
-        <div className="grid lg:grid-cols-2 gap-4 text-gray-700">
-          {feature.map((list, index) => (
-            <p key={index} className="flex items-center">
-              <FaCheck className="text-green-500 mr-2" /> {list}
-            </p>
-          ))}
-        </div>
-      ),
-    },
-  ];
-  const getItems = (panelStyle) => [
-    {
-      key: "1",
-      label: (
-        <p className="text-TextColor mt-2 text-base cursor-pointer">
-          View all Features ➤
-        </p>
-      ),
-      children: (
-        <Collapse
-          items={items}
-          bordered={false}
-          style={{ backgroundColor: "white" }}
-          expandIconPosition="end"
-        />
-      ),
-      style: panelStyle,
-    },
-  ];
+      style: panelStyle, // Apply panel style here
+    }));
+
   return (
     <div className="bg-white p-5 border rounded" id="features">
       <h2 className="text-xl font-semibold mb-4">Features</h2>
+
+      {/* Display "Others" category features */}
       <div className="grid grid-cols-2 gap-4 text-gray-700">
-        <p className="flex items-center">
-          <FaCheck className="text-green-500 mr-2" /> 360 Degree
-          Camera
-        </p>
-        <p className="flex items-center">
-          <FaCheck className="text-green-500 mr-2" /> Memory
-          Function For Seats
-        </p>
-        <p className="flex items-center">
-          <FaCheck className="text-green-500 mr-2" /> Adjustable
-          Headrest
-        </p>
-        <p className="flex items-center">
-          <FaCheck className="text-green-500 mr-2" /> Panoramic
-          Sunroof
-        </p>
+        {otherFeatures.map((item) => (
+          <p key={item.id} className="flex items-center">
+            <FaCheck className="text-green-500 mr-2" /> {item.feature_name}
+          </p>
+        ))}
       </div>
+
+      {/* Collapsible categories with panelStyle applied */}
       <Collapse
         bordered={false}
-        expandIcon={() => null}
-        items={getItems(panelStyle)}
+        expandIconPosition="end"
+        items={collapsibleItems}
       />
     </div>
   );

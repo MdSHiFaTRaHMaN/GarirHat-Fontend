@@ -45,8 +45,7 @@ const categories = [
 const CarReviews = () => {
   const [activeTab, setActiveTab] = useState("ALL");
   const [showAllReviews, setShowAllReviews] = useState(false);
-
-  // প্রথমে ১টি রিভিউ দেখানো হবে, এরপর showAllReviews স্টেট true হলে সব দেখাবে
+  //  show 2 rewiew 
   const visibleReviews = showAllReviews ? reviewsData : reviewsData.slice(0, 2);
 
   return (
@@ -100,7 +99,7 @@ const CarReviews = () => {
               </div>
 
               <div className="flex items-center mt-2">
-                <Rate disabled defaultValue={review.rating} allowHalf />
+                <Rate disabled defaultValue={review.rating} allowHalf className="!text-TextColor" />
                 <span className="text-gray-700 font-semibold ml-2">{review.rating}</span>
               </div>
 

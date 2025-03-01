@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   ShareAltOutlined,
   MessageOutlined,
@@ -48,18 +48,6 @@ const CarDetails = () => {
     );
   };
 
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  const handleScroll = () => {
-    const scrollPosition = window.scrollY;
-    setIsScrolled(scrollPosition > 200);
-  };
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
   const handleCopy = (text) => {
     navigator.clipboard
       .writeText(text)
@@ -191,7 +179,7 @@ const CarDetails = () => {
         {/* Left Side Content */}
         <div className="w-full lg:w-7/12 space-y-6">
           <CarOverview singleVechile={singleVechile} />
-          <Features />
+          <Features features={singleVechile.features}/>
           <Specifications singleVechile={singleVechile} />
           <EMICalculator />
           <CarReviews />

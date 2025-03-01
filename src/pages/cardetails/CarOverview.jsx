@@ -1,5 +1,9 @@
 import { BsCardChecklist, BsFuelPumpDieselFill } from "react-icons/bs";
-import { FaCalendarAlt, FaRegCalendarAlt } from "react-icons/fa";
+import {
+  FaAudioDescription,
+  FaCalendarAlt,
+  FaRegCalendarAlt,
+} from "react-icons/fa";
 import { FaUserLarge } from "react-icons/fa6";
 import { GiCarDoor } from "react-icons/gi";
 import { MdAirlineSeatReclineNormal } from "react-icons/md";
@@ -33,7 +37,7 @@ const CarOverview = ({ singleVechile }) => {
             </span>
           </p>
           <p className="flex items-center gap-2">
-            <GiCarDoor  className="text-TextColor" />
+            <GiCarDoor className="text-TextColor" />
             Doors:{" "}
             <span className="font-semibold">
               {singleVechile.doors || "N/A"}
@@ -61,7 +65,7 @@ const CarOverview = ({ singleVechile }) => {
           </p>
           <p className="flex items-center gap-2">
             <FaCalendarAlt className="text-TextColor" />
-            Year of Manufacture:{" "}
+            Year :{" "}
             <span className="font-semibold">
               {singleVechile.year_of_manufacture}
             </span>
@@ -73,6 +77,12 @@ const CarOverview = ({ singleVechile }) => {
               {singleVechile.transmission || "N/A"}
             </span>
           </p>
+        </div>
+        <div>
+          <h2 className="flex items-center mt-4 gap-2">
+            <FaAudioDescription className="text-TextColor" /> Description :{" "}
+            <p>{singleVechile.description || "N/A"}</p>
+          </h2>
         </div>
       </div>
     </div>

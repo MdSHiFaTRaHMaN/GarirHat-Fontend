@@ -8,6 +8,7 @@ const ModelFilter = () => {
   const { modelandBrand,  isLoading } = useBrandandModel();
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [selectedModels, setSelectedModels] = useState([]);
+  
 
   const [activeKeys, setActiveKeys] = useState([
     "0"
@@ -33,6 +34,8 @@ const ModelFilter = () => {
         : prev.filter((item) => item.model !== model)
     );
   };
+
+  console.log("selectedBrands", selectedBrands)
 
   if(isLoading){
     return <div>Loading..</div>
