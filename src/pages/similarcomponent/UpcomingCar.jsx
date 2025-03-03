@@ -36,6 +36,7 @@ const UpcomingCar = () => {
       tag: null,
     },
   ];
+  // const { upcomingCarList }
   return (
     <Card className="w-full rounded-lg shadow-lg border p-4 my-7">
       {/* Title */}

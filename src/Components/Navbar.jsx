@@ -2,7 +2,7 @@ import { FiSearch } from "react-icons/fi";
 import Logo from "../assets/images/garirhatfinallogo.png";
 import { PiUserCircleDashedBold } from "react-icons/pi";
 import Topmenu from "./Topmenu";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LoginModal from "./LoginModel";
 import { useContext, useState } from "react";
 import { AuthContext } from "../authprovider/AuthProvider";
@@ -12,27 +12,32 @@ import { TbLogout2 } from "react-icons/tb";
 import { useAllBrand, useUserProfile, useWishListVechile } from "../api/api";
 import { HeartOutlined } from "@ant-design/icons";
 import LoadingWhile from "./LoadingWhile";
+import { useQueryClient } from "@tanstack/react-query";
 
-const Navbar = ({refetch}) => {
+const Navbar = () => {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { user, logOut } = useContext(AuthContext);
   const { userProfile } = useUserProfile();
   const { allBrand, isLoading } = useAllBrand();
   const [searchTerm, setSearchTerm] = useState("");
   const [suggestions, setSuggestions] = useState([]);
+  const [selectedOption, setSelectedOption] = useState("");
   const user_id = userProfile.id;
   const { wishListVechile } = useWishListVechile(user_id);
 
-  if (isLoading) {
-    return <LoadingWhile />;
-  }
+  const handleChange = (event) => {
+      setSelectedOption(event.target.value);
+  };
 
+  
   // Handle search input change
   const handleSearchChange = (e) => {
     const value = e.target.value;
     setSearchTerm(value);
 
-    if (value.length > 1) {
+    if (value.length > 0) {
       const filteredSuggestions =
         allBrand?.filter((brand) =>
           brand.brand_name.toLowerCase().includes(value.toLowerCase())
@@ -44,12 +49,12 @@ const Navbar = ({refetch}) => {
   };
 
   // Handle suggestion click
-  const handleSuggestionClick = (suggestion) => {
-    setSearchTerm(suggestion);
+  const handleSuggestionClick = (searchBrand) => {
+    setSearchTerm(searchBrand);
     setSuggestions([]);
-    localStorage.setItem("SearchBrand", suggestion);
-    refetch()
-    // window.location.reload();
+    navigate(`/search-result/${selectedOption}/${searchBrand}`);
+    queryClient.invalidateQueries(["searchCarList", searchBrand, selectedOption]);
+
   };
 
   const items = [
@@ -65,7 +70,7 @@ const Navbar = ({refetch}) => {
       key: "2",
       label: (
         <Link to="/user-profile"
-          className="flex items-center gap-1 font-semibold"
+        className="flex items-center gap-1 font-semibold"
         >
           <FaUser />
           Profile
@@ -85,6 +90,9 @@ const Navbar = ({refetch}) => {
       ),
     },
   ];
+  if (isLoading) {
+    return <LoadingWhile />;
+  }
 
   return (
     <div className="bg-gray-50 sticky top-0 !z-50 shadow-md">
@@ -101,11 +109,15 @@ const Navbar = ({refetch}) => {
           {/* Search Bar */}
           <div className="relative w-1/2">
             <div className="hidden md:flex items-center bg-white shadow-sm rounded-full border px-4 py-2 w-full">
-              <select className="bg-transparent text-gray-600 text-sm outline-none">
+            <select
+                className="bg-transparent text-gray-600 text-sm outline-none"
+                value={selectedOption}
+                onChange={handleChange} // এখানে onchange ইভেন্ট হ্যান্ডলার যুক্ত করা হয়েছে
+            >
                 <option value="all">All</option>
                 <option value="new">New</option>
                 <option value="used">Used</option>
-              </select>
+            </select>
               <span className="w-[1px] h-[20px] bg-gray-300 mx-2"></span>
               <FiSearch className="text-gray-500" size={20} />
               <input
@@ -121,8 +133,8 @@ const Navbar = ({refetch}) => {
             {suggestions.length > 0 && (
               <ul className="absolute bg-white shadow-lg rounded-md w-full mt-1 overflow-hidden z-50">
                 {suggestions.map((brand, index) => (
-                  <Link
-                    to="/search-result"
+                  <a
+                    // to={`/search-result/${selectedOption}/${selectBrand}`}
                     key={index}
                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-3 text-gray-700"
                     onClick={() => handleSuggestionClick(brand.brand_name)}
@@ -135,7 +147,7 @@ const Navbar = ({refetch}) => {
                       />
                     )}
                     <span className="font-medium">{brand.brand_name}</span>
-                  </Link>
+                  </a>
                 ))}
               </ul>
             )}

@@ -7,7 +7,7 @@ import {
   signOut,
 } from "firebase/auth";
 import app from "./firebaseConfig";
-import { API } from "../api/api";
+import { API, useAllCarList } from "../api/api";
 import { message } from "antd";
 
 export const AuthContext = createContext(null);

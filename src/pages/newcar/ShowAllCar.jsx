@@ -10,16 +10,21 @@ import { useState } from "react";
 import { LuShare2 } from "react-icons/lu";
 import { API, useAllCarList, useUserProfile } from "../../api/api";
 import LoadingWhile from "../../components/LoadingWhile";
+import Topmenu from "../../components/Topmenu";
+import { useQueryClient } from "@tanstack/react-query";
 
 const ShowAllCar = () => {
+  const queryClient = useQueryClient();
   const { conditionParams } = useParams();
   const [likedCars, setLikedCars] = useState({});
   const [selectBrand, setSelectBrand] = useState("");
-  const { allCarList, isLoading } = useAllCarList({
+
+  const { allCarList, isLoading, refetch } = useAllCarList({
     conditionParams,
     selectBrand,
   });
-  console.log("conditionParams", conditionParams)
+
+
 
   const { userProfile } = useUserProfile();
   const [loading, setLoading] = useState(false);
@@ -33,8 +38,12 @@ const ShowAllCar = () => {
     try {
       setLoading(true);
       const response = await API.post("/wishlist", wishList);
+      queryClient.invalidateQueries(["wishListVechile", user_id]);
+      if (response.status == 201) {
+        message.success("Wishlist Added Successfully");
+      }
       if (response.status == 200) {
-        // message.success("Wishlist Added Successfully");
+        message.success("Wishlist Remove Successfully");
       }
       setLoading(false);
     } catch (error) {
@@ -114,20 +123,18 @@ const ShowAllCar = () => {
           onChange={handleModelCar}
         />
         <Select
-          defaultValue="Relevance"
-          style={{ width: 185 }}
+          defaultValue="Select Filter by Car"
           className="w-full lg:w-[165px]"
           suffixIcon={
             <FiFilter style={{ color: "#3eb4e7", fontSize: "16px" }} />
           }
           options={[
-            { value: "relevance", label: "Relevance" },
-            { value: "distance", label: "Distance" },
-            { value: "added-time", label: "Added Time" },
             { value: "l-to-h", label: "Price - Low to High" },
             { value: "h to-l", label: "Price - High to Low" },
             { value: "K-l-to-h", label: "Kms - Low to High" },
+            { value: "K-l-to-h", label: "Kms - High to Low" },
             { value: "new-old", label: "Model - Newest to Oldest" },
+            { value: "new-old", label: "Model - Oldest to Newest" },
           ]}
         />
       </div>

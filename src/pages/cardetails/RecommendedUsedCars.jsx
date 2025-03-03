@@ -1,11 +1,16 @@
 import { Card, Collapse } from "antd";
 import { HeartOutlined, EnvironmentOutlined } from "@ant-design/icons";
 import CarImage from "../../assets/images/car-d22.jpg";
-import { FaBangladeshiTakaSign, FaShare } from "react-icons/fa6";
+import { FaBangladeshiTakaSign } from "react-icons/fa6";
 import { FiShare2 } from "react-icons/fi";
+import { useMoreCarinBrand } from "../../api/api";
+import UpcomingImg from "../../assets/images/UpcomingImage.jpg";
+import { Link } from "react-router-dom";
 
-const RecommendedUsedCars = () => {
+const RecommendedUsedCars = ({ brandName }) => {
   // Share url section
+  const { moreCarinBrand } = useMoreCarinBrand(brandName);
+
   const handleShare = () => {
     const url = window.location.href;
 
@@ -50,63 +55,12 @@ const RecommendedUsedCars = () => {
   const items = [
     {
       key: "1",
-      label: <span className="text-xl font-semibold">More BMW Cars</span>,
-      children: (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {cars.map((car) => (
-            <Card
-              key={car.id}
-              hoverable
-              className="rounded-lg shadow-sm border p-2"
-              cover={
-                <div className="relative">
-                  <img
-                    alt={car.name}
-                    src={car.image}
-                    className="rounded-t-lg"
-                  />
-                  <HeartOutlined className="absolute top-1 right-1 text-TextColor text-xl bg-white p-1 rounded-full shadow-md cursor-pointer" />
-                </div>
-              }
-            >
-              <div className="p-2">
-                <h3 className="font-semibold text-lg">{car.name}</h3>
-                <p className="text-gray-500 text-sm">
-                  {car.kms} • {car.fuel} • {car.transmission}
-                </p>
-                <p className="text-lg font-bold flex items-center">
-                  <FaBangladeshiTakaSign />
-                  {car.price}
-                </p>
-                <div className="flex justify-between items-center mt-2">
-                  <a
-                    href="#"
-                    className="text-TextColor font-semibold flex items-center"
-                  >
-                    View Seller Details ➤
-                  </a>
-                </div>
-                <div className="flex items-center justify-between text-gray-500 text-sm mt-2">
-                  <span>
-                    <EnvironmentOutlined className="mr-1" /> {car.location}
-                  </span>
-                  <FiShare2
-                    onClick={handleShare}
-                    className="text-xl text-TextColor"
-                  />
-                </div>
-              </div>
-            </Card>
-          ))}
-        </div>
+      label: (
+        <span className="text-xl font-semibold">More {brandName} Cars</span>
       ),
-    },
-    {
-      key: "2",
-      label: <span className="text-xl font-semibold">More SUV Cars</span>,
       children: (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {cars.map((car) => (
+          {moreCarinBrand?.slice(0, 2).map((car) => (
             <Card
               key={car.id}
               hoverable
@@ -115,7 +69,7 @@ const RecommendedUsedCars = () => {
                 <div className="relative">
                   <img
                     alt={car.name}
-                    src={car.image}
+                    src={car.thumbnail_image || UpcomingImg}
                     className="rounded-t-lg"
                   />
                   <HeartOutlined className="absolute top-1 right-1 text-TextColor text-xl bg-white p-1 rounded-full shadow-md cursor-pointer" />
@@ -123,25 +77,28 @@ const RecommendedUsedCars = () => {
               }
             >
               <div className="p-2">
-                <h3 className="font-semibold text-lg">{car.name}</h3>
+                <h3 className="font-semibold text-lg">
+                  {car.year_of_manufacture} {car.make} {car.model}
+                </h3>
                 <p className="text-gray-500 text-sm">
-                  {car.kms} • {car.fuel} • {car.transmission}
+                  {car.mileage}kms • {car.fuel_type} • {car.transmission}
                 </p>
                 <p className="text-lg font-bold flex items-center">
                   <FaBangladeshiTakaSign />
                   {car.price}
                 </p>
                 <div className="flex justify-between items-center mt-2">
-                  <a
-                    href="#"
+                  <Link
+                    to={`/car-details/${car.id}`}
                     className="text-TextColor font-semibold flex items-center"
                   >
-                    View Seller Details ➤
-                  </a>
+                    View Car Details &rarr;
+                  </Link>
                 </div>
                 <div className="flex items-center justify-between text-gray-500 text-sm mt-2">
                   <span>
-                    <EnvironmentOutlined className="mr-1" /> {car.location}
+                    <EnvironmentOutlined className="mr-1" />
+                    {car.district}, {car.division}
                   </span>
                   <FiShare2
                     onClick={handleShare}
@@ -208,7 +165,7 @@ const RecommendedUsedCars = () => {
       <div className="mt-6 border-t pt-4">
         <Collapse
           expandIconPosition="end"
-          defaultActiveKey={["2"]}
+          defaultActiveKey={["1"]}
           items={items}
           className="border-none bg-white"
         />

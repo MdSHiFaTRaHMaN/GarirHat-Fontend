@@ -1,237 +1,188 @@
+// import { Button, Card, Input, Rate } from "antd";
+// import { FrownOutlined, MehOutlined, SmileOutlined, SearchOutlined } from "@ant-design/icons";
+// import { CiEdit } from "react-icons/ci";
+// import { useState, useEffect } from "react";
+// // import CarImage from "../../assets/images/car-d22.jpg";
+// import { useParams } from "react-router-dom";
+// import { usePartofRating } from "../../api/api";
+
+// const UserReviewForm = () => {
+//   const customIcons = {
+//     1: <FrownOutlined />,
+//     2: <FrownOutlined />,
+//     3: <MehOutlined />,
+//     4: <SmileOutlined />,
+//     5: <SmileOutlined />,
+//   };
+
+//   const [ratings, setRatings] = useState({
+//     Mileage: 0,
+//     "Maintenance Cost": 0,
+//     Safety: 0,
+//     "Features and Styling": 0,
+//     Comfort: 0,
+//     Performance: 0,
+//   });
+
+//   const {brandName, ratingModelID} = useParams();
+//   const [showAdditional, setShowAdditional] = useState(false);
+//   const [reviewText, setReviewText] = useState("");
+//   const [title, setTitle] = useState("");
+//   const [averageRating, setAverageRating] = useState(0); // State for average rating
+//   const { partofRating } = usePartofRating();
+
+//   console.log(partofRating)
+  
+//   // Validation Conditions
+//   const isValidReview = reviewText.trim().split(/\s+/).length >= 1;
+//   const isValidTitle = title.trim().length >= 1;
+//   const isFormValid = isValidReview && isValidTitle;
+
+//   // Check if all 6 categories are rated
+//   const allRated = Object.values(ratings).every((r) => r > 0);
+
+//   // Handle rating change
+//   const handleRateChange = (category, value) => {
+//     setRatings((prev) => {
+//       const updatedRatings = { ...prev, [category]: value };
+
+//       // If initial 3 ratings are completed, show the additional 3
+//       const allInitialRated = Object.values(updatedRatings)
+//         .slice(0, 3)
+//         .every((r) => r > 0);
+
+//       if (allInitialRated) {
+//         setShowAdditional(true);
+//       }
+
+//       return updatedRatings;
+//     });
+//   };
+
+//   // Calculate average rating when ratings change
+//   useEffect(() => {
+//     const ratedValues = Object.values(ratings).filter((r) => r > 0);
+//     if (ratedValues.length > 0) {
+//       const avg = ratedValues.reduce((sum, value) => sum + value, 0) / ratedValues.length;
+//       setAverageRating(avg.toFixed(1)); // Round to 1 decimal place
+//     } else {
+//       setAverageRating(0);
+//     }
+//   }, [ratings]);
+
+//   return (
+//     <div className="flex flex-col items-center p-6 max-w-2xl mx-auto bg-white shadow-lg rounded-lg">
+//       <h2 className="text-2xl font-bold text-center text-gray-800">
+//         Rate & Review {brandName} {ratingModelID}
+//       </h2>
+
+//       {/* Rating Section */}
+//       <Card className="w-full mt-6 p-2 rounded">
+//           <div className="flex items-center space-x-4">
+//             {/* <img src={CarImage} width={120} className="rounded" alt="Car" /> */}
+//             <div>
+//               <p>Rate & Review</p>
+//               <h3 className="font-semibold text-xl text-gray-700">{brandName} {ratingModelID}</h3>
+//             </div>
+//           </div>
+//       </Card>
+
+//       {/* Rating Categories */}
+//       <div className="mt-3 w-full">
+//         <h3 className="text-xl font-semibold text-gray-800">Rate your experience</h3>
+
+//         {/* First 3 Rating Fields */}
+//         {partofRating.map((category) => (
+//           <div
+//             key={category}
+//             className="mt-2 flex flex-col md:flex-row md:items-center md:gap-6 w-full bg-gray-100 p-3 rounded-lg shadow-sm"
+//           >
+//             <span className="font-medium text-gray-700 w-40">{category}</span>
+//             <Rate
+//               value={ratings[category]}
+//               onChange={(value) => handleRateChange(category, value)}
+//               character={({ index = 0 }) => customIcons[index + 1]}
+//               className="text-center text-2xl text-TextColor"
+//             />
+//           </div>
+//         ))}
+
+//         {/* Additional 3 Ratings - Only shown when first 3 are completed */}
+//         {/* {showAdditional &&
+//           additionalCategories.map((category) => (
+//             <div
+//               key={category}
+//               className="mt-2 flex flex-col md:flex-row md:items-center md:gap-6 w-full bg-gray-100 p-3 rounded-lg shadow-sm"
+//             >
+//               <span className="font-medium text-gray-700 w-40">{category}</span>
+//               <Rate
+//                 value={ratings[category]}
+//                 onChange={(value) => handleRateChange(category, value)}
+//                 character={({ index = 0 }) => customIcons[index + 1]}
+//                 className="text-center text-2xl text-TextColor"
+//               />
+//             </div>
+//           ))} */}
+//       </div>
+
+//       {/* Show Overall Rating Section Only If All Ratings Are Given */}
+//       {allRated && (
+//         <div className="w-full mx-auto bg-white">
+//           {/* Your Overall Rating */}
+//           <div className="p-7 bg-gray-100 my-4 rounded text-center shadow-md">
+//             <h2 className="text-2xl font-semibold text-gray-700">Your overall rating:</h2>
+//             <h1 className="text-2xl font-bold text-yellow-600">{averageRating}</h1>
+//           </div>
+
+//           {/* Review Text Area */}
+//           <div className="w-full">
+//             <label className="block text-lg font-semibold text-gray-700">Your Experience</label>
+//             <Input.TextArea
+//               rows={4}
+//               placeholder="Share the details of your experience"
+//               value={reviewText}
+//               onChange={(e) => setReviewText(e.target.value)}
+//               className="border border-gray-300 rounded-lg p-3 w-full focus:ring-2 focus:ring-blue-400 transition-all"
+//             />
+//           </div>
+
+//           {/* Title Input */}
+//           <div className="w-full mt-4">
+//             <label className="block text-lg font-semibold text-gray-700">Review Title</label>
+//             <Input
+//               placeholder="Enter a catchy title for your review"
+//               value={title}
+//               onChange={(e) => setTitle(e.target.value)}
+//               className="border border-gray-300 rounded-lg p-3 w-full focus:ring-2 focus:ring-blue-400 transition-all"
+//             />
+//           </div>
+
+//           {/* Submit Button */}
+//           <div className="mt-6">
+//             <Button
+//               type="primary"
+//               className={`w-full py-5 rounded-lg text-lg font-medium transition-all ${
+//                 isFormValid ? "bg-blue-600 hover:bg-blue-700" : "bg-gray-400 cursor-not-allowed"
+//               }`}
+//               disabled={!isFormValid}
+//             >
+//               Submit Review
+//             </Button>
+//           </div>
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default UserReviewForm;
+
+import React from 'react';
+
 const AutoSuggest = () => {
   return (
     <div>
-      <aside className="flex">
-        <div className="flex flex-col items-center w-16 h-screen py-8 space-y-8 bg-white">
-          <a href="#">
-            <img
-              className="w-auto h-6"
-              src="https://merakiui.com/images/logo.svg"
-              alt=""
-            />
-          </a>
-
-          <a
-            href="#"
-            className="p-1.5 text-gray-500 focus:outline-nones transition-colors duration-200 rounded-lg hover:bg-gray-100"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-            </svg>
-          </a>
-
-          <a
-            href="#"
-            className="p-1.5 text-blue-500 transition-colors duration-200 bg-blue-100 rounded-lg"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
-            </svg>
-          </a>
-
-          <a
-            href="#"
-            className="p-1.5 text-gray-500 focus:outline-nones transition-colors duration-200 rounded-lg hover:bg-gray-100"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path d="M10.5 6a7.5 7.5 0 107.5 7.5h-7.5V6z" />
-              <path d="M13.5 10.5H21A7.5 7.5 0 0013.5 3v7.5z" />
-            </svg>
-          </a>
-
-          <a
-            href="#"
-            className="p-1.5 text-gray-500 focus:outline-nones transition-colors duration-200 rounded-lg hover:bg-gray-100"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
-            </svg>
-          </a>
-
-          <a
-            href="#"
-            className="p-1.5 text-gray-500 focus:outline-nones transition-colors duration-200 rounded-lg hover:bg-gray-100"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" />
-              <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
-          </a>
-        </div>
-
-        <div className="h-screen py-8 overflow-y-auto bg-white border-l border-r sm:w-64 w-60">
-          <h2 className="px-5 text-lg font-medium text-gray-800">
-            Accounts
-          </h2>
-
-          <div className="mt-8 space-y-4">
-            <button className="flex items-center w-full px-5 py-2 transition-colors duration-200 gap-x-2 hover:bg-gray-100 focus:outline-none">
-              <img
-                className="object-cover w-8 h-8 rounded-full"
-                src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=faceare&facepad=3&w=688&h=688&q=100"
-                alt=""
-              />
-
-              <div className="text-left rtl:text-right">
-                <h1 className="text-sm font-medium text-gray-700 capitalize">
-                  Mia John
-                </h1>
-
-                <p className="text-xs text-gray-500 ">
-                  11.2 Followers
-                </p>
-              </div>
-            </button>
-
-            <button className="flex items-center w-full px-5 py-2 transition-colors duration-200  gap-x-2 hover:bg-gray-100 focus:outline-none">
-              <img
-                className="object-cover w-8 h-8 rounded-full"
-                src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&h=880&q=80"
-                alt=""
-              />
-
-              <div className="text-left rtl:text-right">
-                <h1 className="text-sm font-medium text-gray-700 capitalize">
-                  arthur melo
-                </h1>
-
-                <p className="text-xs text-gray-500 ">
-                  1.2 Followers
-                </p>
-              </div>
-            </button>
-
-            <button className="flex items-center w-full px-5 py-2 transition-colors duration-200 bg-gray-100  gap-x-2 focus:outline-none">
-              <div className="relative">
-                <img
-                  className="object-cover w-8 h-8 rounded-full"
-                  src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&h=764&q=100"
-                  alt=""
-                />
-                <span className="h-2 w-2 rounded-full bg-emerald-500 absolute right-0.5 ring-1 ring-white bottom-0"></span>
-              </div>
-
-              <div className="text-left rtl:text-right">
-                <h1 className="text-sm font-medium text-gray-700 capitalize">
-                  Jane Doe
-                </h1>
-
-                <p className="text-xs text-gray-500 ">
-                  15.6 Followers
-                </p>
-              </div>
-            </button>
-
-            <button className="flex items-center w-full px-5 py-2 transition-colors duration-200 gap-x-2 hover:bg-gray-100 focus:outline-none">
-              <img
-                className="object-cover w-8 h-8 rounded-full"
-                src="https://images.unsplash.com/photo-1531590878845-12627191e687?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&h=764&q=80"
-                alt=""
-              />
-
-              <div className="text-left rtl:text-right">
-                <h1 className="text-sm font-medium text-gray-700 capitalize">
-                  Amelia. Anderson
-                </h1>
-
-                <p className="text-xs text-gray-500 ">
-                  32.9 Followers
-                </p>
-              </div>
-            </button>
-
-            <button className="flex items-center w-full px-5 py-2 transition-colors duration-200  gap-x-2 hover:bg-gray-100 focus:outline-none">
-              <img
-                className="object-cover w-8 h-8 rounded-full"
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&h=687&q=80"
-                alt=""
-              />
-
-              <div className="text-left rtl:text-right">
-                <h1 className="text-sm font-medium text-gray-700 capitalize">
-                  Joseph Gonzalez
-                </h1>
-
-                <p className="text-xs text-gray-500 ">
-                  100.2 Followers
-                </p>
-              </div>
-            </button>
-
-            <button className="flex items-center w-full px-5 py-2 transition-colors duration-200 hover:bg-gray-100  gap-x-2 focus:outline-none">
-              <div className="relative">
-                <img
-                  className="object-cover w-8 h-8 rounded-full"
-                  src="https://images.unsplash.com/photo-1488508872907-592763824245?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&h=1470&q=80"
-                  alt=""
-                />
-                <span className="h-2 w-2 rounded-full bg-emerald-500 absolute right-0.5 ring-1 ring-white bottom-0"></span>
-              </div>
-
-              <div className="text-left rtl:text-right">
-                <h1 className="text-sm font-medium text-gray-700 capitalize">
-                  Olivia Wathan
-                </h1>
-
-                <p className="text-xs text-gray-500 ">
-                  8.6 Followers
-                </p>
-              </div>
-            </button>
-
-            <button className="flex items-center w-full px-5 py-2 transition-colors duration-200 hover:bg-gray-100  gap-x-2 focus:outline-none">
-              <div className="relative">
-                <img
-                  className="object-cover w-8 h-8 rounded-full"
-                  src="https://images.unsplash.com/photo-1608174386344-80898cec6beb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&h=687&q=80"
-                  alt=""
-                />
-                <span className="h-2 w-2 rounded-full bg-emerald-500 absolute right-0.5 ring-1 ring-white bottom-0"></span>
-              </div>
-
-              <div className="text-left rtl:text-right">
-                <h1 className="text-sm font-medium text-gray-700 capitalize">
-                  Junior REIS
-                </h1>
-
-                <p className="text-xs text-gray-500 ">
-                  56.6 Followers
-                </p>
-              </div>
-            </button>
-          </div>
-        </div>
-      </aside>
+      
     </div>
   );
 };

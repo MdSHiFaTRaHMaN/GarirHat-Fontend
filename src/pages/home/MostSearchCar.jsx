@@ -2,7 +2,7 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { Tabs } from "antd";
 import { Link } from "react-router-dom";
-import { useAllCarList } from "../../api/api";
+import { useMostSearchCar } from "../../api/api";
 import { useState } from "react";
 import ComingImaage from "../../assets/images/UpcomingImage.jpg";
 import ShadowLoading from "../../components/ShadowLoading";
@@ -28,7 +28,7 @@ const responsive = {
 
 const MostSearchCar = () => {
   const [selectBrand, setSelectBrand] = useState("");
-  const { allCarList, isLoading } = useAllCarList({
+  const { mostSearchCar, isLoading } = useMostSearchCar({
     selectBrand,
   });
 
@@ -68,12 +68,12 @@ const MostSearchCar = () => {
       <Carousel responsive={responsive}>
         {isLoading ? (
           <ShadowLoading />
-        ) : allCarList.length === 0 ? (
+        ) : mostSearchCar.length === 0 ? (
           <p className="text-center text-gray-500 font-semibold mt-4">
             🚗 Car not available
           </p>
         ) : (
-          allCarList.map((car, index) => (
+          mostSearchCar.map((car, index) => (
             <div key={index} className="bg-white rounded-lg shadow-lg p-4 m-2 ">
               <img
                 src={car.thumbnail_image || ComingImaage}

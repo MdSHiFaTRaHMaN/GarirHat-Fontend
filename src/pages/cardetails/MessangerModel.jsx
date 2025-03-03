@@ -23,13 +23,13 @@ const MessengerModal = ({ isMessangerModel, onClose }) => {
     const newMessage = { id: messages.length + 1, text: input, sender: "me" };
     setMessages([...messages, newMessage]);
     setInput("");
-// Nice! Let's catch up soon
+
     // Simulate reply
     setIsTyping(true);
     setTimeout(() => {
       setMessages((prev) => [
         ...prev,
-        { id: prev.length + 1, text: "Thank you for your message. Your message will be answered shortly.", sender: "other" },
+        { id: prev.length + 1, text: "Thank you for your message. We'll reply shortly.", sender: "other" },
       ]);
       setIsTyping(false);
     }, 1500);
@@ -39,63 +39,57 @@ const MessengerModal = ({ isMessangerModel, onClose }) => {
     <Modal
       open={isMessangerModel}
       onCancel={onClose}
-      style={{padding: "0px"}}
       footer={null}
       centered
-      width={400} // Fixed size for a better look
-      className="!p-0 !rounded-lg" // Remove extra padding
-      
+      width={400}
+      className="!p-0 !rounded-lg"
     >
       {/* Chat Container */}
-      <div style={{padding: "0px"}} className="w-full dark:bg-gray-900 shadow-lg rounded-lg overflow-hidden">
+      <div className="w-full overflow-hidden bg-white">
         
         {/* Header */}
-        <div className="flex items-center bg-blue-600 text-white p-3 relative">
-          <FaUserCircle className="text-3xl mr-2" />
+        <div className="flex items-center bg-white text-black p-3 border-b border-gray-300">
+          <FaUserCircle className="text-3xl text-gray-700 mr-2" />
           <div>
             <h3 className="font-semibold">Shakib Al Hasan</h3>
-            <p className="text-sm text-green-300">Active now</p>
+            <p className="text-sm text-green-500">Active now</p>
           </div>
-          {/* Close Button */}
-          {/* <button
-            onClick={onClose}
-            className="absolute right-3 text-black bg-red-500 px-2 py-1 rounded text-sm"
-          >
-            Close
-          </button> */}
         </div>
 
         {/* Chat Body */}
-        <div className="p-4 h-96 overflow-y-auto flex flex-col">
+        <div className="p-4 h-96 overflow-y-auto flex flex-col bg-white scrollbar-hide">
           {messages.map((msg) => (
             <div
               key={msg.id}
-              className={`max-w-[75%] p-3 rounded-lg transition-all duration-300 ${
+              className={`max-w-[75%] p-3 rounded-lg shadow-md ${
                 msg.sender === "me"
                   ? "bg-blue-500 text-white ml-auto"
-                  : "bg-gray-300 text-gray-900"
+                  : "bg-gray-200 text-gray-900"
               } mb-2`}
             >
               {msg.text}
             </div>
           ))}
-          {isTyping && <p className="text-gray-500 text-sm">Vendor is typing...</p>}
+
+          {isTyping && (
+            <p className="text-gray-500 text-sm italic">Vendor is typing...</p>
+          )}
           <div ref={chatRef}></div>
         </div>
 
         {/* Chat Input */}
-        <div className="flex items-center p-3 bg-white dark:bg-gray-800">
+        <div className="flex items-center p-3 bg-white border-t border-gray-300">
           <input
             type="text"
             placeholder="Type a message..."
-            className="flex-1 border rounded p-2 focus:outline-none"
+            className="flex-1 border bg-gray-50 rounded p-2 focus:outline-none"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={(e) => e.key === "Enter" && sendMessage()}
           />
           <button
             onClick={sendMessage}
-            className="ml-2 bg-blue-600 text-white p-2 rounded-full"
+            className="ml-2 bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700 transition-all"
           >
             <IoSend />
           </button>

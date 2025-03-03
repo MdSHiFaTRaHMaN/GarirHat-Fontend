@@ -97,3 +97,10 @@ body{
 .react-multiple-carousel__arrow{
   z-index: 10 !important;
 }
+/* styles/globals.css file e add koro */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  scrollbar-width: none; /* Firefox */
+}

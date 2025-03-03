@@ -9,13 +9,14 @@ import { GrLocation } from "react-icons/gr";
 import { Link } from "react-router-dom";
 import { FaSortDown } from "react-icons/fa";
 import LocationModel from "./LocationModel";
+import { useQueryClient } from "@tanstack/react-query";
 
 const Topmenu = () => {
+  const queryClient = useQueryClient();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   // Retrieve from localStorage
   const storedLocation = localStorage.getItem("selectedLocation");
-  
   const newsreview = (
     <Menu
       className="space-y-1.5"
@@ -103,6 +104,7 @@ const Topmenu = () => {
             <Link
               onClick={() => {
                 window.scrollTo({ top: 0, behavior: "smooth" });
+                queryClient.invalidateQueries(["allCarList"]);
               }}
               to="/used"
             >
@@ -117,8 +119,9 @@ const Topmenu = () => {
             <Link
               onClick={() => {
                 window.scrollTo({ top: 0, behavior: "smooth" });
+                queryClient.invalidateQueries(["allCarList"]);
               }}
-              to="/recondition-car"
+              to="/recondition"
             >
               Recondition Car
             </Link>
@@ -131,8 +134,9 @@ const Topmenu = () => {
             <Link
               onClick={() => {
                 window.scrollTo({ top: 0, behavior: "smooth" });
+                queryClient.invalidateQueries(["allCarList"]);
               }}
-              to="/pre-owned-car"
+              to="/Pre-own"
             >
               Pre-Owned Cars
             </Link>

@@ -1,12 +1,12 @@
 import FavoriteCar from "./FavoriteCar";
 import ReviewBannar from "./ReviewBannar";
-import ReviewPage from "./ReviewPage";
+import ShowReviewCar from "./ShowReviewCar";
 
 const CarReviewPage = () => {
     return (
         <div>
             <ReviewBannar />
-            <ReviewPage />
+            <ShowReviewCar />
             <FavoriteCar />
         </div>
     );

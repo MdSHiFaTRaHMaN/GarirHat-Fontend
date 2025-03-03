@@ -21,10 +21,10 @@ import Specifications from "./Specifications";
 import { TbCurrencyTaka } from "react-icons/tb";
 import ReportAdModel from "./ReportAdModel";
 import SafetyNotice from "./SafetyNotice";
-import MessangerModel from "../../components/MessangerModel";
 import InterestedModel from "./InterestedModel";
 import { useSingleVechile } from "../../api/api";
 import LoadingWhile from "../../components/LoadingWhile";
+import MessengerModal from "./MessangerModel";
 
 const CarDetails = () => {
   const { vehicleID } = useParams();
@@ -179,15 +179,18 @@ const CarDetails = () => {
         {/* Left Side Content */}
         <div className="w-full lg:w-7/12 space-y-6">
           <CarOverview singleVechile={singleVechile} />
-          <Features features={singleVechile.features}/>
+          <Features features={singleVechile.features} />
           <Specifications singleVechile={singleVechile} />
           <EMICalculator />
-          <CarReviews />
+          <CarReviews
+            ratings={singleVechile.ratings}
+            avaregeRating={singleVechile.model_average_rating}
+          />
         </div>
 
         {/* Right Side Content */}
         <div className="w-full lg:w-5/12 space-y-6">
-          <RecommendedUsedCars />
+          <RecommendedUsedCars brandName={singleVechile.make}/>
           <ResearchLinks />
           <SafetyNotice />
         </div>
@@ -203,7 +206,7 @@ const CarDetails = () => {
         isVisible={isReportModal}
         onClose={() => setIsReportModal(false)}
       />
-      <MessangerModel
+      <MessengerModal
         isMessangerModel={isMessangerModel}
         onClose={() => setIsMessangerModel(false)}
       />

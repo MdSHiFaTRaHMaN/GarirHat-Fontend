@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import BannarImg from "../../assets/images/car-new-bannar.png";
+import { Link, useNavigate } from "react-router-dom";
+import BannarImg from "../../assets/images/devbannar.png";
 import { useState } from "react";
 import { Select } from "antd";
 import { useAllBrand, useModelByBrand } from "../../api/api";
@@ -12,18 +12,36 @@ const Header = () => {
   const { allBrand } = useAllBrand();
   const [brandID, setBrandID] = useState();
   const { modelByBrand } = useModelByBrand(brandID);
+  const [selectBrand, setSelectBrand] = useState('');
+  const [selectModel, setSelectModel] = useState('');
+  const navigate = useNavigate();
+
 
   const handleSearch = () => {
-    console.log({ carType, searchBy, budget, vehicleType });
-    alert(`Searching for ${carType} cars by ${searchBy}`);
-  };
 
+    let startPrice = "";
+    let endPrice = "";
+  
+    if (budget) {
+      const priceRange = budget.split("-");
+      startPrice = priceRange[0];
+      endPrice = priceRange[1];
+    }
+
+
+
+    navigate(`/search?vehicle_condition=${carType}&make=${selectBrand}&model=${selectModel}&start_price=${startPrice}&end_price=${endPrice}&body_type=${vehicleType}`);
+  };
   const onSearch = (value) => {
     console.log("search:", value);
   };
-  const handleSelectBrand = (value) => {
+  const handleSelectBrand = (value, label) => {
     setBrandID(value);
+    setSelectBrand(label.label)
   };
+  const handleselectModel = (value) => {
+    setSelectModel(value);
+  }
 
   return (
     <div
@@ -91,14 +109,13 @@ const Header = () => {
                     onChange={(e) => setBudget(e.target.value)}
                   >
                     <option value="">Select Budget</option>
-                    <option value="1-5">5L - 10L</option>
-                    <option value="5L-10L">10L - 20L</option>
-                    <option value="10L-20L">20L - 30L</option>
-                    <option value="20L-30L">30L - 40L</option>
-                    <option value="30-40L">40L - 50L</option>
-                    <option value="40L-50L">50L - 60L</option>
-                    <option value="50L-1C">60 - 1Cr</option>
-                    <option value="1C">Above 1Cr</option>
+                    <option value="1-1000000">1L - 10L</option>
+                    <option value="1000000-2000000">10L - 20L</option>
+                    <option value="2000000-4000000">20L - 40L</option>
+                    <option value="4000000-6000000">40L - 60L</option>
+                    <option value="6000000-8000000">60L - 80L</option>
+                    <option value="8000000-10000000">80L - 1Cr</option>
+                    <option value="10000000-20000000">1 - 2Cr</option>
                   </select>
                 </div>
 
@@ -109,16 +126,12 @@ const Header = () => {
                     onChange={(e) => setVehicleType(e.target.value)}
                   >
                     <option value="">All Vehicle Types</option>
-                    <option value="suv">SUV</option>
-                    <option value="sedan">Sedan</option>
-                    <option value="hatchback">Hatchback</option>
-                    <option value="convertible">Convertible</option>
-                    <option value="coupe">Coupe</option>
-                    <option value="wagon">Wagon</option>
-                    <option value="pickup">Pickup Truck</option>
-                    <option value="minivan">Minivan</option>
-                    <option value="luxury">Luxury</option>
-                    <option value="sports">Sports Car</option>
+                    <option value="SUV">SUV</option>
+                    <option value="Sedan">Sedan</option>
+                    <option value="Hatchback">Hatchback</option>
+                    <option value="MUV">MUV</option>
+                    <option value="minivan">Petrol-LPG</option>
+                    <option value="Pickup">Pickup</option>
                   </select>
                 </div>
               </div>
@@ -154,10 +167,11 @@ const Header = () => {
                     }
                     optionFilterProp="label"
                     options={modelByBrand?.data?.model?.map((model) => ({
-                      value: model.id,
+                      value: model.model_name,
                       label: model.model_name,
                     }))}
                     disabled={!brandID}
+                    onChange={handleselectModel}
                   />
                 </div>
               </div>
@@ -171,7 +185,7 @@ const Header = () => {
             </button>
 
             <Link
-              to="/new-car"
+              to="/advanced-search"
               className="block mt-4 text-center text-gray-600 underline"
             >
               Advanced Search

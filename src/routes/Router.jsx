@@ -6,7 +6,6 @@ import CarDetails from "../pages/cardetails/CarDetails";
 import NewsAndStories from "../pages/newsandstory/NewsAndStories";
 import ExpertReviews from "../pages/carexpertreview/ExpertReviews";
 import CarReviewPage from "../pages/carreview/CarReviewPage";
-import UserReviewFrom from "../pages/UserReviewFrom";
 import CarCollection from "../pages/carcollection/CarCollection";
 import CarVideosPage from "../pages/carvideopage/CarVideosPage";
 import TipsandAdvice from "../pages/tipsandadvice/TipsandAdvice";
@@ -21,15 +20,27 @@ import FAQs from "../pages/setting/FAQs";
 import AutoSuggest from "../AutoSuggest";
 import SearchReasult from "../pages/searchreasult/SearchReasult";
 import ProfilePageLayout from "../pages/userprofilepage/ProfilePageLayout";
+import ResultReviewPage from "../pages/carreview/ResultReviewPage";
+import UserReviewForm from "../pages/carreview/UserReviewFrom";
+import ErrorPage from "../components/ErrorPage";
 
 const Router = createBrowserRouter([
   {
     path: "/",
     element: <Main></Main>,
+    // errorElement: <ErrorPage />,
     children: [
       {
         path: "/",
         element: <Home></Home>,
+      },
+      {
+        path: "/advanced-search",
+        element: <NewCarPage />
+      },
+      {
+        path: "/:conditionParams",
+        element: <NewCarPage />
       },
       {
         path: "/:conditionParams",
@@ -52,8 +63,8 @@ const Router = createBrowserRouter([
         element: <CarReviewPage />
       },
       {
-        path: "/user-review",
-        element: <UserReviewFrom />
+        path: "/user-review/:brandName/:ratingModelID",
+        element: <UserReviewForm />
       },
       {
         path: "/car-collection",
@@ -100,7 +111,11 @@ const Router = createBrowserRouter([
         element: <FAQs />
       },
       {
-        path: "/search-result",
+        path: "/search",
+        element: <SearchReasult />
+      },
+      {
+        path: "/search-result/:selectedOption/:selectBrand",
         element: <SearchReasult />
       },
       {
@@ -110,7 +125,16 @@ const Router = createBrowserRouter([
       {
         path: "/user-profile",
         element: <ProfilePageLayout />
+      },
+      {
+        path: "/search-review/:selectModel",
+        element : <ResultReviewPage />
+      },
+      {
+        path: "*",
+        element: <ErrorPage />
       }
+
     ],
   },
 ]);

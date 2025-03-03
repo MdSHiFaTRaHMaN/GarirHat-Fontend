@@ -1,6 +1,5 @@
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import Brand from "../../assets/images/toyato.png";
 import { Link } from "react-router-dom";
 import { useAllBrand } from "../../api/api";
 import LoadingWhile from "../../components/LoadingWhile";
@@ -40,7 +39,7 @@ const PopularBrands = () => {
               className="flex flex-col items-center justify-center p-4 bg-gray-50 shadow-md rounded m-2"
             >
               <img
-                src={brand.image || Brand}
+                src={brand.image}
                 alt={brand.brand_name}
                 className="w-16 h-16 object-contain mb-2"
               />
