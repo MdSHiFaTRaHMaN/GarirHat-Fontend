@@ -7,7 +7,7 @@ import {
   signOut,
 } from "firebase/auth";
 import app from "./firebaseConfig";
-import { API, useAllCarList } from "../api/api";
+import { API, signOutUser, useAllCarList } from "../api/api";
 import { message } from "antd";
 
 export const AuthContext = createContext(null);
@@ -44,6 +44,7 @@ const AuthProvider = ({ children }) => {
   };
   const logOut = () => {
     setLoading(true);
+    signOutUser();
     return signOut(auth);
   };
   useEffect(() => {

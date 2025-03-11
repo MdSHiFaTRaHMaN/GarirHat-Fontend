@@ -5,8 +5,12 @@ import {
   ExclamationCircleOutlined,
   LeftOutlined,
   RightOutlined,
+  HeartOutlined,
+  HeartFilled,
+  LoadingOutlined,
 } from "@ant-design/icons";
 import { Button, Carousel, Divider, message } from "antd";
+import UpcomingImg from "../../assets/images/UpcomingImage.jpg";
 import { FaMapMarkerAlt, FaBolt, FaOrcid } from "react-icons/fa";
 import CarOverview from "./CarOverview";
 import RecommendedUsedCars from "./RecommendedUsedCars";
@@ -22,17 +26,22 @@ import { TbCurrencyTaka } from "react-icons/tb";
 import ReportAdModel from "./ReportAdModel";
 import SafetyNotice from "./SafetyNotice";
 import InterestedModel from "./InterestedModel";
-import { useSingleVechile } from "../../api/api";
+import { API, useSingleVechile, useUserProfile } from "../../api/api";
 import LoadingWhile from "../../components/LoadingWhile";
 import MessengerModal from "./MessangerModel";
+import { useQueryClient } from "@tanstack/react-query";
 
 const CarDetails = () => {
   const { vehicleID } = useParams();
+  const queryClient = useQueryClient();
   const { singleVechile, isLoading } = useSingleVechile(vehicleID);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMessangerModel, setIsMessangerModel] = useState(false);
   const [isReportModal, setIsReportModal] = useState(false);
   const [interestedModel, setInterestedModel] = useState(false);
+  const [likedCars, setLikedCars] = useState(false);
+  const { userProfile } = useUserProfile();
+  const [loading, setLoading] = useState(false);
 
   const CustomArrow = ({ type, onClick }) => {
     const isPrev = type === "prev";
@@ -48,20 +57,68 @@ const CarDetails = () => {
     );
   };
 
+  const toggleLike = async (carId) => {
+    const user_id = userProfile.id;
+    const vehicle_id = carId;
+
+    const wishList = { user_id, vehicle_id };
+
+    try {
+      setLoading(true);
+      const response = await API.post("/wishlist", wishList);
+      queryClient.invalidateQueries(["wishListVechile", user_id]);
+      if (response.status == 201) {
+        message.success("Wishlist Added Successfully");
+      }
+      if (response.status == 200) {
+        message.success("Wishlist Remove Successfully");
+      }
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      message.error("Something went wrong");
+      setLoading(false);
+    }
+
+    setLikedCars((prev) => ({
+      ...prev,
+      [carId]: !prev[carId],
+    }));
+  };
+
   const handleCopy = (text) => {
     navigator.clipboard
       .writeText(text)
       .then(() => message.success("Copied to clipboard!"))
       .catch(() => message.error("Failed to copy"));
   };
+
+  const handleShare = (id) => {
+    console.log("id", id);
+    const url = window.location.href;
+    if (navigator.share) {
+      navigator
+        .share({
+          title: document.title,
+          url: `${window.location.origin}/car-details/${id}`,
+        })
+        .then(() => console.log("Shared successfully"))
+        .catch((error) => console.error("Error sharing:", error));
+    } else {
+      navigator.clipboard
+        .writeText(url)
+        .then(() => alert("Link copied to clipboard!"))
+        .catch((err) => console.error("Failed to copy:", err));
+    }
+  };
+
   if (isLoading) {
     return <LoadingWhile />;
   }
 
   return (
     <div className="bg-white">
-      {/* {singleVechile.map((singleCar) => ( */}
-      <div className=" w-full lg:w-11/12 mx-auto overflow-hidden flex gap-8 flex-col lg:flex-row p-2 lg:p-6">
+      <div className=" w-full lg:w-11/12 mx-auto overflow-hidden flex gap-2.5 flex-col lg:flex-row p-2 lg:p-6">
         {/* Left Image Section */}
         <div className="lg:w-3/5">
           <Carousel
@@ -70,12 +127,12 @@ const CarDetails = () => {
             nextArrow={<CustomArrow type="next" />}
             infinite={false}
             autoplay={false}
-            className="h-96"
+            className="h-96 w-[96%]"
           >
             {singleVechile.images.map((src, index) => (
               <div key={index} className="relative">
                 <img
-                  src={src}
+                  src={src || UpcomingImg}
                   alt={`Car Image ${index + 1}`}
                   className="w-full h-[400px] object-cover rounded-lg"
                 />
@@ -91,28 +148,45 @@ const CarDetails = () => {
           </Carousel>
         </div>
         {/* Right Content Section */}
-        <div className="w-full md:w-2/3 lg:w-2/5 p-6 flex flex-col justify-between bg-white border rounded transition-transform scale-y-105">
+        <div className="w-full md:w-2/3 lg:w-2/5 mt-2.5 p-6 flex flex-col justify-between bg-white rounded shadow-md transition-transform scale-y-105">
           {/* Car Info */}
+          <div className="flex justify-end gap-3 items-center">
+            <button className="bg-green-200 px-1 py-0.5 rounded text-sm ">
+              Certified
+            </button>
+            <div
+              onClick={() => toggleLike(singleVechile.id)}
+              className="cursor-pointer"
+            >
+              {loading ? (
+                <div className="text-xl bg-white p-1 rounded-full animate-spin">
+                  <LoadingOutlined />
+                </div>
+              ) : likedCars[singleVechile.id] ? (
+                <HeartFilled className="text-TextColor text-xl bg-white p-1 rounded-full" />
+              ) : (
+                <HeartOutlined className="text-TextColor text-xl bg-white p-1 rounded-full" />
+              )}
+            </div>
+          </div>
           <div>
-            <h2 className="text-xl md:text-2xl font-semibold">
+            <h2 className="text-xl md:text-2xl">
               {singleVechile.year_of_manufacture} {singleVechile.make}{" "}
               {singleVechile.model}
             </h2>
-            <p className="text-gray-500 text-sm md:text-base">
+            <p className="text-gray-600 text-sm">
               {singleVechile.mileage || "N/A"} kms •{" "}
               {singleVechile.fuel_type || "N/A"} •{" "}
               {singleVechile.transmission || "N/A"} •{" "}
-              {singleVechile.vehicle_condition || "N/A"}
+              {singleVechile.vehicle_condition || "N/A"} •{" "}
+              Loan Available 
             </p>
-            <h3 className="text-2xl md:text-3xl font-semibold mt-2 flex items-center">
+            <h3 className="text-xl md:text-2xl font-semibold mt-2 flex items-center">
               <TbCurrencyTaka className="mr-1" />
-              {singleVechile.discount_price || "80 Lakh"}
+              {singleVechile.price || "N/A"} TK
             </h3>
-            {/* <p className="text-gray-600 text-sm md:text-base mt-2">
-              EMI starts @ ৳2,23,382/mo • New Car Price ৳1.06 Crore
-            </p> */}
             <Divider dashed />
-            <div className="flex items-center mt-2 text-gray-600">
+            <div className="flex items-center mt-2 text-sm text-gray-700">
               <FaMapMarkerAlt className="mr-2" />
               {singleVechile.upzila},{singleVechile.district},{" "}
               {singleVechile.division}
@@ -122,30 +196,32 @@ const CarDetails = () => {
           {/* Button & Trending Section */}
           <div className="mt-4">
             <div className="flex w-full gap-2">
-              <Link to="/vendor-info" className="w-full">
+              <Link
+                to={`/vendor-info/${singleVechile.vendor_id}`}
+                className="w-full"
+              >
                 <Button
                   type="primary"
-                  className="w-full bg-ButtonColor hover:bg-ButtonHover text-white font-semibold py-5 text-lg"
+                  className="w-full bg-ButtonColor hover:bg-ButtonHover text-white font-semibold py-5 text-base"
                 >
                   View Seller Details
                 </Button>
               </Link>
               <Button
                 onClick={() => setInterestedModel(true)}
-                type="primary"
-                className="w-full font-semibold py-5 text-lg"
+                className="w-full font-semibold py-5 text-base bg-gray-50"
               >
-                Interested
+                Make Offer
               </Button>
             </div>
             <p className="text-gray-600 flex items-center mt-3 text-sm md:text-base">
-              <FaBolt className="text-yellow-500 mr-2 text-lg" /> Trending Car!
+              <FaBolt className="text-yellow-500 mr-2 text-sm" /> Trending Car!
               High chances of sale in next 6 days
             </p>
           </div>
 
           {/* Actions Section */}
-          <div className="flex flex-wrap justify-between text-gray-500 text-sm mt-4">
+          <div className="flex flex-wrap justify-between text-gray-500 text-sm mt-6 py-1">
             <span
               title="Copy"
               className="flex items-center cursor-pointer hover:text-red-500 transition"
@@ -168,7 +244,10 @@ const CarDetails = () => {
               <MessageOutlined className="mr-1 text-TextColor" /> Chat with
               Seller
             </span>
-            <span className="flex items-center cursor-pointer hover:text-green-500 transition">
+            <span
+              onClick={() => handleShare(singleVechile.id)}
+              className="flex items-center cursor-pointer hover:text-green-500 transition"
+            >
               <ShareAltOutlined className="mr-1 text-TextColor" /> Share
             </span>
           </div>
@@ -190,7 +269,7 @@ const CarDetails = () => {
 
         {/* Right Side Content */}
         <div className="w-full lg:w-5/12 space-y-6">
-          <RecommendedUsedCars brandName={singleVechile.make}/>
+          <RecommendedUsedCars brandName={singleVechile.make} />
           <ResearchLinks />
           <SafetyNotice />
         </div>

@@ -25,7 +25,7 @@ const FavoriteCar = () => {
     setSelectModel(value);
   };
   return (
-    <div className="p-6 w-full max-w-7xl mx-auto flex flex-col lg:flex-row gap-6 border shadow-lg rounded-lg my-3">
+    <div className="p-6 w-full lg:w-10/12 mx-auto flex flex-col lg:flex-row gap-6 border rounded-lg my-3">
       {/* Left Section */}
       <div className="w-full lg:w-8/12">
         <h2 className="text-2xl font-bold mb-4">

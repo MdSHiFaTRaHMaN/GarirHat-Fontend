@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import qs from "qs";
 export const API = axios.create({
   baseURL: "https://api.garirhat.com/api/v1",
 });
@@ -52,6 +53,32 @@ export const useAlFeature = () => {
   });
 
   return { alFeature, isLoading, isError, error, refetch };
+};
+
+// singleVendor
+export const useSingleVendor = (vendorId) => {
+  const getSingleVendor = async () => {
+    const response = await API.get(`/vendor/${vendorId}`);
+    return response.data.data;
+  };
+
+  const {
+    data: singleVendor = [],
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ["singleVendor", vendorId],
+    queryFn: getSingleVendor,
+  });
+
+  return { singleVendor, isLoading, isError, error, refetch };
+};
+
+// logout 
+export const signOutUser = () => {
+  localStorage.removeItem("token");
 };
 
 //  User Profile
@@ -423,20 +450,135 @@ export const useModelWithBrand = () => {
 
   return { modelWithBrand, isLoading, isError, error, refetch };
 };
+// about us page 
+export const useAboutUs = () => {
+  const getAboutUs = async () => {
+    const response = await API.get("/settings/about-us");
+    return response.data.data;
+  };
+
+  const {
+    data: aboutUs = [],
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ["aboutUs"],
+    queryFn: getAboutUs,
+  });
+
+  return { aboutUs, isLoading, isError, error, refetch };
+};
+// terms and condition page 
+export const useTermandConditions = () => {
+  const getTermandConditions = async () => {
+    const response = await API.get("/settings/term-condition");
+    return response.data.data;
+  };
+
+  const {
+    data: termandConditions = [],
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ["termandConditions"],
+    queryFn: getTermandConditions,
+  });
+
+  return { termandConditions, isLoading, isError, error, refetch };
+};
+// privacy policy page 
+export const usePrivacyAndPolicy = () => {
+  const getPrivacyAndPolicy = async () => {
+    const response = await API.get("/settings/privacy-policy");
+    return response.data.data;
+  };
+
+  const {
+    data: PrivacyAndPolicy = [],
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ["PrivacyAndPolicy"],
+    queryFn: getPrivacyAndPolicy,
+  });
+
+  return { PrivacyAndPolicy, isLoading, isError, error, refetch };
+};
+// my reviews us page 
+export const useMyReviews = () => {
+  const getMyReviews = async () => {
+    const response = await API.get("/rating/my");
+    return response.data.data;
+  };
+
+  const {
+    data: myReviews = [],
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ["myReviews"],
+    queryFn: getMyReviews,
+  });
+
+  return { myReviews, isLoading, isError, error, refetch };
+};
 
 export const useAllVehicles = ({
-  make = "",
-  model = "",
+  make = [],
+  model = [],
   vehicle_condition = "",
   start_price = "",
   end_price = "",
-  body_type = ""
+  body_type = "",
+  start_year_of_manufacture = "",
+  end_year_of_manufacture = "",
+  start_mileage = "",
+  end_mileage = "",
+  fuel_type = "",
+  transmission = "",
+  seating_capacity = "",
+  color = "",
+  start_discount_price = "",
+  end_discount_price = "",
+  sort = "",
+  order = "",
+  vendor_id = ""
 }) => {
   const getAllVehicle = async () => {
-    const response = await API.get("/vehicle/web", {
-      params: { make, model, vehicle_condition, start_price, end_price, body_type },
+    const response = await API.get("/vehicle/web?limit=30", {
+      params: {
+        make,
+        model,
+        vehicle_condition,
+        start_price,
+        end_price,
+        body_type,
+        start_year_of_manufacture,
+        end_year_of_manufacture,
+        start_mileage,
+        end_mileage,
+        fuel_type,
+        transmission,
+        seating_capacity,
+        color,
+        start_discount_price,
+        end_discount_price,
+        sort,
+        order,
+        vendor_id
+      },
+      paramsSerializer: (params) => {
+        return qs.stringify(params, { arrayFormat: "repeat" }); // ✅ Array কে multiple query param বানাবে
+      },
     });
-    console.log(response)
     return response.data.data;
   };
 
@@ -447,7 +589,28 @@ export const useAllVehicles = ({
     error,
     refetch,
   } = useQuery({
-    queryKey: ["allVehicles", make, model, vehicle_condition, start_price, end_price, body_type],
+    queryKey: [
+      "allVehicles",
+      make,
+      model,
+      vehicle_condition,
+      start_price,
+      end_price,
+      body_type,
+      start_year_of_manufacture,
+      end_year_of_manufacture,
+      start_mileage,
+      end_mileage,
+      fuel_type,
+      transmission,
+      seating_capacity,
+      color,
+      start_discount_price,
+      end_discount_price,
+      sort,
+      order,
+      vendor_id,
+    ],
     queryFn: getAllVehicle,
   });
 

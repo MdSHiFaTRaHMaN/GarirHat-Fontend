@@ -62,7 +62,7 @@ const EMICalculator = () => {
             Duration in years
           </h3>
           <div className="flex gap-3 mt-3">
-            {[1, 2, 3, 4, 5].map((year) => (
+            {[1, 2, 3, 4, 5, 6].map((year) => (
               <button
                 key={year}
                 onClick={() => setDuration(year)}

@@ -23,7 +23,7 @@ const Navbar = () => {
   const { allBrand, isLoading } = useAllBrand();
   const [searchTerm, setSearchTerm] = useState("");
   const [suggestions, setSuggestions] = useState([]);
-  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedOption, setSelectedOption] = useState("all");
   const user_id = userProfile.id;
   const { wishListVechile } = useWishListVechile(user_id);
 

@@ -1,14 +1,21 @@
 import { Slider } from "antd";
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 const KilometerFilter = ({ onKmChange }) => {
-  const [kmRange, setKmRange] = useState([50000, 250000]); // Default Min & Max KM
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [kmRange, setKmRange] = useState([0, 200000]); // Default Min & Max KM
 
   const handleChange = (value) => {
-    setKmRange(value);
+    const startMileage = value[0];
+    const endMileage = value[1];
     if (onKmChange) {
-      onKmChange(value); // Call parent function with selected KM range
+      onKmChange(value); 
     }
+    setKmRange(value);
+    searchParams.set("start_mileage", startMileage);
+    searchParams.set("end_mileage", endMileage);
+    setSearchParams(searchParams);
   };
 
   return (
@@ -20,8 +27,8 @@ const KilometerFilter = ({ onKmChange }) => {
       <Slider
         range
         min={0}
-        max={300000} // Max KM Limit
-        step={5000}
+        max={20000} // Max KM Limit
+        step={100}
         value={kmRange}
         onChange={handleChange}
         trackStyle={{ backgroundColor: "#3eb4e7", height: 5 }}

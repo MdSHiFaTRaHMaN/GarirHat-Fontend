@@ -1,7 +1,7 @@
 import { Button, Card, Form, Input, message, Rate } from "antd";
 import { FrownOutlined, MehOutlined, SmileOutlined } from "@ant-design/icons";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { API, usePartofRating, useSingleModel } from "../../api/api";
 import LoadingWhile from "../../components/LoadingWhile";
 
@@ -18,7 +18,7 @@ const UserReviewForm = () => {
   const { partofRating } = usePartofRating();
   const [loading, setLoading] = useState(false);
   const { singleModel, isLoading } = useSingleModel(ratingModelID);
-
+  const navigate = useNavigate()
   // Ant Form instance
   const [form] = Form.useForm();
 
@@ -59,9 +59,9 @@ const UserReviewForm = () => {
     try {
       setLoading(true);
       const response = await API.post("/rating/create", payload);
-      console.log(response);
       if (response.status == 200) {
-        message.success("Model add Successfully");
+        message.success("Thank You for Review");
+        navigate("/car-review")
       }
       setLoading(false);
     } catch (error) {

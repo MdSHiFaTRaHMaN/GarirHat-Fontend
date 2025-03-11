@@ -1,7 +1,7 @@
 import ShowAllCar from "./ShowAllCar";
 import Sidebar from "./Sidebar";
 
-const NewCarPage = () => {
+const AllVehiclePage = () => {
   return (
     <div className="w-full lg:w-11/12 mx-auto py-6">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
@@ -19,4 +19,4 @@ const NewCarPage = () => {
   );
 };
 
-export default NewCarPage;
+export default AllVehiclePage;

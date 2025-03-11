@@ -1,14 +1,24 @@
 import { Slider } from "antd";
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 const ModelYearFilter = ({ onYearChange }) => {
-  const [yearRange, setYearRange] = useState([1990, 2024]); // Min & Max Year
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [yearRange, setYearRange] = useState([1960, 2030]); // Min & Max Year
 
   const handleChange = (value) => {
-    setYearRange(value);
+    const startYear = value[0];
+    const endYear = value[1];
+
     if (onYearChange) {
       onYearChange(value);
     }
+
+    setYearRange(value);
+    searchParams.set("start_year_of_manufacture", startYear);
+    searchParams.set("end_year_of_manufacture", endYear);
+    setSearchParams(searchParams);
+
   };
 
   return (
@@ -19,8 +29,8 @@ const ModelYearFilter = ({ onYearChange }) => {
       </div>
       <Slider
         range
-        min={1990}
-        max={2025}
+        min={1960}
+        max={2030}
         step={1}
         value={yearRange}
         onChange={handleChange}
@@ -35,4 +45,3 @@ const ModelYearFilter = ({ onYearChange }) => {
 };
 
 export default ModelYearFilter;
-

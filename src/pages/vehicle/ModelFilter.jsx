@@ -2,45 +2,49 @@ import { Checkbox, Collapse } from "antd";
 import { useState } from "react";
 import { useBrandandModel } from "../../api/api";
 import OthersBrand from "./OthersBrand";
-
+import { useSearchParams } from "react-router-dom";
 
 const ModelFilter = () => {
-  const { modelandBrand,  isLoading } = useBrandandModel();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { modelandBrand, isLoading } = useBrandandModel();
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [selectedModels, setSelectedModels] = useState([]);
-  
+  const [activeKeys, setActiveKeys] = useState(["0"]);
 
-  const [activeKeys, setActiveKeys] = useState([
-    "0"
-  ]);
-
-
-  // Handle Brand Selection
-  const handleBrandChange = (e, brand) => {
+  const handleBrandChange = (e, makeValue) => {
     const isChecked = e.target.checked;
-    setSelectedBrands((prev) =>
-      isChecked ? [...prev, brand] : prev.filter((b) => b !== brand)
-    );
+    const currentMakes = searchParams.getAll("make"); // 🔹 আগের make গুলো রাখবে
+
+    const updatedMakes = isChecked
+      ? [...currentMakes, makeValue] // 🔹 নতুন make যোগ করা
+      : currentMakes.filter((m) => m !== makeValue); // 🔹 আনচেক করলে সরানো হবে
+
+    setSelectedBrands(updatedMakes);
+
+    searchParams.delete("make");
+    updatedMakes.forEach((m) => searchParams.append("make", m));
+
+    setSearchParams(searchParams); // ✅ নতুন make সেট করা
   };
 
-  // Handle Model Selection
-  const handleModelChange = (e, brand, model) => {
+  const handleModelChange = (e, modelValue) => {
     const isChecked = e.target.checked;
-    const newSelection = { brand, model };
+    const currentModels = searchParams.getAll("model"); // 🔹 আগের model গুলো রাখবে
 
-    setSelectedModels((prev) =>
-      isChecked
-        ? [...prev, newSelection]
-        : prev.filter((item) => item.model !== model)
-    );
+    const updatedModels = isChecked
+      ? [...currentModels, modelValue] // 🔹 নতুন model যোগ করা
+      : currentModels.filter((m) => m !== modelValue); // 🔹 আনচেক করলে সরানো হবে
+
+    setSelectedModels(updatedModels);
+    searchParams.delete("model");
+    updatedModels.forEach((m) => searchParams.append("model", m));
+
+    setSearchParams(searchParams); // ✅ নতুন model সেট করা
   };
 
-  console.log("selectedBrands", selectedBrands)
-
-  if(isLoading){
-    return <div>Loading..</div>
+  if (isLoading) {
+    return <div>Loading..</div>;
   }
-
 
   const items = modelandBrand.data.map((item) => ({
     key: String(item.id),
@@ -64,10 +68,8 @@ const ModelFilter = () => {
             className="flex items-center gap-2 hover:bg-gray-100 rounded-md transition-all"
           >
             <Checkbox
-              onChange={(e) =>
-                handleModelChange(e, item.brand_name, model.model_name)
-              }
-              checked={selectedModels.some((m) => m.model === model.model_name)}
+              onChange={(e) => handleModelChange(e, model.model_name)}
+              checked={selectedModels.includes(model.model_name)} // ✅ চেক করা আছে কিনা তা চেক করা হচ্ছে
               onClick={(e) => e.stopPropagation()}
             />
             <span className="text-gray-700">{model.model_name}</span>
@@ -82,7 +84,6 @@ const ModelFilter = () => {
     ),
   }));
 
-
   return (
     <div className="w-full bg-white">
       <Collapse
@@ -93,8 +94,7 @@ const ModelFilter = () => {
         className="bg-white"
       />
 
-
-   <Collapse
+      <Collapse
         activeKey={activeKeys}
         onChange={setActiveKeys}
         expandIconPosition="end"
@@ -103,15 +103,11 @@ const ModelFilter = () => {
         items={[
           {
             key: "1",
-            label: (
-              <span className="text-TextColor">Others Brands</span>
-            ),
+            label: <span className="text-TextColor">Others Brands</span>,
             children: <OthersBrand />,
           },
         ]}
       />
-
-     
     </div>
   );
 };

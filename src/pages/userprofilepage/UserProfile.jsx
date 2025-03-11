@@ -1,19 +1,49 @@
-import { Button, Card, Switch } from "antd";
-import { EditOutlined, SearchOutlined } from "@ant-design/icons";
+import { Button, Card, message, Modal } from "antd";
 import { FiPhoneCall, FiMail } from "react-icons/fi";
 import Profile from "../../assets/images/profilePic.png";
-import { useUserProfile } from "../../api/api";
+import { API, useUserProfile } from "../../api/api";
 import LoadingWhile from "../../components/LoadingWhile";
+import EditProfile from "./EditProfile";
+import { DeleteOutlined } from "@ant-design/icons";
 
 const UserProfile = () => {
-  const { userProfile, isLoading } = useUserProfile();
-  if(isLoading) {
-    return <LoadingWhile />
+  const { userProfile, refetch, isLoading } = useUserProfile();
+
+  const handleDelete = async (id) => {
+    Modal.confirm({
+      title: "Are you sure you want to delete this Account?",
+      content: "This action cannot be undone.",
+      okText: "Yes, Delete",
+      cancelText: "Cancel",
+      okType: "danger",
+      onOk: async () => {
+        try {
+          await API.delete(`/user/delete/${id}`);
+          message.success("User deleted successfully!");
+          refetch();
+          // Optionally refresh your data here
+        } catch (error) {
+          console.error("Error deleting user:", error);
+          message.error("Failed to delete the user. Please try again.");
+        }
+      },
+      onCancel() {
+        console.log("Deletion cancelled.");
+      },
+    });
+  };
+
+  if (isLoading) {
+    return <LoadingWhile />;
   }
+
   return (
     <div className="flex gap-6 p-6 justify-center">
       {/* Profile Card */}
       <Card className="w- p-6 rounded shadow w-3/5">
+        <div className="flex justify-end">
+          <EditProfile userData={userProfile} refetch={refetch} />
+        </div>
         <img
           src={userProfile.profile_pic || Profile} // Replace with actual image
           alt="User"
@@ -32,10 +62,13 @@ const UserProfile = () => {
             {userProfile.email}
           </p>
         </div>
-
-        <div className="mt-4 flex justify-between items-center">
-          <span className="text-sm font-medium">SMS alerts activation</span>
-          <Switch defaultChecked />
+        <div className="mt-4 flex text-end justify-end items-center">
+          <Button
+            onClick={() => handleDelete(userProfile.id)}
+            className="bg-red-700 hover:!bg-red-900 !text-white font-semibold"
+          >
+            <DeleteOutlined /> Delete Account
+          </Button>
         </div>
         {/* 
         <Button className="w-full mt-4 bg-ButtonColor border-none hover:!bg-ButtonHover !font-semibold">

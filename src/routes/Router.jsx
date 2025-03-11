@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import Main from "../layout/Main";
 import Home from "../pages/home/Home";
-import NewCarPage from "../pages/newcar/NewCarPage";
+import AllVehiclePage from "../pages/vehicle/AllVehiclePage";
 import CarDetails from "../pages/cardetails/CarDetails";
 import NewsAndStories from "../pages/newsandstory/NewsAndStories";
 import ExpertReviews from "../pages/carexpertreview/ExpertReviews";
@@ -36,15 +36,15 @@ const Router = createBrowserRouter([
       },
       {
         path: "/advanced-search",
-        element: <NewCarPage />
+        element: <AllVehiclePage />
+      },
+      {
+        path: "/vehicles",
+        element: <AllVehiclePage />
       },
       {
         path: "/:conditionParams",
-        element: <NewCarPage />
-      },
-      {
-        path: "/:conditionParams",
-        element: <NewCarPage />
+        element: <AllVehiclePage />
       },
       {
         path: "/car-details/:vehicleID",
@@ -83,7 +83,7 @@ const Router = createBrowserRouter([
         element: <FavoritesCar />
       },
       {
-        path: "/vendor-info",
+        path: "/vendor-info/:vendorId",
         element: <VendorInfo />
       },
       {

@@ -39,7 +39,7 @@ const CarReviews = ({ ratings, avaregeRating }) => {
         </h2>
         <div className="flex items-center mt-2">
           <FaStar className="text-TextColor text-3xl mr-2" />
-          <h3 className="text-3xl font-semibold">{avaregeRating}</h3>
+          <h3 className="text-3xl font-semibold">{avaregeRating.toFixed(1)}/5</h3>
           <p className="text-gray-500 ml-2">Overall Rating</p>
         </div>
         <p className="text-gray-500 text-sm mt-1">Based on {ratings.length} Reviews</p>

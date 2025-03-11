@@ -14,7 +14,7 @@ const Footer = () => {
               <Link to="/term&condition"><li className="my-1">Terms & Conditions</li></Link>
               <Link to="/privacy-policy"><li className="my-1">Privacy Policy</li></Link>
               <Link to="/corporate-policies"><li className="my-1">Corporate Policies</li></Link>
-              <Link to="/investors"><li className="my-1">Investors</li></Link>
+              {/* <Link to="/investors"><li className="my-1">Investors</li></Link> */}
               <Link to="/faqs"><li className="my-1">FAQs</li></Link>
             </ul>
           </Col>

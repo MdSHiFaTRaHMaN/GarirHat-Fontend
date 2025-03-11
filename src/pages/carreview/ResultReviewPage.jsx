@@ -2,9 +2,10 @@ import { Button, Card } from "antd";
 import { useCarReviewList } from "../../api/api";
 import LoadingWhile from "../../components/LoadingWhile";
 import { IoLocationSharp } from "react-icons/io5";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { FaBangladeshiTakaSign } from "react-icons/fa6";
 import { FaStar } from "react-icons/fa";
+import UpcomingImg from "../../assets/images/UpcomingImage.jpg"
 
 const ResultReviewPage = () => {
   const { selectModel } = useParams();
@@ -29,7 +30,7 @@ const ResultReviewPage = () => {
                 {/* Image Section */}
                 <div className="relative w-full md:w-2/5">
                   <img
-                    src={car.thumbnail_image}
+                    src={car.thumbnail_image || UpcomingImg}
                     alt={car.name}
                     className="w-full h-48 md:h-52 object-cover rounded-lg"
                   />
@@ -62,17 +63,19 @@ const ResultReviewPage = () => {
                   {/* Location */}
                   <p className="text-sm text-gray-500 flex items-center gap-1">
                     <IoLocationSharp className="text-red-500" />
-                    {car.upzila}, {car.district}, {car.division}
+                    {car.upzila}, {car.division}
                   </p>
 
                   {/* Bottom Section */}
                   <div className="flex justify-between items-center mt-4">
-                    <Button className="bg-ButtonColor hover:!bg-ButtonHover text-white font-semibold px-4 py-4 rounded transition">
-                      View Car Details
-                    </Button>
+                    <Link to={`/car-details/${car.id}`}>
+                      <Button className="bg-ButtonColor hover:!bg-ButtonHover !text-white font-semibold px-4 py-4 rounded transition">
+                        View Car Details
+                      </Button>
+                    </Link>
 
                     <div className="flex items-center">
-                      <FaStar className="text-yellow-500 text-2xl mr-2" />
+                      <FaStar className="text-TextColor text-2xl mr-2" />
                       <h3 className="text-lg font-semibold">
                         {car.model_average_rating}/5
                       </h3>

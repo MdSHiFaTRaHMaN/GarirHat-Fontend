@@ -1,33 +1,95 @@
-import { Divider, message, Select, Tabs } from "antd";
+import { Divider, message, Select } from "antd";
 import CarImage from "../../assets/images/new-car-collection.jpeg";
 import { IoLocationOutline } from "react-icons/io5";
 import { FaChevronCircleRight } from "react-icons/fa";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import { FiFilter } from "react-icons/fi";
 import { HeartFilled, HeartOutlined } from "@ant-design/icons";
 import { TbCurrencyTaka } from "react-icons/tb";
 import { useState } from "react";
 import { LuShare2 } from "react-icons/lu";
-import { API, useAllCarList, useUserProfile } from "../../api/api";
+import { API, useAllVehicles, useUserProfile } from "../../api/api";
 import LoadingWhile from "../../components/LoadingWhile";
-import Topmenu from "../../components/Topmenu";
 import { useQueryClient } from "@tanstack/react-query";
 
 const ShowAllCar = () => {
   const queryClient = useQueryClient();
   const { conditionParams } = useParams();
   const [likedCars, setLikedCars] = useState({});
-  const [selectBrand, setSelectBrand] = useState("");
-
-  const { allCarList, isLoading, refetch } = useAllCarList({
-    conditionParams,
-    selectBrand,
-  });
-
-
-
   const { userProfile } = useUserProfile();
   const [loading, setLoading] = useState(false);
+
+  const [sort, setSort] = useState("");
+  const [order, setOrder] = useState("");
+
+  const handleSortChange = (value) => {
+    if (value.includes("Price")) {
+      setSort("price");
+    } else if (value.includes("Kms")) {
+      setSort("mileage");
+    } else if (value.includes("Model")) {
+      setSort("year_of_manufacture");
+    }
+    if (value.includes("Low to High")) {
+      setOrder("asc");
+    } else if (value.includes("High to Low")) {
+      setOrder("desc");
+    } else if (value.includes("Newest to Oldest")) {
+      setOrder("asc");
+    } else if (value.includes("Oldest to Newest")) {
+      setOrder("desc");
+    }
+  };
+
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const make = params.getAll("make");
+  const model = params.getAll("model");
+  const start_price = params.get("start_price");
+  const end_price = params.get("end_price");
+  const start_year_of_manufacture = params.get("start_year_of_manufacture");
+  const end_year_of_manufacture = params.get("end_year_of_manufacture");
+  const body_type = params.getAll("body_type");
+  const fuel_type = params.getAll("fuel_type");
+  const transmission = params.getAll("transmission");
+  const start_mileage = params.get("start_mileage");
+  const end_mileage = params.get("end_mileage");
+  const seating_capacity = params.getAll("seating_capacity");
+  const color = params.getAll("color");
+  const start_discount_price = params.get("start_discount_price");
+  const end_discount_price = params.get("end_discount_price");
+  const vehicle_condition = params.getAll("vehicle_condition");
+
+  const filter = {
+    make: make,
+    model: model,
+    vehicle_condition: [...vehicle_condition, conditionParams],
+    start_price: start_price ? start_price : "",
+    end_price: end_price ? end_price : "",
+    body_type: body_type ? body_type : "",
+    start_year_of_manufacture: start_year_of_manufacture
+      ? start_year_of_manufacture
+      : "",
+    end_year_of_manufacture: end_year_of_manufacture
+      ? end_year_of_manufacture
+      : "",
+    start_mileage: start_mileage ? start_mileage : "",
+    end_mileage: end_mileage ? end_mileage : "",
+    fuel_type: fuel_type ? fuel_type : "",
+    transmission: transmission ? transmission : "",
+    seating_capacity: seating_capacity ? seating_capacity : "",
+    color: color ? color : "",
+    start_discount_price: start_discount_price ? start_discount_price : "",
+    end_discount_price: end_discount_price ? end_discount_price : "",
+    sort: sort ? sort : "",
+    order: order ? order : "",
+  };
+
+  const { allVehicles, isLoading } = useAllVehicles(filter);
+
+  if (loading) {
+    return;
+  }
 
   const toggleLike = async (carId) => {
     const user_id = userProfile.id;
@@ -58,20 +120,6 @@ const ShowAllCar = () => {
     }));
   };
 
-  const filterOptions = [
-    { key: "1", label: "All Car" },
-    { key: "2", label: "Toyota" },
-    { key: "3", label: "Honda" },
-    { key: "4", label: "Nissan" },
-    { key: "5", label: "Mitsubishi" },
-    { key: "6", label: "Hyundai" },
-    { key: "7", label: "Mercedes-Benz" },
-    { key: "8", label: "BMW" },
-    { key: "9", label: "Ford" },
-    { key: "10", label: "Kia" },
-    { key: "11", label: "Suzuki" },
-  ];
-
   const handleShare = (id) => {
     console.log("id", id);
     const url = window.location.href;
@@ -91,13 +139,6 @@ const ShowAllCar = () => {
     }
   };
 
-  const handleModelCar = (key) => {
-    const selectedOption = filterOptions.find((option) => option.key === key);
-    setSelectBrand(
-      selectedOption?.label === "All Car" ? "" : selectedOption?.label
-    );
-  };
-
   return (
     <div className="px-4 md:px-8 lg:px-10 py-6">
       {/* Header Section */}
@@ -106,35 +147,37 @@ const ShowAllCar = () => {
           Buying your dream car? Check Now!
         </h1>
         <p className="text-sm text-gray-600 my-2">
-          GarirHat brings you the latest new cars in Bangladesh for 2025 with
-          updated prices. A wide range of new car models from various brands is
-          available, offering budget-friendly and fuel-efficient options.
-          Whether you're looking for a stylish sedan, a powerful SUV, or an
-          economical compact car, you'll find the perfect match to suit your
-          needs. Stay updated with the best deals and features only on GarirHat!
+          GarirHat brings you the latest new & used cars in Bangladesh for 2025
+          with updated prices. A wide range of new & used car models from
+          various brands is available, offering budget-friendly and
+          fuel-efficient options. Whether looking for a stylish sedan, a
+          powerful SUV, or an economical compact car, you will find the perfect
+          match to suit your needs. Stay updated with the best deals and
+          features only on GarirHat!
         </p>
       </div>
       {/* Tabs & Filter Section */}
-      <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-        <Tabs
-          defaultActiveKey="1"
-          items={filterOptions}
-          className="w-full md:w-auto"
-          onChange={handleModelCar}
-        />
+      <div className="flex flex-col md:flex-row justify-end items-center gap-4">
         <Select
           defaultValue="Select Filter by Car"
           className="w-full lg:w-[165px]"
           suffixIcon={
             <FiFilter style={{ color: "#3eb4e7", fontSize: "16px" }} />
           }
+          onChange={handleSortChange} // ✅ Sort পরিবর্তন হলে আপডেট হবে
           options={[
-            { value: "l-to-h", label: "Price - Low to High" },
-            { value: "h to-l", label: "Price - High to Low" },
-            { value: "K-l-to-h", label: "Kms - Low to High" },
-            { value: "K-l-to-h", label: "Kms - High to Low" },
-            { value: "new-old", label: "Model - Newest to Oldest" },
-            { value: "new-old", label: "Model - Oldest to Newest" },
+            { value: "Price - Low to High", label: "Price - Low to High" },
+            { value: "Price - High to Low", label: "Price - High to Low" },
+            { value: "Kms - Low to High", label: "Kms - Low to High" },
+            { value: "Kms - High to Low", label: "Kms - High to Low" },
+            {
+              value: "Model - Newest to Oldest",
+              label: "Model - Newest to Oldest",
+            },
+            {
+              value: "Model - Oldest to Newest",
+              label: "Model - Oldest to Newest",
+            },
           ]}
         />
       </div>
@@ -143,7 +186,7 @@ const ShowAllCar = () => {
         {isLoading ? (
           <LoadingWhile />
         ) : (
-          allCarList.map((car) => (
+          allVehicles.map((car) => (
             <div
               key={car.id}
               className="relative border rounded-lg bg-white shadow-md overflow-hidden"
@@ -161,11 +204,13 @@ const ShowAllCar = () => {
               </div>
 
               {/* Car Image */}
-              <img
-                src={car.thumbnail || CarImage}
-                alt="Car"
-                className="w-full h-48 object-cover"
-              />
+              <Link to={`/car-details/${car.id}`}>
+                <img
+                  src={car.thumbnail || CarImage}
+                  alt="Car"
+                  className="w-full h-48 object-cover"
+                />
+              </Link>
 
               {/* Car Details */}
               <div className="p-4">
@@ -182,7 +227,7 @@ const ShowAllCar = () => {
                 <div className="mt-2 flex items-center justify-between">
                   <span className="text-xl font-bold text-black flex items-center">
                     <TbCurrencyTaka className="text-2xl font-extrabold" />{" "}
-                    40,10,000 Taka
+                    {car.price} Taka
                   </span>
                 </div>
 
@@ -200,7 +245,7 @@ const ShowAllCar = () => {
                 <div className="flex items-center justify-between">
                   <p className="text-gray-500 text-sm flex items-center gap-1">
                     <IoLocationOutline />
-                    {car.upzila}, {car.district}, {car.division}
+                    {car.upzila}, {car.division}
                   </p>
                   <h3
                     onClick={() => handleShare(car.id)}

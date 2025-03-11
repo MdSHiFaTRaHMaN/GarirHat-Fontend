@@ -13,6 +13,7 @@ import SitesFilter from "./SitesFilter";
 import DiscountFilter from "./DiscountFilter";
 import ColorFilter from "./ColorFilter";
 import FuelTypeFilter from "./FuelTypeFilter";
+import VehicleCondition from "./VehicleCondition";
 
 const Sidebar = () => {
   const [activeKeys, setActiveKeys] = useState([
@@ -27,12 +28,13 @@ const Sidebar = () => {
     "9",
     "10",
     "11",
+    "12",
   ]);
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const toggleCollapse = () => {
     if (isCollapsed) {
-      setActiveKeys(["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"]); // Open all
+      setActiveKeys(["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11","12"]); // Open all
     } else {
       setActiveKeys([]); 
     }
@@ -66,6 +68,20 @@ const Sidebar = () => {
           },
         ]}
       />
+      <Collapse
+        className="my-3"
+        activeKey={activeKeys}
+        onChange={setActiveKeys}
+        expandIconPosition="end"
+        expandIcon={({ isActive }) => (isActive ? <FaMinus /> : <FaPlus />)}
+        items={[
+          {
+            key: "2",
+            label: <span className="font-semibold text-[18px]">Vehicle Conditon</span>,
+            children: <VehicleCondition />,
+          },
+        ]}
+      />
 
       <Collapse
         activeKey={activeKeys}
@@ -74,7 +90,7 @@ const Sidebar = () => {
         expandIcon={({ isActive }) => (isActive ? <FaMinus /> : <FaPlus />)}
         items={[
           {
-            key: "2",
+            key: "3",
             label: (
               <span className="font-semibold text-[18px]">Brand & Model</span>
             ),
@@ -90,7 +106,7 @@ const Sidebar = () => {
         expandIcon={({ isActive }) => (isActive ? <FaMinus /> : <FaPlus />)}
         items={[
           {
-            key: "3",
+            key: "4",
             label: (
               <span className="font-semibold text-[18px]">Model Year</span>
             ),
@@ -105,7 +121,7 @@ const Sidebar = () => {
         expandIcon={({ isActive }) => (isActive ? <FaMinus /> : <FaPlus />)}
         items={[
           {
-            key: "4",
+            key: "5",
             label: (
               <span className="font-semibold text-[18px]">
                 Kilometer Driven
@@ -123,7 +139,7 @@ const Sidebar = () => {
         expandIcon={({ isActive }) => (isActive ? <FaMinus /> : <FaPlus />)}
         items={[
           {
-            key: "5",
+            key: "6",
             label: <span className="font-semibold text-[18px]">Body Type</span>,
             children: <BodyTypeFilter />,
           },
@@ -136,7 +152,7 @@ const Sidebar = () => {
         expandIcon={({ isActive }) => (isActive ? <FaMinus /> : <FaPlus />)}
         items={[
           {
-            key: "6",
+            key: "7",
             label: (
               <span className="font-semibold text-[18px]">Fuel Type Filter</span>
             ),
@@ -152,7 +168,7 @@ const Sidebar = () => {
         expandIcon={({ isActive }) => (isActive ? <FaMinus /> : <FaPlus />)}
         items={[
           {
-            key: "7",
+            key: "8",
             label: (
               <span className="font-semibold text-[18px]">Transmission</span>
             ),
@@ -160,21 +176,7 @@ const Sidebar = () => {
           },
         ]}
       />
-      <Collapse
-        className="my-3"
-        activeKey={activeKeys}
-        onChange={setActiveKeys}
-        expandIconPosition="end"
-        expandIcon={({ isActive }) => (isActive ? <FaMinus /> : <FaPlus />)}
-        items={[
-          {
-            key: "8",
-            label: <span className="font-semibold text-[18px]">Ownership</span>,
-            children: <OwnershipFilter />,
-          },
-        ]}
-      />
-      <Collapse
+      {/* <Collapse
         className="my-3"
         activeKey={activeKeys}
         onChange={setActiveKeys}
@@ -183,6 +185,20 @@ const Sidebar = () => {
         items={[
           {
             key: "9",
+            label: <span className="font-semibold text-[18px]">Ownership</span>,
+            children: <OwnershipFilter />,
+          },
+        ]}
+      /> */}
+      <Collapse
+        className="my-3"
+        activeKey={activeKeys}
+        onChange={setActiveKeys}
+        expandIconPosition="end"
+        expandIcon={({ isActive }) => (isActive ? <FaMinus /> : <FaPlus />)}
+        items={[
+          {
+            key: "10",
             label: <span className="font-semibold text-[18px]">Seats</span>,
             children: <SitesFilter />,
           },
@@ -195,7 +211,7 @@ const Sidebar = () => {
         expandIcon={({ isActive }) => (isActive ? <FaMinus /> : <FaPlus />)}
         items={[
           {
-            key: "10",
+            key: "11",
             label: <span className="font-semibold text-[18px]">Discount</span>,
             children: <DiscountFilter />,
           },
@@ -209,7 +225,7 @@ const Sidebar = () => {
         expandIcon={({ isActive }) => (isActive ? <FaMinus /> : <FaPlus />)}
         items={[
           {
-            key: "11",
+            key: "12",
             label: <span className="font-semibold text-[18px]">Colors</span>,
             children: <ColorFilter />,
           },

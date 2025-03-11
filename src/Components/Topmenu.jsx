@@ -106,7 +106,7 @@ const Topmenu = () => {
                 window.scrollTo({ top: 0, behavior: "smooth" });
                 queryClient.invalidateQueries(["allCarList"]);
               }}
-              to="/used"
+              to="/vehicles?vehicle_condition=used"
             >
               Buy Used Car
             </Link>
@@ -167,7 +167,7 @@ const Topmenu = () => {
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center space-x-6">
           <Link
-            to="/new"
+            to="/vehicles?vehicle_condition=new"
             onClick={() => {
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}

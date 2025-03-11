@@ -28,8 +28,6 @@ const Header = () => {
       endPrice = priceRange[1];
     }
 
-
-
     navigate(`/search?vehicle_condition=${carType}&make=${selectBrand}&model=${selectModel}&start_price=${startPrice}&end_price=${endPrice}&body_type=${vehicleType}`);
   };
   const onSearch = (value) => {

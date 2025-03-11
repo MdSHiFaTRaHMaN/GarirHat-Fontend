@@ -5,13 +5,23 @@ import { useState } from "react";
 import { FaFacebookSquare, FaWhatsappSquare } from "react-icons/fa";
 import { TfiEmail } from "react-icons/tfi";
 import VendorOtherCar from "./VendorOtherCar";
+import { useSingleVendor } from "../../api/api";
+import { useParams } from "react-router-dom";
+import Bannar from "../../assets/images/vehicleSellerbannar.jpg"
 
 const VendorInfo = () => {
+  const {vendorId} = useParams();
   const [error, setError] = useState(false);
+  const { singleVendor } = useSingleVendor(vendorId);
+
+  console.log("singleVendor", singleVendor)
   return (
-    <div className="flex justify-center items-center bg-gray-100 p-4">
-      <Card className="w-full max-w-6xl shadow-lg rounded-lg">
+    <div className="flex justify-center items-center bg-gray-100">
+      <div className="w-full lg:w-10/12 mx-auto shadow-lg rounded-lg p-7">
         {/* Header Section */}
+        <div>
+          <img src={Bannar} alt="" />
+        </div>
         <div className="flex flex-col md:flex-row items-center md:items-start p-4 border-b">
           <div className="flex items-center">
             {error || !Profile ? (
@@ -31,7 +41,7 @@ const VendorInfo = () => {
           </div>
           <div className="flex-1 items-center">
             <div className="flex items-center justify-between w-full">
-              <h2 className="text-xl font-semibold">Shakib Al Hasan</h2>
+              <h2 className="text-xl font-semibold">{singleVendor.name}</h2>
               <Tag color="green">Vendor</Tag>
             </div>
             <div className="flex items-center mt-1">
@@ -44,7 +54,7 @@ const VendorInfo = () => {
                 icon={<CheckCircleOutlined />}
                 size="small"
               >
-                Verified
+                {singleVendor.status}
               </Button>
               <div className="flex gap-2">
                 <FaWhatsappSquare className="text-2xl text-green-500" />
@@ -60,59 +70,22 @@ const VendorInfo = () => {
           <h3 className="text-lg font-semibold">Personal Information</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
             <p>
-              <strong>Gender:</strong> Male
+              <strong>Mobile Number:</strong> {singleVendor.phone || "N/A"}
             </p>
             <p>
-              <strong>Mobile Number:</strong> +88 01724-683220
+              <strong>Emergency Mobile Number:</strong> {singleVendor.emergency_phone || "N/A"}
             </p>
             <p>
-              <strong>Email:</strong> shakibalhasan@gmail.com
-            </p>
-            <p>
-              <strong>Divition:</strong> Dhaka
-            </p>
-            <p>
-              <strong>Zilla:</strong> Dhaka
-            </p>
-            <p>
-              <strong>Address:</strong> - Manda, Dhaka, Bangladesh
+              <strong>Email:</strong> {singleVendor.email}
             </p>
           </div>
         </div>
-
-        {/* Professional & Account Information */}
-        <div className="p-4 border-b">
-          <h3 className="text-lg font-semibold">
-            Professional & Account Information
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-            <p>
-              <strong>Company Name:</strong> Magas
-            </p>
-            <p>
-              <strong>Service Type:</strong> Designer
-            </p>
-            <p>
-              <strong>Industry:</strong> Information Technology
-            </p>
-            <p>
-              <strong>Total Listing:</strong> Active
-            </p>
-            <p>
-              <strong>Member Type:</strong> User
-            </p>
-            <p>
-              <strong>Interest:</strong> Blogs
-            </p>
-          </div>
-        </div>
-
         {/* More vendor Details */}
         <div className="p-1">
           <h3 className="text-lg font-semibold">Vendor Other Cars</h3>
-           <VendorOtherCar />
+           <VendorOtherCar vendor_id={singleVendor.id}/>
         </div>
-      </Card>
+      </div>
     </div>
   );
 };

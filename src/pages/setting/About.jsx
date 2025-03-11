@@ -1,12 +1,17 @@
+import { useAboutUs } from "../../api/api";
 
 const About = () => {
-
-
-    return (
-        <div className="flex justify-center py-40 bg-ButtonColor text-white font-semibold text-4xl">
-            About Us Page is On The Way
-        </div>
-    );
+  const { aboutUs } = useAboutUs();
+  return (
+    <div>
+      <div className="flex justify-center py-10 bg-ButtonColor text-white ">
+        <h1 className="font-semibold text-4xl">About US</h1>
+      </div>
+      <div className="w-full lg:w-10/12 mx-auto my-5">
+      <div dangerouslySetInnerHTML={{ __html: aboutUs.content }} />
+      </div>
+    </div>
+  );
 };
 
 export default About;

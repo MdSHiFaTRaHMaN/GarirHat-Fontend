@@ -3,6 +3,7 @@ import Carousel from "react-multi-carousel";
 import CarImage from "../../assets/images/UpcomingImage.jpg";
 import { useVehiclewithoutCondition } from "../../api/api";
 import { Link } from "react-router-dom";
+import LoadingWhile from "../../components/LoadingWhile";
 
 const ShowReviewCar = () => {
   const responsive = {
@@ -12,7 +13,10 @@ const ShowReviewCar = () => {
     mobile: { breakpoint: { max: 464, min: 0 }, items: 1 },
   };
 
-  const { vehiclewithoutCondition } = useVehiclewithoutCondition();
+  const { vehiclewithoutCondition, isLoading } = useVehiclewithoutCondition();
+  if(isLoading){
+    return <LoadingWhile />
+  }
 
   return (
     <div className="container w-full lg:w-10/12 mx-auto p-3 border rounded my-3">
