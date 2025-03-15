@@ -17,8 +17,15 @@ const LoginModal = ({ isVisible, onClose }) => {
     console.log("Failed:", errorInfo);
   };
 
-
-  const {handleGoogle} = useContext(AuthContext);
+  const { handleGoogle } = useContext(AuthContext);
+  const handleGoogleLogin = async () => {
+    try {
+      await handleGoogle(); 
+      onClose();
+    } catch (error) {
+      console.error("Google login failed:", error);
+    }
+  };
 
   return (
     <Modal
@@ -80,7 +87,11 @@ const LoginModal = ({ isVisible, onClose }) => {
             rules={[{ required: true, message: "Enter OTP" }]}
             className="flex justify-center"
           >
-            <Input.OTP placeholder="Enter OTP" className="h-12" separator={(index) => (index === 2 ? '-' : undefined)}/>
+            <Input.OTP
+              placeholder="Enter OTP"
+              className="h-12"
+              separator={(index) => (index === 2 ? "-" : undefined)}
+            />
           </Form.Item>
 
           <Form.Item>
@@ -102,7 +113,10 @@ const LoginModal = ({ isVisible, onClose }) => {
       </div>
 
       {/* Google Login */}
-      <Button onClick={handleGoogle} className="w-full flex items-center justify-center border bg-gray-200 shadow-md border-gray-300 text-lg p-5 rounded-md hover:bg-gray-100 gap-2">
+      <Button
+        onClick={handleGoogleLogin}
+        className="w-full flex items-center justify-center border bg-gray-200 shadow-md border-gray-300 text-lg p-5 rounded-md hover:bg-gray-100 gap-2"
+      >
         <FcGoogle size={22} />
         Continue with Google
       </Button>

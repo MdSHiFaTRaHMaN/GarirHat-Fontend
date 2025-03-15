@@ -5,18 +5,13 @@ import {
   CloseOutlined,
 } from "@ant-design/icons";
 import { Dropdown, Menu, Space } from "antd";
-import { GrLocation } from "react-icons/gr";
 import { Link } from "react-router-dom";
-import { FaSortDown } from "react-icons/fa";
 import LocationModel from "./LocationModel";
 import { useQueryClient } from "@tanstack/react-query";
 
 const Topmenu = () => {
   const queryClient = useQueryClient();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  // Retrieve from localStorage
-  const storedLocation = localStorage.getItem("selectedLocation");
   const newsreview = (
     <Menu
       className="space-y-1.5"
@@ -224,14 +219,16 @@ const Topmenu = () => {
               {isMobileMenuOpen ? <CloseOutlined /> : <MenuOutlined />}
             </button>
           </div>
-          <div
+          <LocationModel />
+
+          {/* <div
             onClick={() => setIsModalOpen(true)}
             className="text-gray-600 font-semibold gap-1 cursor-pointer flex items-center "
           >
             <GrLocation className="mt-1" />
             <h3>{storedLocation || "Select Location"}</h3>
             <FaSortDown />
-          </div>
+          </div> */}
         </div>
       </div>
 
@@ -289,10 +286,6 @@ const Topmenu = () => {
           </Link>
         </div>
       )}
-      <LocationModel
-        isVisible={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
     </div>
   );
 };

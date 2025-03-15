@@ -23,6 +23,7 @@ import ProfilePageLayout from "../pages/userprofilepage/ProfilePageLayout";
 import ResultReviewPage from "../pages/carreview/ResultReviewPage";
 import UserReviewForm from "../pages/carreview/UserReviewFrom";
 import ErrorPage from "../components/ErrorPage";
+import PrivateRoute from "./PrivateRoute";
 
 const Router = createBrowserRouter([
   {
@@ -84,7 +85,7 @@ const Router = createBrowserRouter([
       },
       {
         path: "/vendor-info/:vendorId",
-        element: <VendorInfo />
+        element: <PrivateRoute><VendorInfo /></PrivateRoute> 
       },
       {
         path: "/about",

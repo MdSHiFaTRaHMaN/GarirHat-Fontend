@@ -34,6 +34,27 @@ export const useAlLocation = () => {
   return { alLocation, isLoading, isError, error, refetch };
 };
 
+// divition list
+export const useAlDivition = () => {
+  const getAlDivition = async () => {
+    const response = await API.get("/location/division");
+    return response.data.data;
+  };
+
+  const {
+    data: alDivition = [],
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ["alDivition"],
+    queryFn: getAlDivition,
+  });
+
+  return { alDivition, isLoading, isError, error, refetch };
+};
+
 // Products list
 export const useAlFeature = () => {
   const getAlFeature = async () => {
@@ -550,7 +571,8 @@ export const useAllVehicles = ({
   end_discount_price = "",
   sort = "",
   order = "",
-  vendor_id = ""
+  vendor_id = "",
+  district
 }) => {
   const getAllVehicle = async () => {
     const response = await API.get("/vehicle/web?limit=30", {
@@ -573,7 +595,8 @@ export const useAllVehicles = ({
         end_discount_price,
         sort,
         order,
-        vendor_id
+        vendor_id,
+        district
       },
       paramsSerializer: (params) => {
         return qs.stringify(params, { arrayFormat: "repeat" }); // ✅ Array কে multiple query param বানাবে
@@ -610,6 +633,7 @@ export const useAllVehicles = ({
       sort,
       order,
       vendor_id,
+      district
     ],
     queryFn: getAllVehicle,
   });

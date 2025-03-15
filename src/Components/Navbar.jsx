@@ -54,7 +54,6 @@ const Navbar = () => {
     setSuggestions([]);
     navigate(`/search-result/${selectedOption}/${searchBrand}`);
     queryClient.invalidateQueries(["searchCarList", searchBrand, selectedOption]);
-
   };
 
   const items = [

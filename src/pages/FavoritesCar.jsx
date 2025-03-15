@@ -1,12 +1,14 @@
-import { Card, Button, Divider, message } from "antd";
-import { FaBangladeshiTakaSign } from "react-icons/fa6";
+import { Button, Divider, message, Modal } from "antd";
 import { IoLocationOutline } from "react-icons/io5";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { ShareAltOutlined } from "@ant-design/icons";
 import { API, useUserProfile, useWishListVechile } from "../api/api";
 import UpcomingImage from "../assets/images/UpcomingImage.jpg";
 import { useState } from "react";
 import LoadingWhile from "../components/LoadingWhile";
+import { Link } from "react-router-dom";
+import { TbCurrencyTaka } from "react-icons/tb";
+import { FaChevronCircleRight } from "react-icons/fa";
+import { LuShare2 } from "react-icons/lu";
 
 const FavoritesCar = () => {
   const { userProfile } = useUserProfile();
@@ -14,7 +16,6 @@ const FavoritesCar = () => {
   const { wishListVechile, refetch, isLoading } = useWishListVechile(user_id);
   const [loading, setLoading] = useState(false);
 
-  console.log(wishListVechile);
   // Share url section
   const handleShare = (id) => {
     const url = window.location.href;
@@ -34,18 +35,65 @@ const FavoritesCar = () => {
         .catch((err) => console.error("Failed to copy:", err));
     }
   };
-
+    //  single delete 
   const handleDelete = async (id) => {
-    try {
-      setLoading(true);
-      await API.delete(`/wishlist/delete/${id}`);
-      message.success("Wishlist Vechile deleted successfully!");
-      refetch();
-    } catch (error) {
-      console.error("Error deleting user:", error);
-      message.error("Failed to delete the user. Please try again.");
-    }
+    Modal.confirm({
+      title: "Are you sure you want to delete this Vehicle?",
+      content: "This action cannot be undone.",
+      okText: "Yes, Delete",
+      cancelText: "Cancel",
+      okType: "danger",
+      onOk: async () => {
+        try {
+          setLoading(true);
+          const response = await API.delete(`/wishlist/delete/${id}`);
+          console.log("responsive", response);
+          if (response.status === 200) {
+            message.success("Wishlist Vechile deleted successfully!");
+            refetch();
+          }
+        } catch (error) {
+          message.error("Failed to delete model");
+          console.log("Error:", error);
+        } finally {
+          setLoading(false);
+        }
+      },
+      onCancel() {
+        console.log("Deletion cancelled.");
+      },
+    });
   };
+    // all delete 
+  const handleAllDelete = async() => {
+    Modal.confirm({
+      title: "Are you sure you want to delete All Vehicle?",
+      content: "This action cannot be undone.",
+      okText: "Yes, Delete",
+      cancelText: "Cancel",
+      okType: "danger",
+      onOk: async () => {
+        try {
+          setLoading(true);
+          const response = await API.delete(`/wishlist/my/${user_id}}`);
+          console.log("responsive", response);
+          if (response.status === 200) {
+            message.success("Wishlist Vechile deleted successfully!");
+            refetch();
+          }
+        } catch (error) {
+          message.error("Failed to delete model");
+          console.log("Error:", error);
+        } finally {
+          setLoading(false);
+        }
+      },
+      onCancel() {
+        console.log("Deletion cancelled.");
+      },
+    });
+  }
+
   return (
     <div className="py-10 w-full lg:w-10/12 mx-auto p-4">
       <h2 className="text-3xl font-bold uppercase">Your Favorite Cars List</h2>
@@ -53,54 +101,80 @@ const FavoritesCar = () => {
         Explore your handpicked collection of dream cars. Save your favorites
         and make your perfect choice with top-notch performance and luxury.
       </p>
+      <div className="flex justify-end">
+        <Button onClick={handleAllDelete} danger>Clear All</Button>
+      </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-10 px-2 lg:px-0.5">
         {isLoading ? (
           <LoadingWhile />
         ) : (
           wishListVechile.map((car) => (
-            <Card
-              key={car.vehicle_id}
-              hoverable
-              cover={
-                <div className="relative">
-                  <img
-                    alt={car.name}
-                    src={car.thumbnail_image || UpcomingImage}
-                    className="rounded-t-lg h-[180px] w-full"
-                  />
-                  <RiDeleteBin6Line
-                    loading={loading}
-                    onClick={() => handleDelete(car.wishlist_id)}
-                    className="absolute top-1 right-1 text-red-500 text-2xl bg-white p-1 rounded-full shadow-md cursor-pointer hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-              }
-              className="rounded-lg shadow-md overflow-hidden bg-white"
+            <div
+              key={car.id}
+              className="relative border rounded-lg bg-white shadow-md overflow-hidden"
             >
-              <div className="px-4 py-1.5 text-left">
-                <h3 className="text-xl font-semibold flex items-center gap-2 line-clamp-2 h-[45px]">
+              {/* Like Button */}
+              <div className="absolute top-2 right-2 cursor-pointer rounded-full shadow-md">
+                <RiDeleteBin6Line
+                  loading={loading}
+                  onClick={() => handleDelete(car.wishlist_id)}
+                  className="absolute top-1 right-1 text-red-500 text-2xl bg-white p-1 rounded-full shadow-md cursor-pointer hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+
+              {/* Car Image */}
+              <Link to={`/car-details/${car.vehicle_id}`}>
+                <img
+                  src={car.thumbnail || UpcomingImage}
+                  alt="Car"
+                  className="w-full h-48 object-cover"
+                />
+              </Link>
+
+              {/* Car Details */}
+              <div className="p-4">
+                <h3 className="font-semibold text-lg text-gray-900">
                   {car.year_of_manufacture} {car.make} {car.model}
                 </h3>
-                <p className="text-lg font-bold text-orange-500 mt-2 flex items-center">
-                  <FaBangladeshiTakaSign className="text-black" />{" "}
-                  {car.discount_price}
-                </p>
-                <p className="text-gray-500 text-sm mt-1">
-                  {car.mileage} kms • {car.fuel_type} • {car.transmission}
-                </p>
-                <Divider />
-                <p className="flex items-center">
-                  <IoLocationOutline /> {car.upzila}, {car.district},{" "}
-                  {car.division}
-                </p>
-                <div className="mt-4 flex justify-between gap-2 items-center">
-                  <Button className="bg-ButtonColor border-none !importent hover:!bg-ButtonHover !text-white p-2 w-full">
-                    View Details
-                  </Button>
-                  <ShareAltOutlined onClick={() => handleShare(car.vehicle_id)} className="text-xl" />
+                <div className="flex items-center justify-between">
+                  <p className="text-gray-600 text-sm">
+                    {car.mileage}kms • {car.fuel_type} • {car.transmission}
+                  </p>
+                </div>
+
+                {/* Price Section */}
+                <div className="mt-2 flex items-center justify-between">
+                  <span className="text-xl font-bold text-black flex items-center">
+                    <TbCurrencyTaka className="text-2xl font-extrabold" />{" "}
+                    {car.price} Taka
+                  </span>
+                </div>
+
+                {/* View Seller Details */}
+                <Link to={`/car-details/${car.vehicle_id}`}>
+                  <button className="text-TextColor font-semibold mt-2 flex items-center">
+                    View Car Details <FaChevronCircleRight className="ml-1" />
+                  </button>
+                </Link>
+
+                {/* Divider */}
+                <Divider style={{ borderColor: "#4B5567" }} dashed />
+
+                {/* Location & Share */}
+                <div className="flex items-center justify-between">
+                  <p className="text-gray-500 text-sm flex items-center gap-1">
+                    <IoLocationOutline />
+                    {car.upzila}, {car.division}
+                  </p>
+                  <h3
+                    onClick={() => handleShare(car.vehicle_id)}
+                    className="flex items-center gap-1 cursor-pointer"
+                  >
+                    <LuShare2 className="mt-[3px]" /> Share
+                  </h3>
                 </div>
               </div>
-            </Card>
+            </div>
           ))
         )}
       </div>

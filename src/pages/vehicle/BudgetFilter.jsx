@@ -14,7 +14,7 @@ const priceRanges = [
 
 const BudgetFilter = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [budget, setBudget] = useState([0, 5000000]);
+  const [budget, setBudget] = useState([0, 50000000]);
   const [value, setValue] = useState(null);
 
   // 🔹 **Slider Change Handler**
@@ -64,7 +64,7 @@ const BudgetFilter = () => {
         <Slider
           range
           min={0}
-          max={5000000}
+          max={50000000}
           step={5000}
           value={budget}
           onChange={handleSliderChange} // ✅ Real-time update

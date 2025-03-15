@@ -59,7 +59,7 @@ const ShowAllCar = () => {
   const start_discount_price = params.get("start_discount_price");
   const end_discount_price = params.get("end_discount_price");
   const vehicle_condition = params.getAll("vehicle_condition");
-
+  const district = localStorage.getItem("selectedLocation")
   const filter = {
     make: make,
     model: model,
@@ -83,6 +83,7 @@ const ShowAllCar = () => {
     end_discount_price: end_discount_price ? end_discount_price : "",
     sort: sort ? sort : "",
     order: order ? order : "",
+    district: district? district : "",
   };
 
   const { allVehicles, isLoading } = useAllVehicles(filter);

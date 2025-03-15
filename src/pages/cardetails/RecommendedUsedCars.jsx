@@ -1,15 +1,24 @@
-import { Card, Collapse } from "antd";
-import { HeartOutlined, EnvironmentOutlined } from "@ant-design/icons";
-import CarImage from "../../assets/images/car-d22.jpg";
-import { FaBangladeshiTakaSign } from "react-icons/fa6";
-import { FiShare2 } from "react-icons/fi";
-import { useMoreCarinBrand } from "../../api/api";
+import { Collapse, Divider, message } from "antd";
+import {
+  HeartOutlined,
+  HeartFilled,
+} from "@ant-design/icons";
+import { API, useMoreCarinBrand, useUserProfile } from "../../api/api";
 import UpcomingImg from "../../assets/images/UpcomingImage.jpg";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { TbCurrencyTaka } from "react-icons/tb";
+import { FaChevronCircleRight } from "react-icons/fa";
+import { IoLocationOutline } from "react-icons/io5";
+import { LuShare2 } from "react-icons/lu";
 
 const RecommendedUsedCars = ({ brandName }) => {
-  // Share url section
+  const queryClient = useQueryClient();
+  const { userProfile } = useUserProfile();
+  const [likedCars, setLikedCars] = useState({});
   const { moreCarinBrand } = useMoreCarinBrand(brandName);
+  const [loading, setLoading] = useState(false);
 
   const handleShare = () => {
     const url = window.location.href;
@@ -29,30 +38,7 @@ const RecommendedUsedCars = ({ brandName }) => {
         .catch((err) => console.error("Failed to copy:", err));
     }
   };
-  const cars = [
-    {
-      id: 1,
-      image: CarImage,
-      name: "2023 BMW X7 xDrive",
-      kms: "4,000 kms",
-      fuel: "Petrol",
-      transmission: "Automatic",
-      price: "95 Lakh",
-      location: "Ambli, Ahmedabad",
-    },
-    {
-      id: 2,
-      image: CarImage,
-      name: "2021 Volvo XC 90 B6",
-      kms: "2,000 kms",
-      fuel: "Petrol",
-      transmission: "Automatic",
-      price: "75 Lakh",
-      location: "Ahmedabad",
-    },
-  ];
-
-  const items = [
+const items = [
     {
       key: "1",
       label: (
@@ -61,58 +47,138 @@ const RecommendedUsedCars = ({ brandName }) => {
       children: (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {moreCarinBrand?.slice(0, 2).map((car) => (
-            <Card
+            <div
               key={car.id}
-              hoverable
-              className="rounded-lg shadow-sm border p-2"
-              cover={
-                <div className="relative">
-                  <img
-                    alt={car.name}
-                    src={car.thumbnail_image || UpcomingImg}
-                    className="rounded-t-lg"
-                  />
-                  <HeartOutlined className="absolute top-1 right-1 text-TextColor text-xl bg-white p-1 rounded-full shadow-md cursor-pointer" />
-                </div>
-              }
+              className="relative border rounded-lg bg-white shadow-md overflow-hidden"
             >
-              <div className="p-2">
-                <h3 className="font-semibold text-lg">
+              {/* Like Button */}
+              <div
+                onClick={() => toggleLike(car.id)}
+                className="absolute top-2 right-2 cursor-pointer bg-white p-1 rounded-full shadow-md"
+              >
+                {likedCars[car.id] ? (
+                  <HeartFilled className="text-TextColor text-xl bg-white p-1 rounded-full" />
+                ) : (
+                  <HeartOutlined className="text-TextColor text-xl bg-white p-1 rounded-full" />
+                )}
+              </div>
+
+              {/* Car Image */}
+              <Link to={`/car-details/${car.id}`}>
+                <img
+                  src={car.thumbnail || UpcomingImg}
+                  alt="Car"
+                  className="w-full h-48 object-cover"
+                />
+              </Link>
+
+              {/* Car Details */}
+              <div className="p-4">
+                <h3 className="font-semibold text-lg text-gray-900">
                   {car.year_of_manufacture} {car.make} {car.model}
                 </h3>
-                <p className="text-gray-500 text-sm">
-                  {car.mileage}kms • {car.fuel_type} • {car.transmission}
-                </p>
-                <p className="text-lg font-bold flex items-center">
-                  <FaBangladeshiTakaSign />
-                  {car.price}
-                </p>
-                <div className="flex justify-between items-center mt-2">
-                  <Link
-                    to={`/car-details/${car.id}`}
-                    className="text-TextColor font-semibold flex items-center"
-                  >
-                    View Car Details &rarr;
-                  </Link>
+                <div className="flex items-center justify-between">
+                  <p className="text-gray-600 text-sm">
+                    {car.mileage}kms • {car.fuel_type} • {car.transmission}
+                  </p>
                 </div>
-                <div className="flex items-center justify-between text-gray-500 text-sm mt-2">
-                  <span>
-                    <EnvironmentOutlined className="mr-1" />
-                    {car.district}, {car.division}
+
+                {/* Price Section */}
+                <div className="mt-2 flex items-center justify-between">
+                  <span className="text-xl font-bold text-black flex items-center">
+                    <TbCurrencyTaka className="text-2xl font-extrabold" />{" "}
+                    {car.price} Taka
                   </span>
-                  <FiShare2
-                    onClick={handleShare}
-                    className="text-xl text-TextColor"
-                  />
+                </div>
+
+                {/* View Seller Details */}
+                <Link to={`/car-details/${car.id}`}>
+                  <button className="text-TextColor font-semibold mt-2 flex items-center">
+                    View Car Details <FaChevronCircleRight className="ml-1" />
+                  </button>
+                </Link>
+
+                {/* Divider */}
+                <Divider style={{ borderColor: "#4B5567" }} dashed />
+
+                {/* Location & Share */}
+                <div className="flex items-center justify-between">
+                  <p className="text-gray-500 text-sm flex items-center gap-1">
+                    <IoLocationOutline />
+                    {car.upzila}, {car.division}
+                  </p>
+                  <h3
+                    onClick={() => handleShare(car.id)}
+                    className="flex items-center gap-1 cursor-pointer"
+                  >
+                    <LuShare2 className="mt-[3px]" /> Share
+                  </h3>
                 </div>
               </div>
-            </Card>
+            </div>
           ))}
         </div>
       ),
     },
   ];
 
+  const toggleLike = async (carId) => {
+    if (!userProfile.id) {
+      message.error("You need to log in first!");
+      return;
+    }
+  
+    setLikedCars((prev) => ({
+      ...prev,
+      [carId]: !prev[carId], 
+    }));
+  
+    const user_id = userProfile.id;
+    const vehicle_id = carId;
+  
+    try {
+      setLoading(true);
+      const response = await API.post("/wishlist", { user_id, vehicle_id });
+  
+      queryClient.invalidateQueries(["wishListVechile", user_id]);
+  
+      if (response.status === 201) {
+        message.success("Wishlist Added Successfully");
+      } else if (response.status === 200) {
+        message.success("Wishlist Removed Successfully");
+      }
+  
+    } catch (error) {
+      console.error("Error:", error);
+      message.error("Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+
+
+  useEffect(() => {
+    const fetchWishlist = async () => {
+      try {
+        const response = await API.get(`/wishlist/${userProfile.id}`);
+        const wishlist = response.data.reduce((acc, car) => {
+          acc[car.vehicle_id] = true; // লাইক করা গাড়িগুলো স্টেটে সেট করুন
+          return acc;
+        }, {});
+  
+        console.log("Wishlist Data:", wishlist); // কনসোল লগ করে চেক করুন
+        setLikedCars(wishlist); // স্টেটে সেট করুন
+      } catch (error) {
+        console.error("Error fetching wishlist:", error);
+      }
+    };
+  
+    if (userProfile.id) {
+      fetchWishlist();
+    }
+  }, [userProfile.id]);
+  
   return (
     <div className="p-2 lg:p-6 bg-white">
       <h2 className="text-xl font-bold">Recommended Used Cars</h2>
@@ -120,46 +186,76 @@ const RecommendedUsedCars = ({ brandName }) => {
         Showing 5 more cars you might like
       </p>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {cars.map((car) => (
-          <Card
+        {moreCarinBrand?.slice(0, 2).map((car) => (
+          <div
             key={car.id}
-            hoverable
-            className="rounded-lg shadow-sm border p-2"
-            cover={
-              <div className="relative">
-                <img alt={car.name} src={car.image} className="rounded-t-lg" />
-                <HeartOutlined className="absolute top-1 right-1 text-TextColor text-xl bg-white p-1 rounded-full shadow-md cursor-pointer" />
-              </div>
-            }
+            className="relative border rounded-lg bg-white shadow-md overflow-hidden"
           >
-            <div className="p-2">
-              <h3 className="font-semibold text-lg">{car.name}</h3>
-              <p className="text-gray-500 text-sm">
-                {car.kms} • {car.fuel} • {car.transmission}
-              </p>
-              <p className="text-lg font-bold flex items-center">
-                <FaBangladeshiTakaSign />
-                {car.price}
-              </p>
-              <div className="flex justify-between items-center mt-2">
-                <a
-                  href="#overview"
-                  className="text-TextColor font-semibold flex items-center"
-                >
-                  View Seller Details ➤
-                </a>
+            {/* Like Button */}
+            <div
+              onClick={() => toggleLike(car.id)}
+              className="absolute top-2 right-2 cursor-pointer bg-white p-1 rounded-full shadow-md"
+            >
+              {/* {likedCars[car.id] ? (
+                <HeartFilled className="text-TextColor text-xl bg-white p-1 rounded-full" />
+              ) : (
+                <HeartOutlined className="text-TextColor text-xl bg-white p-1 rounded-full" />
+              )} */}
+            </div>
+
+            {/* Car Image */}
+            <Link to={`/car-details/${car.id}`}>
+              <img
+                src={car.thumbnail || UpcomingImg}
+                alt="Car"
+                className="w-full h-48 object-cover"
+              />
+            </Link>
+
+            {/* Car Details */}
+            <div className="p-4">
+              <h3 className="font-semibold text-lg text-gray-900">
+                {car.year_of_manufacture} {car.make} {car.model}
+              </h3>
+              <div className="flex items-center justify-between">
+                <p className="text-gray-600 text-sm">
+                  {car.mileage}kms • {car.fuel_type} • {car.transmission}
+                </p>
               </div>
-              <div className="flex items-center justify-between text-gray-500 text-sm mt-2">
-                <span>
-                  <EnvironmentOutlined className="mr-1" /> {car.location}
+
+              {/* Price Section */}
+              <div className="mt-2 flex items-center justify-between">
+                <span className="text-xl font-bold text-black flex items-center">
+                  <TbCurrencyTaka className="text-2xl font-extrabold" />{" "}
+                  {car.price} Taka
                 </span>
-                <FiShare2
-                  onClick={handleShare}
-                  className="text-xl text-TextColor"
-                />
+              </div>
+
+              {/* View Seller Details */}
+              <Link to={`/car-details/${car.id}`}>
+                <button className="text-TextColor font-semibold mt-2 flex items-center">
+                  View Car Details <FaChevronCircleRight className="ml-1" />
+                </button>
+              </Link>
+
+              {/* Divider */}
+              <Divider style={{ borderColor: "#4B5567" }} dashed />
+
+              {/* Location & Share */}
+              <div className="flex items-center justify-between">
+                <p className="text-gray-500 text-sm flex items-center gap-1">
+                  <IoLocationOutline />
+                  {car.upzila}, {car.division}
+                </p>
+                <h3
+                  onClick={() => handleShare(car.id)}
+                  className="flex items-center gap-1 cursor-pointer"
+                >
+                  <LuShare2 className="mt-[3px]" /> Share
+                </h3>
               </div>
             </div>
-          </Card>
+          </div>
         ))}
       </div>
       <div className="mt-6 border-t pt-4">

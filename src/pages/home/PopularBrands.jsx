@@ -1,6 +1,6 @@
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useAllBrand } from "../../api/api";
 import LoadingWhile from "../../components/LoadingWhile";
 
@@ -25,6 +25,23 @@ const responsive = {
 
 const PopularBrands = () => {
   const { allBrand, isLoading } = useAllBrand();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+
+  const handleBrand = (brand) => {
+    const newSearchParams = new URLSearchParams(searchParams); // Create a new instance
+    const currentMakes = newSearchParams.getAll("make"); // Preserve previous makes
+
+    // Avoid duplicates
+    if (!currentMakes.includes(brand)) {
+      newSearchParams.append("make", brand);
+    }
+
+    setSearchParams(newSearchParams); // ✅ Correct way to update search params
+
+    navigate(`/advanced-search/?make=${brand}`);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <div className="w-full lg:w-10/12 mx-auto p-4 lg:p-0">
@@ -35,6 +52,7 @@ const PopularBrands = () => {
         ) : (
           allBrand.map((brand, index) => (
             <div
+              onClick={() => handleBrand(brand.brand_name)}
               key={index}
               className="flex flex-col items-center justify-center p-4 bg-gray-50 shadow-md rounded m-2"
             >
@@ -52,7 +70,8 @@ const PopularBrands = () => {
       </Carousel>
       <div className="text-center mt-6">
         <Link
-          to="/new-car#carbrand"
+          to="/advanced-search"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           className="inline-block px-6 py-2 text-sm font-semibold text-white bg-ButtonColor rounded hover:bg-ButtonHover transition-all"
         >
           View All Brands &rarr;

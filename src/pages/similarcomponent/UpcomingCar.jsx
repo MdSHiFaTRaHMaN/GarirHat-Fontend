@@ -1,42 +1,11 @@
 import { Card } from "antd";
-import CarImage from "../../assets/images/carshadow.jpg";
 import { TbCurrencyTaka } from "react-icons/tb";
 import { Link } from "react-router-dom";
+import { useUpcomingCarList } from "../../api/api";
 
 const UpcomingCar = () => {
-  const latestCarsData = [
-    {
-      name: "Rolls-Royce Ghost Series II",
-      price: "৳ 8.95 - 10.52 Cr*",
-      image: CarImage,
-      tag: null,
-    },
-    {
-      name: "Mahindra BE 6",
-      price: "18.90 - 26.90 Lakh*",
-      image: CarImage,
-      tag: null,
-    },
-    {
-      name: "Mahindra XEV 9e",
-      price: "21.90 - 30.50 Lakh",
-      image: CarImage,
-      tag: null,
-    },
-    {
-      name: "Kia Syros",
-      price: "9 - 17.80 Lakh*",
-      image: CarImage,
-      tag: null,
-    },
-    {
-      name: "Honda City",
-      price: "11.82 - 16.55 Lakh*",
-      image: CarImage,
-      tag: null,
-    },
-  ];
-  // const { upcomingCarList }
+  const { upcomingCarList } = useUpcomingCarList();
+
   return (
     <Card className="w-full rounded-lg shadow-lg border p-4 my-7">
       {/* Title */}
@@ -44,12 +13,16 @@ const UpcomingCar = () => {
 
       {/* Car List */}
       <div className="space-y-4">
-        {latestCarsData.map((car, index) => (
-          <div key={index} className="flex items-center space-x-3">
+        {upcomingCarList?.slice(0, 6).map((car, index) => (
+          <Link
+            key={index}
+            to={`/car-details/${car.id}`}
+            className="flex items-center space-x-3"
+          >
             {/* Car Image */}
             <div className="relative">
               <img
-                src={car.image}
+                src={car.thumbnail_image}
                 alt={car.name}
                 className="w-[115px] h-12 rounded-md object-cover"
               />
@@ -63,16 +36,25 @@ const UpcomingCar = () => {
 
             {/* Car Info */}
             <div>
-              <p className="text-sm font-medium">{car.name}</p>
-              <p className="text-sm text-gray-600 flex items-center"><TbCurrencyTaka />{car.price}</p>
+              <p className="text-sm font-medium">
+                {" "}
+                {car.year_of_manufacture} {car.make} {car.model}
+              </p>
+              <p className="text-sm text-gray-600 flex items-center">
+                <TbCurrencyTaka />
+                {car.price} TK
+              </p>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
 
       {/* View More Button */}
       <div className="mt-4">
-        <Link to="/used-car" className="text-TextColor text-sm font-semibold">
+        <Link
+          to="/advanced-search"
+          className="text-TextColor text-sm font-semibold"
+        >
           View All Latest Cars →
         </Link>
       </div>
