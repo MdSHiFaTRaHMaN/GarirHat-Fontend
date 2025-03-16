@@ -89,7 +89,7 @@ const ResultReviewPage = () => {
             </Card>
           ))
         ) : (
-          <p className="text-gray-500 text-center">No cars available.</p>
+          <p className="text-gray-700 text-3xl">No cars available.</p>
         )}
       </div>
     </div>

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { MessageFilled, SearchOutlined } from "@ant-design/icons";
-
 import { BsThreeDots } from "react-icons/bs";
 import { Image } from "antd";
 import Profile from "../../assets/images/profilePic.png";
@@ -15,11 +14,17 @@ const users = [
 
 const Messenger = () => {
   const [selectedUser, setSelectedUser] = useState(null);
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false); // For mobile view
 
   return (
-    <div className="flex bg-gray-100">
+    <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}
-      <div className="w-1/4 bg-white border-r p-4">
+      <div
+        className={`lg:w-1/4 w-full bg-white border-r p-4 lg:block fixed lg:static ${
+          isSidebarVisible ? "block" : "hidden"
+        }`}
+        style={{ top: "0", left: "0", zIndex: "20", height: "100%" }}
+      >
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold">Messages</h2>
           <SearchOutlined className="text-xl" />
@@ -46,8 +51,20 @@ const Messenger = () => {
         </div>
       </div>
 
+      {/* Toggle Sidebar Button (Mobile View) */}
+      <button
+        className="lg:hidden p-4 absolute top-4 left-4 z-10 bg-white rounded-full shadow"
+        onClick={() => setIsSidebarVisible(!isSidebarVisible)}
+      >
+        <BsThreeDots className="text-xl text-gray-600" />
+      </button>
+
       {/* Chat Area */}
-      <div className="flex-1 flex flex-col">
+      <div
+        className={`flex-1 flex flex-col ${
+          isSidebarVisible ? "ml-0" : "ml-0 lg:ml-1/4"
+        }`}
+      >
         {/* Top Bar */}
         <div className="bg-white p-4 border-b flex justify-between items-center">
           {selectedUser ? (
@@ -65,9 +82,6 @@ const Messenger = () => {
           ) : (
             <p className="text-gray-500">Select a user to start chatting</p>
           )}
-          <div className="flex space-x-4">
-            <BsThreeDots className="text-xl text-gray-600" />
-          </div>
         </div>
 
         {/* Chat Box */}

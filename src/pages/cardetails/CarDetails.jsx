@@ -148,7 +148,7 @@ const CarDetails = () => {
           </Carousel>
         </div>
         {/* Right Content Section */}
-        <div className="w-full md:w-2/3 lg:w-2/5 mt-2.5 p-6 flex flex-col justify-between bg-white rounded shadow-md transition-transform scale-y-105">
+        <div className="w-full md:w-full lg:w-2/5 mt-2.5 p-6 flex flex-col justify-between bg-white rounded shadow-md transition-transform scale-y-105">
           {/* Car Info */}
           <div className="flex justify-end gap-3 items-center">
             <button className="bg-green-200 px-1 py-0.5 rounded text-sm ">
@@ -178,8 +178,7 @@ const CarDetails = () => {
               {singleVechile.mileage || "N/A"} kms •{" "}
               {singleVechile.fuel_type || "N/A"} •{" "}
               {singleVechile.transmission || "N/A"} •{" "}
-              {singleVechile.vehicle_condition || "N/A"} •{" "}
-              Loan Available 
+              {singleVechile.vehicle_condition || "N/A"} • Loan Available
             </p>
             <h3 className="text-xl md:text-2xl font-semibold mt-2 flex items-center">
               <TbCurrencyTaka className="mr-1" />
@@ -221,7 +220,7 @@ const CarDetails = () => {
           </div>
 
           {/* Actions Section */}
-          <div className="flex flex-wrap justify-between text-gray-500 text-sm mt-6 py-1">
+          <div className="grid grid-cols-2 lg:grid-cols-4 justify-between text-gray-500 text-sm mt-6 py-1">
             <span
               title="Copy"
               className="flex items-center cursor-pointer hover:text-red-500 transition"
@@ -246,7 +245,7 @@ const CarDetails = () => {
             </span>
             <span
               onClick={() => handleShare(singleVechile.id)}
-              className="flex items-center cursor-pointer hover:text-green-500 transition"
+              className="flex items-center justify-end cursor-pointer hover:text-green-500 transition"
             >
               <ShareAltOutlined className="mr-1 text-TextColor" /> Share
             </span>
@@ -288,6 +287,8 @@ const CarDetails = () => {
       <MessengerModal
         isMessangerModel={isMessangerModel}
         onClose={() => setIsMessangerModel(false)}
+        vechileId={singleVechile.id}
+        vendorId={singleVechile.vendor_id}
       />
       <InterestedModel
         isVisible={interestedModel}

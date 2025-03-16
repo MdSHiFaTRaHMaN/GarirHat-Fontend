@@ -3,19 +3,18 @@ import Main from "../layout/Main";
 import Home from "../pages/home/Home";
 import AllVehiclePage from "../pages/vehicle/AllVehiclePage";
 import CarDetails from "../pages/cardetails/CarDetails";
-import NewsAndStories from "../pages/newsandstory/NewsAndStories";
-import ExpertReviews from "../pages/carexpertreview/ExpertReviews";
+// import NewsAndStories from "../pages/newsandstory/NewsAndStories";
+// import ExpertReviews from "../pages/carexpertreview/ExpertReviews";
+// import CarCollection from "../pages/carcollection/CarCollection";
+// import CarVideosPage from "../pages/carvideopage/CarVideosPage";
+// import TipsandAdvice from "../pages/tipsandadvice/TipsandAdvice";
 import CarReviewPage from "../pages/carreview/CarReviewPage";
-import CarCollection from "../pages/carcollection/CarCollection";
-import CarVideosPage from "../pages/carvideopage/CarVideosPage";
-import TipsandAdvice from "../pages/tipsandadvice/TipsandAdvice";
 import FavoritesCar from "../pages/FavoritesCar";
 import VendorInfo from "../pages/vendorinfopage/VendorInfo";
 import About from "../pages/setting/About";
 import TermsandCondition from "../pages/setting/TermsandCondition";
 import PrivacyPolicy from "../pages/setting/PrivacyPolicy";
 import CorporatePolicies from "../pages/setting/CorporatePolicies";
-import Investors from "../pages/setting/Investors";
 import FAQs from "../pages/setting/FAQs";
 import AutoSuggest from "../AutoSuggest";
 import SearchReasult from "../pages/searchreasult/SearchReasult";
@@ -24,6 +23,7 @@ import ResultReviewPage from "../pages/carreview/ResultReviewPage";
 import UserReviewForm from "../pages/carreview/UserReviewFrom";
 import ErrorPage from "../components/ErrorPage";
 import PrivateRoute from "./PrivateRoute";
+import ComingSoon from "../components/ComingSoon";
 
 const Router = createBrowserRouter([
   {
@@ -53,11 +53,13 @@ const Router = createBrowserRouter([
       },
       {
         path: "/news-and-stories",
-        element: <NewsAndStories />
+        // element: <NewsAndStories />
+        element: <ComingSoon />
       },
       {
         path: "/car-expert-review",
-        element: <ExpertReviews />
+        // element: <ExpertReviews />
+        element: <ComingSoon />
       },
       {
         path: "/car-review",
@@ -69,15 +71,18 @@ const Router = createBrowserRouter([
       },
       {
         path: "/car-collection",
-        element: <CarCollection />
+        // element: <CarCollection />
+        element: <ComingSoon />
       },
       {
         path: "/car-videos",
-        element: <CarVideosPage />
+        // element: <CarVideosPage />
+        element: <ComingSoon />
       },
       {
         path: "/tips-and-advice",
-        element: <TipsandAdvice />
+        // element: <TipsandAdvice />,
+        element: <ComingSoon />
       },
       {
         path: "/favorites-car",
@@ -101,15 +106,17 @@ const Router = createBrowserRouter([
       },
       {
         path: "/corporate-policies",
-        element: <CorporatePolicies />
-      },
-      {
-        path: "/investors",
-        element: <Investors />
+        // element: <CorporatePolicies />
+        element: <ComingSoon />
       },
       {
         path: "/faqs",
-        element: <FAQs />
+        // element: <FAQs />
+        element: <ComingSoon />
+      },
+      {
+        path: "/upcoming",
+        element: <ComingSoon />
       },
       {
         path: "/search",
@@ -135,7 +142,7 @@ const Router = createBrowserRouter([
         path: "*",
         element: <ErrorPage />
       }
-
+       
     ],
   },
 ]);

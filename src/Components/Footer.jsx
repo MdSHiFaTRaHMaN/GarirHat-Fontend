@@ -20,24 +20,24 @@ const Footer = () => {
           </Col>
           <Col xs={24} sm={12} md={6}>
             <h3 className="font-semibold text-lg">CONNECT WITH US</h3>
-            <ul className="space-y-2 mt-2">
-              <li>Contact Us</li>
-              <li>Feedback</li>
-              <li>Careers With Us</li>
-              <li>Advertise with Us</li>
-              <li>Become Partner Dealer</li>
+            <ul className="grid grid-cols-1 space-y-2 mt-2">
+              <Link to="/upcoming">Contact Us</Link >
+              <Link to="/upcoming">Feedback</Link >
+              <Link to="/upcoming">Careers With Us</Link >
+              <Link to="/upcoming">Advertise with Us</Link >
+              <Link to="/upcoming">Become Partner Dealer</Link >
             </ul>
           </Col>
           <Col xs={24} sm={12} md={6}>
             <h3 className="font-semibold text-lg">OTHERS</h3>
-            <ul className="space-y-2 mt-2">
-              <li>TrucksHat</li>
-              <li>TyreHat</li>
-              <li>TractorsHat</li>
-              <li>BikeHat</li>
-              <li>PartsHat</li>
-              <li>Live Auction</li>
-              <li>Emergency Response</li>
+            <ul className="grid grid-cols-1 space-y-2 mt-2">
+              <Link to="/upcoming">TrucksHat</Link >
+              <Link to="/upcoming">TyreHat</Link >
+              <Link to="/upcoming">TractorsHat</Link >
+              <Link to="/upcoming">BikeHat</Link >
+              <Link to="/upcoming">PartsHat</Link >
+              <Link to="/upcoming">Live Auction</Link >
+              <Link to="/upcoming">Emergency Response</Link >
             </ul>
           </Col>
           <Col xs={24} sm={12} md={6}>

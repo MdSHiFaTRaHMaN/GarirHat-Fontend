@@ -59,7 +59,7 @@ const ShowAllCar = () => {
   const start_discount_price = params.get("start_discount_price");
   const end_discount_price = params.get("end_discount_price");
   const vehicle_condition = params.getAll("vehicle_condition");
-  const district = localStorage.getItem("selectedLocation")
+  const district = localStorage.getItem("selectedLocation");
   const filter = {
     make: make,
     model: model,
@@ -83,10 +83,10 @@ const ShowAllCar = () => {
     end_discount_price: end_discount_price ? end_discount_price : "",
     sort: sort ? sort : "",
     order: order ? order : "",
-    district: district? district : "",
+    district: district ? district : "",
   };
 
-  const { allVehicles, isLoading } = useAllVehicles(filter);
+  const { allVehicles, isLoading, error } = useAllVehicles(filter);
 
   if (loading) {
     return;
@@ -140,6 +140,20 @@ const ShowAllCar = () => {
     }
   };
 
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center text-red-600 font-semibold p-4 bg-red-100 rounded-md">
+        <p>⚠️ Something went wrong. Please try again later.</p>
+        <button
+          onClick={() => window.location.reload()}
+          className="mt-2 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition"
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="px-4 md:px-8 lg:px-10 py-6">
       {/* Header Section */}
@@ -165,7 +179,7 @@ const ShowAllCar = () => {
           suffixIcon={
             <FiFilter style={{ color: "#3eb4e7", fontSize: "16px" }} />
           }
-          onChange={handleSortChange} // ✅ Sort পরিবর্তন হলে আপডেট হবে
+          onChange={handleSortChange}
           options={[
             { value: "Price - Low to High", label: "Price - Low to High" },
             { value: "Price - High to Low", label: "Price - High to Low" },
@@ -186,41 +200,44 @@ const ShowAllCar = () => {
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 mt-6">
         {isLoading ? (
           <LoadingWhile />
-        ) : (
+        ) : allVehicles.length > 0 ? (
           allVehicles.map((car) => (
             <div
               key={car.id}
               className="relative border rounded-lg bg-white shadow-md overflow-hidden"
             >
               {/* Like Button */}
-              <div
+              <button
                 onClick={() => toggleLike(car.id)}
-                className="absolute top-2 right-2 cursor-pointer bg-white p-1 rounded-full shadow-md"
+                className="absolute top-2 right-2 cursor-pointer bg-white p-1 rounded-full shadow-md hover:bg-gray-200 transition"
+                aria-label="Like this car"
               >
                 {likedCars[car.id] ? (
-                  <HeartFilled className="text-TextColor text-xl bg-white p-1 rounded-full" />
+                  <HeartFilled className="text-TextColor text-xl" />
                 ) : (
-                  <HeartOutlined className="text-TextColor text-xl bg-white p-1 rounded-full" />
+                  <HeartOutlined className="text-TextColor text-xl" />
                 )}
-              </div>
+              </button>
 
               {/* Car Image */}
               <Link to={`/car-details/${car.id}`}>
                 <img
-                  src={car.thumbnail || CarImage}
-                  alt="Car"
-                  className="w-full h-48 object-cover"
+                  src={car.thumbnail_image || CarImage}
+                  alt={`${car.make} ${car.model}`}
+                  className="w-full h-48 object-cover transition-transform hover:scale-105"
                 />
               </Link>
 
               {/* Car Details */}
               <div className="p-4">
                 <h3 className="font-semibold text-lg text-gray-900">
-                  {car.year_of_manufacture} {car.make} {car.model}
+                  {car.year_of_manufacture} {car.make} {car.model} {car.trim}
                 </h3>
-                <div className="flex items-center justify-between">
-                  <p className="text-gray-600 text-sm">
-                    {car.mileage}kms • {car.fuel_type} • {car.transmission}
+
+                <div className="flex items-center justify-between text-gray-600 text-sm">
+                  <p>
+                    {new Intl.NumberFormat().format(car.mileage)} kms •{" "}
+                    {car.fuel_type} • {car.transmission}
                   </p>
                 </div>
 
@@ -228,13 +245,13 @@ const ShowAllCar = () => {
                 <div className="mt-2 flex items-center justify-between">
                   <span className="text-xl font-bold text-black flex items-center">
                     <TbCurrencyTaka className="text-2xl font-extrabold" />{" "}
-                    {car.price} Taka
+                    {new Intl.NumberFormat().format(car.price)} Taka
                   </span>
                 </div>
 
                 {/* View Seller Details */}
                 <Link to={`/car-details/${car.id}`}>
-                  <button className="text-TextColor font-semibold mt-2 flex items-center">
+                  <button className="text-TextColor font-semibold mt-2 flex items-center hover:underline">
                     View Car Details <FaChevronCircleRight className="ml-1" />
                   </button>
                 </Link>
@@ -243,21 +260,25 @@ const ShowAllCar = () => {
                 <Divider style={{ borderColor: "#4B5567" }} dashed />
 
                 {/* Location & Share */}
-                <div className="flex items-center justify-between">
-                  <p className="text-gray-500 text-sm flex items-center gap-1">
-                    <IoLocationOutline />
-                    {car.upzila}, {car.division}
+                <div className="flex items-center justify-between text-gray-500 text-sm">
+                  <p className="flex items-center gap-1">
+                    <IoLocationOutline /> {car.upzila}, {car.division}
                   </p>
-                  <h3
+                  <button
                     onClick={() => handleShare(car.id)}
-                    className="flex items-center gap-1 cursor-pointer"
+                    className="flex items-center gap-1 cursor-pointer hover:text-gray-700 transition"
+                    aria-label="Share this car"
                   >
                     <LuShare2 className="mt-[3px]" /> Share
-                  </h3>
+                  </button>
                 </div>
               </div>
             </div>
           ))
+        ) : (
+          <p className="text-gray-600 text-3xl text-center w-full col-span-3">
+            No cars available at the moment.
+          </p>
         )}
       </div>
     </div>

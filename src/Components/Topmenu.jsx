@@ -137,20 +137,20 @@ const Topmenu = () => {
             </Link>
           ),
         },
-        { type: "divider" },
-        {
-          key: "4",
-          label: (
-            <Link
-              onClick={() => {
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }}
-              to="/loan-avaiable-car"
-            >
-              Loan Available Cars
-            </Link>
-          ),
-        },
+        // { type: "divider" },
+        // {
+        //   key: "4",
+        //   label: (
+        //     <Link
+        //       onClick={() => {
+        //         window.scrollTo({ top: 0, behavior: "smooth" });
+        //       }}
+        //       to="/loan-avaiable-car"
+        //     >
+        //       Loan Available Cars
+        //     </Link>
+        //   ),
+        // },
       ]}
     />
   );

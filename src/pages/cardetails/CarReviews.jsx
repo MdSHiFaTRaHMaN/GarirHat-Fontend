@@ -3,8 +3,6 @@ import { Button, Rate } from "antd";
 import { FaStar } from "react-icons/fa";
 import { FiFilter } from "react-icons/fi";
 
-
-
 const categories = [
   { label: "ALL", count: 47 },
   { label: "MILEAGE", count: 8 },
@@ -15,6 +13,7 @@ const categories = [
 ];
 
 const CarReviews = ({ ratings, avaregeRating }) => {
+  console.log(ratings);
   const [activeTab, setActiveTab] = useState("ALL");
   const [showAllReviews, setShowAllReviews] = useState(false);
   //  show 2 rewiew
@@ -29,9 +28,11 @@ const CarReviews = ({ ratings, avaregeRating }) => {
     }
   }, [location]);
 
-
   return (
-    <div id="review" className="flex justify-center items-center bg-gray-50 border rounded">
+    <div
+      id="review"
+      className="flex justify-center items-center bg-gray-50 border rounded"
+    >
       <div className="bg-white p-6 w-full">
         {/* Header Section */}
         <h2 className="text-2xl font-bold text-gray-900">
@@ -39,10 +40,14 @@ const CarReviews = ({ ratings, avaregeRating }) => {
         </h2>
         <div className="flex items-center mt-2">
           <FaStar className="text-TextColor text-3xl mr-2" />
-          <h3 className="text-3xl font-semibold">{avaregeRating.toFixed(1)}/5</h3>
+          <h3 className="text-3xl font-semibold">
+            {avaregeRating.toFixed(1)}/5
+          </h3>
           <p className="text-gray-500 ml-2">Overall Rating</p>
         </div>
-        <p className="text-gray-500 text-sm mt-1">Based on {ratings.length} Reviews</p>
+        <p className="text-gray-500 text-sm mt-1">
+          Based on {ratings.length} Reviews
+        </p>
 
         {/* Category Tabs */}
         {/* <div className="flex flex-wrap gap-2 mt-4">
@@ -64,7 +69,7 @@ const CarReviews = ({ ratings, avaregeRating }) => {
         {/* Reviews Section */}
         <div className="mt-6">
           <h3 className="text-lg font-semibold text-gray-800">
-          {ratings.length} Rating and Reviews
+            {ratings.length} Rating and Reviews
           </h3>
 
           {/* Sorting */}
@@ -83,8 +88,17 @@ const CarReviews = ({ ratings, avaregeRating }) => {
                   className="w-10 h-10 rounded-full flex items-center justify-center font-semibold"
                 />
                 <div>
-                  <p className="font-semibold">{review.name} wrote a review</p>
-                  <p className="text-gray-500 text-sm">{review.date}</p>
+                  <p className="font-semibold">{review.name}</p>
+                  <p className="text-gray-500 text-sm">
+                    {new Date(review.updated_at).toLocaleString("en-US", {
+                      hour: "numeric",
+                      minute: "2-digit", 
+                      hour12: true, 
+                      year: "numeric", 
+                      month: "long", 
+                      day: "numeric",
+                    })}
+                  </p>
                 </div>
               </div>
 
@@ -101,9 +115,7 @@ const CarReviews = ({ ratings, avaregeRating }) => {
               </div>
 
               <h4 className="font-bold mt-2">{review.title}</h4>
-              <p className="text-gray-600 text-sm">
-                {review.experience}
-              </p>
+              <p className="text-gray-600 text-sm">{review.experience}</p>
             </div>
           ))}
         </div>

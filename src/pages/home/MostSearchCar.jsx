@@ -57,13 +57,15 @@ const MostSearchCar = () => {
       <h2 className="text-2xl font-bold mb-4">The most searched cars</h2>
 
       <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+      <div className="overflow-x-auto w-full md:w-auto">
         <Tabs
           defaultActiveKey="1"
           items={filterOptions}
-          className="w-full md:w-auto"
+          className="whitespace-nowrap" // Prevents wrapping of tabs
           onChange={handleModelCar}
         />
       </div>
+    </div>
 
       <Carousel responsive={responsive}>
         {isLoading ? (

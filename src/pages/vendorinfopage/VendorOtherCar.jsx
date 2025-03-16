@@ -14,12 +14,11 @@ const VendorOtherCar = ({ vendor_id }) => {
   const [likedCars, setLikedCars] = useState({});
   const [selectedBrand, setSelectBrand] = useState("");
 
-  console.log(selectedBrand)
+  console.log(selectedBrand);
 
   const filter = {
     vendor_id: vendor_id || "",
-    make: selectedBrand || ""
-
+    make: selectedBrand || "",
   };
   const { allVehicles, isLoading } = useAllVehicles(filter);
 
@@ -68,15 +67,17 @@ const VendorOtherCar = ({ vendor_id }) => {
   };
 
   return (
-    <div className="px-2 md:px-8 lg:px-1 py-6">
+    <div className="px-2 md:px-2 lg:px-1 py-6">
       {/* Tabs & Filter Section */}
       <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-        <Tabs
-          defaultActiveKey="1"
-          items={filterOptions}
-          className="w-full md:w-auto"
-          onChange={handleModelCar}
-        />
+        <div className="overflow-x-auto w-full md:w-auto">
+          <Tabs
+            defaultActiveKey="1"
+            items={filterOptions}
+            className="whitespace-nowrap" // Prevents wrapping of tabs
+            onChange={handleModelCar}
+          />
+        </div>
       </div>
 
       {/* Car Grid Section */}

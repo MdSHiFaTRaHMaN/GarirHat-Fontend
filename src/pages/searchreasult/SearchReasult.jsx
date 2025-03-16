@@ -18,7 +18,6 @@ const SearchResult = () => {
   const [likedCars, setLikedCars] = useState({});
   const { userProfile } = useUserProfile();
 
-
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const make = params.get("make");
@@ -28,16 +27,15 @@ const SearchResult = () => {
   const end_price = params.get("end_price");
   const body_type = params.get("body_type");
 
-
-  const vehicleCondition = selectedOption !== 'all'? selectedOption: "";
+  const vehicleCondition = selectedOption !== "all" ? selectedOption : "";
 
   const filter = {
     make: make ? make : selectBrand,
     model,
-    vehicle_condition: vehicle_condition? vehicle_condition: vehicleCondition,
+    vehicle_condition: vehicle_condition ? vehicle_condition : vehicleCondition,
     start_price,
     end_price,
-    body_type
+    body_type,
   };
 
   const { allVehicles, isLoading } = useAllVehicles(filter);
@@ -89,7 +87,6 @@ const SearchResult = () => {
     }));
   };
 
-
   return (
     <div className="w-10/12 mx-auto py-6">
       <h1 className="text-3xl font-bold mb-6">Search Results</h1>
@@ -119,11 +116,13 @@ const SearchResult = () => {
               </div>
 
               {/* Car Image */}
-              <img
-                src={car.thumbnail || CarImage}
-                alt="Car"
-                className="w-full h-48 object-cover"
-              />
+              <Link to={`/car-details/${car.id}`}>
+                <img
+                  src={car.thumbnail_image || CarImage}
+                  alt="Car"
+                  className="w-full h-48 object-cover"
+                />
+              </Link>
 
               {/* Car Details */}
               <div className="p-4">
@@ -157,8 +156,8 @@ const SearchResult = () => {
                 {/* Location & Share */}
                 <div className="flex items-center justify-between">
                   <p className="text-gray-500 text-sm flex items-center gap-1">
-                    <IoLocationOutline className="text-black"/>
-                    {car.upzila}, {car.district}, {car.division}
+                    <IoLocationOutline className="text-black" />
+                    {car.upzila}, {car.division}
                   </p>
                   <h3
                     onClick={() => handleShare(car.id)}

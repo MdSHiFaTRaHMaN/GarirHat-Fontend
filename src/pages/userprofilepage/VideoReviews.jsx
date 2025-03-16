@@ -64,7 +64,7 @@ const videos = [
 ];
 const VideoReviews = () => {
   return (
-    <div>
+    <div className="p-3">
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-semibold">Cars Video Reviews</h1>
         <Button className="bg-ButtonColor hover:!bg-ButtonHover !text-white font-semibold">
