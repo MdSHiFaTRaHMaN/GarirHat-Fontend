@@ -116,6 +116,8 @@ const CarDetails = () => {
     return <LoadingWhile />;
   }
 
+  console.log("singleVechile", singleVechile)
+
   return (
     <div className="bg-white">
       <div className=" w-full lg:w-11/12 mx-auto overflow-hidden flex gap-2.5 flex-col lg:flex-row p-2 lg:p-6">

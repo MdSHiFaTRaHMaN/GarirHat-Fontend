@@ -1,4 +1,4 @@
-import { Modal, Checkbox, Input, Button } from "antd";
+import { Modal, Checkbox, Input, Button, message } from "antd";
 import { useState } from "react";
 
 const ReportAdModal = ({ isVisible, onClose }) => {
@@ -20,12 +20,28 @@ const ReportAdModal = ({ isVisible, onClose }) => {
     );
   };
 
+  const resetForm = () => {
+    setSelectedReasons([]);
+    setComment("");
+  };
+
+  const handleSubmit = () => {
+    message.success("Thank You for Report", 1, () => {
+      onClose();
+      resetForm();
+    });
+  };
+
   return (
     <Modal open={isVisible} onCancel={onClose} footer={null} centered width={500}>
       <h2 className="text-xl font-semibold mb-4">Report the issue with this listing</h2>
       <div className="grid grid-cols-1 space-y-4">
         {reasons.map((reason) => (
-          <Checkbox key={reason} onChange={() => handleCheckboxChange(reason)}>
+          <Checkbox 
+            key={reason} 
+            checked={selectedReasons.includes(reason)}
+            onChange={() => handleCheckboxChange(reason)}
+          >
             {reason}
           </Checkbox>
         ))}
@@ -39,6 +55,7 @@ const ReportAdModal = ({ isVisible, onClose }) => {
         />
         <Button
           block
+          onClick={handleSubmit}
           disabled={selectedReasons.length === 0 && !comment}
           className="mt-3 bg-ButtonColor text-white font-semibold py-5"
         >

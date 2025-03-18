@@ -1,40 +1,42 @@
-import { Button } from "antd";
-import { ArrowRightOutlined } from "@ant-design/icons";
-import Tamim from "../../assets/images/tamim.png"
+import News1 from "../../assets/images/news1.png";
+import News2 from "../../assets/images/news2.png";
+import News3 from "../../assets/images/news3.jpg";
+import News4 from "../../assets/images/news4.jpg";
 import { Link } from "react-router-dom";
 
 const newsArticles = [
   {
-    title: "Women Behind the Wheel: Booming Automobile Sector in Bangladesh",
+    title:
+      "In Terms Of Brand New Car Price In Bangladesh, Which Brand Or Model Is The Best For You? +",
     description:
-      "Bangladesh is witnessing a constant rise in female car buyers. This rise is boosted by financial independence and safety concerns.",
-    author: "GarirHat",
+      "A typical passenger car is designed to get you from point A to point B. But now the car market offers a wide range of cars that differs in not only the layout of the dashboard and placement of the controls but also the engine design.",
+    author: "Mitsubishi ",
     date: "Feb 05, 2025",
-    image: Tamim,
+    image: News1,
   },
   {
-    title: "Rolls Royce Ghost Series II Launched In Bangladesh, Starts From R...",
+    title: "Things to consider before buying your first car.",
     description:
-      "The new Ghost boasts new exterior styling elements like new headlights and tail lights, however the cabin updates remain...",
-    author: "Shreyash",
-    date: "Feb 05, 2025",
-    image: Tamim,
+      "Deciding to buy a car is one of the first steps to making your commute easier. With an increasing number of models to choose from, it becomes quite a challenge to pick the right one. How do you know which car is the best for you? Here are a few tips to keep in mind when buying a car, whether reconditioned or brand new.",
+    author: "The Daily Star",
+    date: "Feb 01, 2025",
+    image: News2,
   },
   {
     title: "Honda Amaze Prices Hiked For The First Time, New Prices Star...",
     description:
       "The new prices of the Honda Amaze range from Rs 8.10 lakh to Rs 11.20 lakh (ex-showroom, pan-Bangladesh).",
-    author: "Dipan",
-    date: "Feb 05, 2025",
-    image: Tamim,
+    author: "News Today",
+    date: "Feb 24, 2025",
+    image: News3,
   },
   {
     title: "Mahindra BE 6 and XEV 9e Full Variant-wise Prices Out",
     description:
       "Along with revealing the Pack Two prices, Mahindra has introduced Pack One Above variant for the BE 6 and Pack Three Sel...",
-    author: "Dipan",
+    author: "Mahindra",
     date: "Feb 05, 2025",
-    image: Tamim,
+    image: News4,
   },
 ];
 
@@ -77,13 +79,13 @@ const CarNews = () => {
           ))}
         </div>
         <div className="text-center mt-6">
-        <Link
-          to="/news-and-stories"
-          className="inline-block px-6 py-2 text-sm font-semibold text-white bg-ButtonColor rounded hover:bg-ButtonHover transition-all"
-        >
-          View All Latest News &rarr;
-        </Link>
-      </div>
+          <Link
+            to="/news-and-stories"
+            className="inline-block px-6 py-2 text-sm font-semibold text-white bg-ButtonColor rounded hover:bg-ButtonHover transition-all"
+          >
+            View All Latest News &rarr;
+          </Link>
+        </div>
       </div>
     </div>
   );

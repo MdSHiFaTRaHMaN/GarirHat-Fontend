@@ -97,7 +97,7 @@ export const useSingleVendor = (vendorId) => {
   return { singleVendor, isLoading, isError, error, refetch };
 };
 
-// logout 
+// logout
 export const signOutUser = () => {
   localStorage.removeItem("token");
 };
@@ -195,8 +195,6 @@ export const useSingleVechile = (vehicleID) => {
   return { singleVechile, isLoading, isError, error, refetch };
 };
 
-// const storedLocation = localStorage.getItem("selectedLocation"); &district=${storedLocation}  location filter
-// /vehicle/all?vehicle_code=T001&model=Camry&year_of_manufacture=2020&year_of_manufacture=2021&make=Honda&page=2&limit=2&sort=&vehicle_code=NATW&page=2&limit=1000?vehicle_code=T002
 // All Car list
 export const useAllCarList = ({ selectBrand, conditionParams }) => {
   const getAllCarList = async () => {
@@ -471,7 +469,7 @@ export const useModelWithBrand = () => {
 
   return { modelWithBrand, isLoading, isError, error, refetch };
 };
-// about us page 
+// about us page
 export const useAboutUs = () => {
   const getAboutUs = async () => {
     const response = await API.get("/settings/about-us");
@@ -491,7 +489,7 @@ export const useAboutUs = () => {
 
   return { aboutUs, isLoading, isError, error, refetch };
 };
-// terms and condition page 
+// terms and condition page
 export const useTermandConditions = () => {
   const getTermandConditions = async () => {
     const response = await API.get("/settings/term-condition");
@@ -511,7 +509,7 @@ export const useTermandConditions = () => {
 
   return { termandConditions, isLoading, isError, error, refetch };
 };
-// privacy policy page 
+// privacy policy page
 export const usePrivacyAndPolicy = () => {
   const getPrivacyAndPolicy = async () => {
     const response = await API.get("/settings/privacy-policy");
@@ -531,7 +529,7 @@ export const usePrivacyAndPolicy = () => {
 
   return { PrivacyAndPolicy, isLoading, isError, error, refetch };
 };
-// my reviews us page 
+// my reviews us page
 export const useMyReviews = () => {
   const getMyReviews = async () => {
     const response = await API.get("/rating/my");
@@ -572,10 +570,10 @@ export const useAllVehicles = ({
   sort = "",
   order = "",
   vendor_id = "",
-  district
+  district = "",
 }) => {
   const getAllVehicle = async () => {
-    const response = await API.get("/vehicle/web?limit=30", {
+    const response = await API.get("/vehicle/web?limit=1000", {
       params: {
         make,
         model,
@@ -596,7 +594,7 @@ export const useAllVehicles = ({
         sort,
         order,
         vendor_id,
-        district
+        district,
       },
       paramsSerializer: (params) => {
         return qs.stringify(params, { arrayFormat: "repeat" }); // ✅ Array কে multiple query param বানাবে
@@ -633,10 +631,79 @@ export const useAllVehicles = ({
       sort,
       order,
       vendor_id,
-      district
+      district,
     ],
     queryFn: getAllVehicle,
   });
 
   return { allVehicles, isLoading, isError, error, refetch };
+};
+
+// my reviews us page
+export const useMessegeList = (userId) => {
+  const getMessegeList = async () => {
+    const response = await API.get(`/message/sender/${userId}`);
+    return response.data.vendors;
+  };
+
+  const {
+    data: messegeList = [],
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ["messegeList", userId],
+    queryFn: getMessegeList,
+  });
+
+  return { messegeList, isLoading, isError, error, refetch };
+};
+
+// my SmS list
+export const useChatList = ({ senderId, venId }) => {
+  const getChatList = async () => {
+    const response = await API.get(
+      `/message/?sender_id=${venId}&receiver_id=${senderId}`
+    );
+    return response.data.data;
+  };
+
+  const {
+    data: chatList = [],
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ["chatList", senderId, venId],
+    queryFn: getChatList,
+  });
+
+  return { chatList, isLoading, isError, error, refetch };
+};
+
+// /message/single?sender_id=v3&receiver_id=u2
+
+// my SmS list
+export const useVendorbyChat = ({ senderId, venId }) => {
+  const getSingleVendor = async () => {
+    const response = await API.get(
+      `/message/single/?sender_id=${venId}&receiver_id=${senderId}`
+    );
+    return response.data.data;
+  };
+
+  const {
+    data: singleVendor = [],
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ["singleVendor", senderId, venId],
+    queryFn: getSingleVendor,
+  });
+
+  return { singleVendor, isLoading, isError, error, refetch };
 };

@@ -4,8 +4,6 @@ import Messenger from "./Messenger";
 import UserProfile from "./UserProfile";
 import { MdReviews } from "react-icons/md";
 import MyReviews from "./MyReviews";
-import { FaVideo } from "react-icons/fa";
-import VideoReviews from "./VideoReviews";
 import { useState, useEffect } from "react";
 
 // For better responsiveness, we'll use state to manage the tab position dynamically
@@ -60,15 +58,6 @@ const ProfilePageLayout = () => {
       ),
       key: "3",
       children: <MyReviews />,
-    },
-    {
-      label: (
-        <span className="flex items-center gap-1">
-          <FaVideo /> Video Reviews
-        </span>
-      ),
-      key: "4",
-      children: <VideoReviews />,
     },
   ];
 

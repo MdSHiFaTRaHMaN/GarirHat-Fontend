@@ -104,3 +104,23 @@ body{
 .scrollbar-hide {
   scrollbar-width: none; /* Firefox */
 }
+
+
+.ant-card{
+  align-items: first baseline;
+  background-color: aqua;
+  color: yellowgreen;
+  display: flexbox;
+  empty-cells: show;
+  font-family: 'Courier New', Courier, monospace;
+  grid-template-columns: max-content;
+  height: 34px;
+  inset-block: 4px;
+  justify-tracks: initial;
+  kerning: 0ch;
+  letter-spacing: normal;
+  margin: 4px;
+  nav-down: auto;
+  overflow: hidden;
+  padding: ;
+}

@@ -1,4 +1,4 @@
-import { Button, Card, message, Modal } from "antd";
+import { Button, message, Modal } from "antd";
 import { FiPhoneCall, FiMail } from "react-icons/fi";
 import Profile from "../../assets/images/profilePic.png";
 import { API, useUserProfile } from "../../api/api";
@@ -41,7 +41,7 @@ const UserProfile = () => {
     <div className="p-6">
       {/* Profile Card */}
       <div className="flex flex-col gap-6 lg:flex-row justify-center items-center lg:justify-between">
-        <Card className="w-full lg:w-3/5 p-6 rounded shadow">
+        <div className="w-full lg:w-3/5 p-6 rounded shadow">
           <div className="flex justify-end">
             <EditProfile userData={userProfile} refetch={refetch} />
           </div>
@@ -71,11 +71,11 @@ const UserProfile = () => {
               <DeleteOutlined /> Delete Account
             </Button>
           </div>
-        </Card>
+        </div>
 
         {/* xPay Accounts & Bills Section */}
         <div className="w-full lg:w-2/5 flex flex-col gap-6">
-          <Card className="w-full p-4 rounded shadow">
+          <div className="w-full p-4 rounded shadow">
             <div className="flex justify-between items-center">
               <h3 className="text-lg font-semibold">Interested Car List</h3>
             </div>
@@ -94,7 +94,7 @@ const UserProfile = () => {
                 </div>
               ))}
             </div>
-          </Card>
+          </div>
         </div>
       </div>
     </div>

@@ -140,19 +140,19 @@ const ShowAllCar = () => {
     }
   };
 
-  if (error) {
-    return (
-      <div className="flex flex-col items-center justify-center text-red-600 font-semibold p-4 bg-red-100 rounded-md">
-        <p>⚠️ Something went wrong. Please try again later.</p>
-        <button
-          onClick={() => window.location.reload()}
-          className="mt-2 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition"
-        >
-          Retry
-        </button>
-      </div>
-    );
-  }
+  // if (error) {
+  //   return (
+  //     <div className="flex flex-col items-center justify-center text-red-600 font-semibold p-4 bg-red-100 rounded-md">
+  //       <p>⚠️ Something went wrong. Please try again later.</p>
+  //       <button
+  //         onClick={() => window.location.reload()}
+  //         className="mt-2 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition"
+  //       >
+  //         Retry
+  //       </button>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="px-4 md:px-8 lg:px-10 py-6">
@@ -204,12 +204,12 @@ const ShowAllCar = () => {
           allVehicles.map((car) => (
             <div
               key={car.id}
-              className="relative border rounded-lg bg-white shadow-md overflow-hidden"
+              className="relative border rounded-lg bg-white shadow-md"
             >
               {/* Like Button */}
               <button
                 onClick={() => toggleLike(car.id)}
-                className="absolute top-2 right-2 cursor-pointer bg-white p-1 rounded-full shadow-md hover:bg-gray-200 transition"
+                className="absolute top-[8px] right-[8px] cursor-pointer bg-white px-[4px] pt-[4px] rounded-full shadow-md hover:bg-gray-200 transition"
                 aria-label="Like this car"
               >
                 {likedCars[car.id] ? (
@@ -224,7 +224,7 @@ const ShowAllCar = () => {
                 <img
                   src={car.thumbnail_image || CarImage}
                   alt={`${car.make} ${car.model}`}
-                  className="w-full h-48 object-cover transition-transform hover:scale-105"
+                  className="w-full h-48 object-cover"
                 />
               </Link>
 

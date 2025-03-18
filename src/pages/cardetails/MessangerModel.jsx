@@ -1,39 +1,89 @@
 import { Modal } from "antd";
 import { useState, useEffect, useRef } from "react";
 import { IoSend } from "react-icons/io5";
-import { FaUserCircle } from "react-icons/fa";
+import io from "socket.io-client";
+import Sound from "../../assets/images/tone.mp3";
+import SendSound from "../../assets/images/notify.mp3";
+import { useChatList, useUserProfile, useVendorbyChat } from "../../api/api";
+import { LuBadgeInfo } from "react-icons/lu";
 
-const MessengerModal = ({ isMessangerModel, onClose }) => {
-  const [messages, setMessages] = useState([
-    { id: 1, text: "Hey, what's up?", sender: "other" },
-    { id: 2, text: "Nothing much, you?", sender: "me" },
-  ]);
+const socket = io("https://api.garirhat.com", { autoConnect: false });
+
+const MessengerModal = ({ isMessangerModel, onClose, vendorId, vechileId }) => {
+  const { userProfile } = useUserProfile();
   const [input, setInput] = useState("");
-  const [isTyping, setIsTyping] = useState(false);
-  const chatRef = useRef(null);
+  const [messages, setMessages] = useState([]);
+  const chatBodyRef = useRef(null);
+  const venId = "v" + vendorId;
+  const senderId = "u" + userProfile?.id;
+  const { chatList, refetch } = useChatList({ venId, senderId });
+  const { singleVendor } = useVendorbyChat({ venId, senderId });
 
-  // Auto scroll to latest message
+  console.log("Messages:", messages);
+
+  // Ensure socket connection
   useEffect(() => {
-    chatRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+    if (venId) {
+      socket.connect();
+      socket.emit("userConnected", senderId);
+    }
 
-  const sendMessage = () => {
-    if (input.trim() === "") return;
+    return () => {
+      socket.disconnect();
+    };
+  }, [venId]);
 
-    const newMessage = { id: messages.length + 1, text: input, sender: "me" };
-    setMessages([...messages, newMessage]);
-    setInput("");
+  // optional funsion
 
-    // Simulate reply
-    setIsTyping(true);
-    setTimeout(() => {
-      setMessages((prev) => [
-        ...prev,
-        { id: prev.length + 1, text: "Thank you for your message. We'll reply shortly.", sender: "other" },
-      ]);
-      setIsTyping(false);
-    }, 1500);
+  useEffect(() => {
+    setMessages(chatList);
+  }, [chatList]);
+
+  useEffect(() => {
+    const messageHandler = (message) => {
+      refetch();
+      if (message.sender_id !== senderId) {
+        const audio = new Audio(SendSound);
+        audio
+          .play()
+          .catch((error) => console.error("Audio play failed:", error));
+      } else {
+        const audio = new Audio(Sound);
+        audio
+          .play()
+          .catch((error) => console.error("Audio play failed:", error));
+      }
+    };
+
+    socket.on("receiveMessage", messageHandler);
+
+    return () => {
+      socket.off("receiveMessage", messageHandler);
+    };
+  }, []);
+
+  // Send message
+  const onSend = () => {
+    if (input.trim()) {
+      const messageData = {
+        sender_id: senderId,
+        receiver_id: venId,
+        message: input,
+        vehicle_id: vechileId,
+      };
+      socket.emit("sendMessage", messageData);
+      refetch();
+      setMessages((prev) => [...prev, messageData]);
+
+      setInput("");
+    }
   };
+
+  useEffect(() => {
+    if (chatBodyRef.current) {
+      chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
+    }
+  }, [chatList]);
 
   return (
     <Modal
@@ -46,35 +96,58 @@ const MessengerModal = ({ isMessangerModel, onClose }) => {
     >
       {/* Chat Container */}
       <div className="w-full overflow-hidden bg-white">
-        
         {/* Header */}
-        <div className="flex items-center bg-white text-black p-3 border-b border-gray-300">
-          <FaUserCircle className="text-3xl text-gray-700 mr-2" />
+        <div className="flex items-center justify-between border-b">
+          <div className="flex items-center bg-white text-black p-2 border-gray-300">
+            <img
+              src={singleVendor.profile_picture}
+              width={48}
+              className="text-3xl text-gray-700 mr-2 rounded-full"
+            />
+            <div>
+              <h3 className="font-semibold">{singleVendor.name}</h3>
+              <p
+                className={`text-sm font-semibold ${
+                  singleVendor?.is_active ? "text-green-500" : "text-red-500"
+                }`}
+              >
+                {singleVendor?.is_active ? "Online" : "Offline"}
+              </p>
+            </div>
+          </div>
           <div>
-            <h3 className="font-semibold">Shakib Al Hasan</h3>
-            <p className="text-sm text-green-500">Active now</p>
+            <LuBadgeInfo className="text-2xl text-TextColor cursor-pointer"/>
           </div>
         </div>
 
         {/* Chat Body */}
-        <div className="p-4 h-96 overflow-y-auto flex flex-col bg-white scrollbar-hide">
-          {messages.map((msg) => (
+        <div
+          ref={chatBodyRef}
+          className="p-4 h-96 overflow-y-auto flex flex-col bg-white scrollbar-hide"
+        >
+          {chatList.map((msg, index) => (
             <div
-              key={msg.id}
-              className={`max-w-[75%] p-3 rounded-lg shadow-md ${
-                msg.sender === "me"
-                  ? "bg-blue-500 text-white ml-auto"
-                  : "bg-gray-200 text-gray-900"
-              } mb-2`}
+              key={index}
+              className={`p-2 my-1 rounded-md ${
+                msg.sender_id === senderId
+                  ? "bg-TextColor text-white self-end"
+                  : "bg-gray-200 text-black self-start"
+              }`}
             >
-              {msg.text}
+              {msg.message}
+              <span
+                className={`block text-xs text-right mt-1 ${
+                  msg.sender_id === senderId ? "text-white" : "text-black"
+                }`}
+              >
+                {new Date(msg.created_at).toLocaleString("en-US", {
+                  hour: "numeric",
+                  minute: "2-digit",
+                  hour12: true,
+                })}
+              </span>
             </div>
           ))}
-
-          {isTyping && (
-            <p className="text-gray-500 text-sm italic">Vendor is typing...</p>
-          )}
-          <div ref={chatRef}></div>
         </div>
 
         {/* Chat Input */}
@@ -82,13 +155,13 @@ const MessengerModal = ({ isMessangerModel, onClose }) => {
           <input
             type="text"
             placeholder="Type a message..."
-            className="flex-1 border bg-gray-50 rounded p-2 focus:outline-none"
+            className="flex-1 border bg-gray-100 rounded p-2 focus:outline-none"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            onKeyPress={(e) => e.key === "Enter" && sendMessage()}
+            onKeyDown={(e) => e.key === "Enter" && onSend()}
           />
           <button
-            onClick={sendMessage}
+            onClick={onSend}
             className="ml-2 bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700 transition-all"
           >
             <IoSend />

@@ -13,7 +13,6 @@ const categories = [
 ];
 
 const CarReviews = ({ ratings, avaregeRating }) => {
-  console.log(ratings);
   const [activeTab, setActiveTab] = useState("ALL");
   const [showAllReviews, setShowAllReviews] = useState(false);
   //  show 2 rewiew
