@@ -707,3 +707,43 @@ export const useVendorbyChat = ({ senderId, venId }) => {
 
   return { singleVendor, isLoading, isError, error, refetch };
 };
+
+export const useMessagesSender = (userId) => {
+  const getMessageSenderList = async () => {
+    const response = await API.get(`/message/sender/${userId}`);
+    return response.data;
+  };
+  const {
+    data: messageSenderList = [],
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ["messageSenderList", userId],
+    queryFn: getMessageSenderList,
+  });
+  return { messageSenderList, isLoading, isError, error, refetch };
+};
+
+export const useSingleUserMessage = ({ sender_id, receiver_id } = {}) => {
+  const getSingleUserMessage = async () => {
+    const response = await API.get("/message/single", {
+      params: { sender_id, receiver_id },
+    });
+    return response.data;
+  };
+
+  const {
+    data: singleUserMessage = [],
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ["singleUserMessage"],
+    queryFn: getSingleUserMessage,
+  });
+
+  return { singleUserMessage, isLoading, isError, error, refetch };
+};

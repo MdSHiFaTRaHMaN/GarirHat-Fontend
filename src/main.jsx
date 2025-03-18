@@ -7,6 +7,13 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import AuthProvider from "./authprovider/AuthProvider";
 const queryClient = new QueryClient();
 
+
+import socket from "./socket.js";
+
+
+socket.connect();
+
+
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>

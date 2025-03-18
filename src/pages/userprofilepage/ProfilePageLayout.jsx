@@ -1,10 +1,10 @@
 import { Tabs } from "antd";
 import { UserOutlined, MessageOutlined } from "@ant-design/icons";
-import Messenger from "./Messenger";
 import UserProfile from "./UserProfile";
 import { MdReviews } from "react-icons/md";
 import MyReviews from "./MyReviews";
 import { useState, useEffect } from "react";
+import Messages from "./messages/Messages";
 
 // For better responsiveness, we'll use state to manage the tab position dynamically
 const ProfilePageLayout = () => {
@@ -48,7 +48,7 @@ const ProfilePageLayout = () => {
         </span>
       ),
       key: "2",
-      children: <Messenger />,
+      children: <Messages />,
     },
     {
       label: (

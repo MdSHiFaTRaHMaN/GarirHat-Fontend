@@ -24,6 +24,8 @@ import UserReviewForm from "../pages/carreview/UserReviewFrom";
 import ErrorPage from "../components/ErrorPage";
 import PrivateRoute from "./PrivateRoute";
 import ComingSoon from "../components/ComingSoon";
+import ContactUs from "../pages/setting/contact/ContactUs";
+import Feedback from "../pages/setting/Feedback";
 
 const Router = createBrowserRouter([
   {
@@ -105,14 +107,20 @@ const Router = createBrowserRouter([
         element: <PrivacyPolicy />
       },
       {
-        path: "/corporate-policies",
-        // element: <CorporatePolicies />
-        element: <ComingSoon />
+        path: "/refund-policy",
+        element: <CorporatePolicies />
       },
       {
         path: "/faqs",
-        // element: <FAQs />
-        element: <ComingSoon />
+        element: <FAQs />
+      },
+      {
+        path: "/contact-us",
+        element: <ContactUs />
+      },
+      {
+        path: "/feedback",
+        element: <Feedback />
       },
       {
         path: "/upcoming",

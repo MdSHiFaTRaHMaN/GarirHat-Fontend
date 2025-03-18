@@ -10,34 +10,114 @@ const Footer = () => {
           <Col xs={24} sm={12} md={6}>
             <h3 className="font-semibold text-lg">ABOUT GARIRHAT</h3>
             <ul className="space-y-5 mt-2">
-              <Link to="/about"><li className="my-1">About</li></Link>
-              <Link to="/term&condition"><li className="my-1">Terms & Conditions</li></Link>
-              <Link to="/privacy-policy"><li className="my-1">Privacy Policy</li></Link>
-              <Link to="/corporate-policies"><li className="my-1">Corporate Policies</li></Link>
+              <Link to="/about">
+                <li
+                  onClick={() => {
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }}
+                  className="my-1"
+                >
+                  About
+                </li>
+              </Link>
+              <Link to="/term&condition">
+                <li
+                  onClick={() => {
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }}
+                  className="my-1"
+                >
+                  Terms & Conditions
+                </li>
+              </Link>
+              <Link to="/privacy-policy">
+                <li
+                  onClick={() => {
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }}
+                  className="my-1"
+                >
+                  Privacy Policy
+                </li>
+              </Link>
+              <Link to="/refund-policy">
+                <li
+                  onClick={() => {
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }}
+                  className="my-1"
+                >
+                  Refund Policy
+                </li>
+              </Link>
               {/* <Link to="/investors"><li className="my-1">Investors</li></Link> */}
-              <Link to="/faqs"><li className="my-1">FAQs</li></Link>
+              <Link to="/faqs">
+                <li
+                  onClick={() => {
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }}
+                  className="my-1"
+                >
+                  FAQs
+                </li>
+              </Link>
             </ul>
           </Col>
           <Col xs={24} sm={12} md={6}>
             <h3 className="font-semibold text-lg">CONNECT WITH US</h3>
             <ul className="grid grid-cols-1 space-y-2 mt-2">
-              <Link to="/upcoming">Contact Us</Link >
-              <Link to="/upcoming">Feedback</Link >
-              <Link to="/upcoming">Careers With Us</Link >
-              <Link to="/upcoming">Advertise with Us</Link >
-              <Link to="/upcoming">Become Partner Dealer</Link >
+              <Link
+                onClick={() => {
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                to="/contact-us"
+              >
+                Contact Us
+              </Link>
+              <Link
+                onClick={() => {
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                to="/feedback"
+              >
+                Feedback
+              </Link>
+              <Link
+                onClick={() => {
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                to="/upcoming"
+              >
+                Careers With Us
+              </Link>
+              <Link
+                onClick={() => {
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                to="/upcoming"
+              >
+                Advertise with Us
+              </Link>
+              <Link
+                onClick={() => {
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                to="/upcoming"
+              >
+                Become Partner Dealer
+              </Link>
             </ul>
           </Col>
           <Col xs={24} sm={12} md={6}>
             <h3 className="font-semibold text-lg">OTHERS</h3>
             <ul className="grid grid-cols-1 space-y-2 mt-2">
-              <Link to="/upcoming">TrucksHat</Link >
-              <Link to="/upcoming">TyreHat</Link >
-              <Link to="/upcoming">TractorsHat</Link >
-              <Link to="/upcoming">BikeHat</Link >
-              <Link to="/upcoming">PartsHat</Link >
-              <Link to="/upcoming">Live Auction</Link >
-              <Link to="/upcoming">Emergency Response</Link >
+              {/* <Link to="/upcoming">TrucksHat</Link > */}
+              {/* <Link to="/upcoming">TyreHat</Link > */}
+              {/* <Link to="/upcoming">TractorsHat</Link > */}
+              <Link to="/upcoming">BikeHat</Link>
+              <Link to="/upcoming">PartsHat</Link>
+              <Link to="/upcoming">Live Auction</Link>
+              <Link to="/upcoming">Emergency Response</Link>
             </ul>
           </Col>
           <Col xs={24} sm={12} md={6}>

@@ -71,6 +71,7 @@ const MessengerModal = ({ isMessangerModel, onClose, vendorId, vechileId }) => {
         message: input,
         vehicle_id: vechileId,
       };
+      console.log("ssssss", messageData)
       socket.emit("sendMessage", messageData);
       refetch();
       setMessages((prev) => [...prev, messageData]);
