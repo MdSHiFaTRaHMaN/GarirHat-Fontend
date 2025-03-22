@@ -15,8 +15,8 @@ const Feedback = () => {
   };
 
   return (
-    <div className='bg-gray-100 py-10 px-1 flex justify-center items-center'>
-      <div className='bg-white p-8 rounded shadow-lg w-full md:w-2/3 lg:w-1/2'>
+    <div className='bg-gray-100 py-2 lg:py-10 px-1 flex justify-center items-center'>
+      <div className='bg-white p-2 md:p-8 lg:p-8 rounded shadow-lg w-full md:w-2/3 lg:w-1/2'>
         <h2 className='text-2xl font-semibold mb-6 text-center'>We Value Your Feedback!</h2>
         <form onSubmit={handleSubmit} className='space-y-4'>
           <input

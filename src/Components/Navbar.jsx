@@ -89,9 +89,6 @@ const Navbar = () => {
       ),
     },
   ];
-  if (isLoading) {
-    return <LoadingWhile />;
-  }
 
   return (
     <div className="bg-gray-50 sticky top-0 !z-50 shadow-md">

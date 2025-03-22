@@ -683,8 +683,6 @@ export const useChatList = ({ senderId, venId }) => {
   return { chatList, isLoading, isError, error, refetch };
 };
 
-// /message/single?sender_id=v3&receiver_id=u2
-
 // my SmS list
 export const useVendorbyChat = ({ senderId, venId }) => {
   const getSingleVendor = async () => {
@@ -746,4 +744,45 @@ export const useSingleUserMessage = ({ sender_id, receiver_id } = {}) => {
   });
 
   return { singleUserMessage, isLoading, isError, error, refetch };
+};
+
+// my single review
+
+export const useMyVideos = (videoId) => {
+  const getMyVideos = async () => {
+    const response = await API.get(`/video/${videoId}`);
+    return response.data.data;
+  };
+  const {
+    data: myVideos = [],
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ["myVideos", videoId],
+    queryFn: getMyVideos,
+  });
+  return { myVideos, isLoading, isError, error, refetch };
+};
+// my videos review
+
+export const useAllVideos = (make, model) => {
+  console.log(make, model)
+  const getAllVideos = async () => {
+    const response = await API.get(`/video/all?make=${make}&model=${model}`);
+    console.log(response)
+    return response.data.data;
+  };
+  const {
+    data: allVideos = [],
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ["allVideos",make, model],
+    queryFn: getAllVideos,
+  });
+  return { allVideos, isLoading, isError, error, refetch };
 };

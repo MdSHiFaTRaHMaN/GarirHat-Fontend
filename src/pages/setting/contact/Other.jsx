@@ -8,14 +8,14 @@ const steps = [
     id: 1,
     title: "Choose Your Car",
     description:
-      "We have compiled recommended information that you want to know to buy your car.",
+      "Verified Listings – Only genuine sellers and dealers.",
     icon: <HiShieldCheck className="text-TextColor text-5xl mb-4" />,
   },
   {
     id: 2,
     title: "Contact Seller",
     description:
-      "After you’ve selected a car, we arrange a viewing to seller location or one of our points.",
+      "Easy Communication – Direct chat with sellers for transparent deals.",
     icon: <FaPhoneFlip className="text-TextColor text-5xl mb-4" />,
   },
   {
@@ -37,7 +37,7 @@ const Other = () => {
   return (
     <div className="bg-gray-100 py-12 px-4">
       <h2 className="text-2xl md:text-3xl font-semibold mb-3">
-        How to buy your car with <span className="text-TextColor">GARIRHAT ?</span>
+        Why Choose GARIRHAT for Buying a Car?
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 bg-white p-5">
         {steps.map((step) => (

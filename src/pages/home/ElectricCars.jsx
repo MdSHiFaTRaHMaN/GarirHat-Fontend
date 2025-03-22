@@ -36,7 +36,7 @@ const ElectricCars = () => {
               className="rounded-lg mb-4 w-full h-40 object-cover"
             />
             <h3 className="text-lg font-semibold mb-2">{car.year_of_manufacture} {car.make} {car.model}</h3>
-            <p className="text-gray-600 mb-4 text-start">৳ {car.discount_price} TK</p>
+            <p className="text-gray-600 mb-4 text-start">৳ {car.discount_price.toLocaleString("en-IN")} TK</p>
             <Link to={`/car-details/${car.id}`}>
               <button className="w-full mb-2 border border-ButtonColor hover:bg-ButtonHover p-2 text-ButtonColor hover:text-white font-semibold rounded-lg">
                 View Car Details

@@ -48,7 +48,7 @@ const BudgetFilter = () => {
 
 
   return (
-    <div id="carbrand">
+    <div id="carbrand" className="w-full">
       {/* Budget Slider */}
       <div className="mb-4">
         <div className="flex justify-between text-sm font-semibold text-gray-700">

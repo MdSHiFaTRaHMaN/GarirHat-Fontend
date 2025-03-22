@@ -1,4 +1,4 @@
-import LoadingImg from "../assets/images/loading.gif";
+import LoadingImg from "../assets/images/loadingvehicle.gif";
 
 const LoadingWhile = () => {
   return (

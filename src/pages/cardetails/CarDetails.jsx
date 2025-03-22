@@ -30,6 +30,8 @@ import { API, useSingleVechile, useUserProfile } from "../../api/api";
 import LoadingWhile from "../../components/LoadingWhile";
 import MessengerModal from "./MessangerModel";
 import { useQueryClient } from "@tanstack/react-query";
+import PrivateRoute from "../../routes/PrivateRoute";
+import { FaFacebook } from "react-icons/fa6";
 
 const CarDetails = () => {
   const { vehicleID } = useParams();
@@ -116,7 +118,16 @@ const CarDetails = () => {
     return <LoadingWhile />;
   }
 
-  console.log("singleVechile", singleVechile)
+  const handleFacebookShare = () => {
+    const ogTitle = "Toyota Land Cruiser Prado Tx-Ltd. 2021 | Bhalogari";
+    const ogDescription = "Bhalogari is a leading car buying and selling website in Bangladesh. Check out this amazing car!";
+    const ogImage = "https://bhalogari-static.s3.amazonaws.com/media/Land_Cruiser_Prado_1644051277_8547344.webp";
+    const url = "https://dev.garirhat.com/car-details/123";
+  
+    const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(ogTitle)}&description=${encodeURIComponent(ogDescription)}&picture=${encodeURIComponent(ogImage)}`;
+    window.open(facebookShareUrl, "_blank", "width=600,height=400");
+  };
+
 
   return (
     <div className="bg-white">
@@ -188,9 +199,8 @@ const CarDetails = () => {
             </h3>
             <Divider dashed />
             <div className="flex items-center mt-2 text-sm text-gray-700">
-              <FaMapMarkerAlt className="mr-2" />
-              {singleVechile.upzila},{singleVechile.district},{" "}
-              {singleVechile.division}
+              <FaMapMarkerAlt className="mr-2 text-TextColor" />
+              {singleVechile.upzila}, {singleVechile.division}
             </div>
           </div>
 
@@ -222,7 +232,7 @@ const CarDetails = () => {
           </div>
 
           {/* Actions Section */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 justify-between text-gray-500 text-sm mt-6 py-1">
+          <div className="flex flex-wrap justify-between text-gray-500 text-sm mt-6 py-1">
             <span
               title="Copy"
               className="flex items-center cursor-pointer hover:text-red-500 transition"
@@ -242,8 +252,13 @@ const CarDetails = () => {
               onClick={() => setIsMessangerModel(true)}
               className="flex items-center cursor-pointer hover:text-blue-500 transition"
             >
-              <MessageOutlined className="mr-1 text-TextColor" /> Chat with
-              Seller
+              <MessageOutlined className="mr-1 text-TextColor" /> Chat
+            </span>
+            <span
+              onClick={handleFacebookShare}
+              className="flex items-center cursor-pointer hover:text-blue-500 transition"
+            >
+              <FaFacebook className="mr-1 text-TextColor" /> Post
             </span>
             <span
               onClick={() => handleShare(singleVechile.id)}
@@ -286,12 +301,16 @@ const CarDetails = () => {
         isVisible={isReportModal}
         onClose={() => setIsReportModal(false)}
       />
+
+      {/* <PrivateRoute> */}
       <MessengerModal
         isMessangerModel={isMessangerModel}
         onClose={() => setIsMessangerModel(false)}
         vechileId={singleVechile.id}
         vendorId={singleVechile.vendor_id}
       />
+      {/* </PrivateRoute> */}
+
       <InterestedModel
         isVisible={interestedModel}
         onClose={() => setInterestedModel(false)}

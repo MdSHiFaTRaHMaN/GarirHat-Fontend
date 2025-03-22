@@ -1,35 +1,58 @@
-import { Select, Divider } from "antd";
-import {
-  AiOutlineSearch,
-  AiOutlineLike,
-  AiOutlineComment,
-} from "react-icons/ai";
-import { FaYoutube } from "react-icons/fa";
-import { useAllBrand, useModelByBrand } from "../../api/api";
+import { Select, Button } from "antd";
+import { AiOutlineSearch } from "react-icons/ai";
+import { useAllBrand, useAllVideos, useModelByBrand } from "../../api/api";
 import { useState } from "react";
-
-const { Option } = Select;
+import { Link, useLocation, useSearchParams } from "react-router-dom";
+import { RiVideoOnAiFill } from "react-icons/ri";
 
 const CarVideo = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const { allBrand } = useAllBrand();
   const [brandID, setBrandID] = useState();
   const { modelByBrand } = useModelByBrand(brandID);
+  const [selectBrand, setSelectBrand] = useState("");
+  const [selectModel, setSelectModel] = useState("");
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const makeName = params.get("make");
+  const modelName = params.get("model");
 
-  console.log(brandID);
+  const make = makeName ? makeName : "";
+  const model = modelName ? modelName : "";
+
+  const { allVideos } = useAllVideos(make, model);
 
   const onSearch = (value) => {
     console.log("search:", value);
   };
-  const handleSelectBrand = (value) => {
+  const handleSelectBrand = (value, label) => {
     setBrandID(value);
+    setSelectBrand(label.label);
   };
-  return (
-    <div className="mx-auto p-4">
-      {/* Title */}
-      <h1 className="text-xl md:text-2xl font-semibold mb-4">
-        Cars videos, car video clips
-      </h1>
+  const handleselectModel = (value) => {
+    setSelectModel(value);
+  };
 
+  const handleSearch = () => {
+    const params = new URLSearchParams(searchParams);
+    params.set("make", selectBrand);
+    params.set("model", selectModel);
+    setSearchParams(params);
+  };
+
+  return (
+    <div className="mx-auto">
+      {/* Title */}
+      <div className="grid lg:flex justify-between items-center">
+        <h1 className="text-xl md:text-2xl font-semibold mb-4">
+          Cars videos, car video clips
+        </h1>
+        <Link to="/add-video">
+          <Button className="bg-ButtonColor w-full  my-2 lg:my-0 hover:!bg-ButtonHover rounded py-2 px-4 !text-white font-semibold flex items-center gap-2">
+            <RiVideoOnAiFill /> Add Video Review
+          </Button>
+        </Link>
+      </div>
       {/* Search Bar */}
       <div className="grid lg:flex gap-3 items-center">
         <Select
@@ -50,56 +73,55 @@ const CarVideo = () => {
           placeholder="Select Car Model"
           optionFilterProp="label"
           options={modelByBrand?.data?.model?.map((model) => ({
-            value: model.id,
+            value: model.model_name,
             label: model.model_name,
           }))}
           disabled={!brandID}
+          onChange={handleselectModel}
         />
 
-        <button className="bg-ButtonColor hover:bg-ButtonHover flex items-center px-12 p-3 rounded-md text-white font-semibold">
+        <button
+          onClick={handleSearch}
+          className="bg-ButtonColor hover:bg-ButtonHover flex items-center px-12 p-3 rounded-md text-white font-semibold"
+        >
           <AiOutlineSearch className="mr-1" />
           Search
         </button>
       </div>
 
       {/* Video Section */}
-      <div className="mt-6 bg-white grid lg:flex gap-5 ">
-        <iframe
-          className="w-full h-[295px] rounded-lg"
-          src="https://www.youtube.com/embed/QEZry7fdej0?si=9XIXPCkdv7KHRq6v"
-          title="YouTube Video Player"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerPolicy="strict-origin-when-cross-origin"
-          allowFullScreen
-        ></iframe>
+      {allVideos?.length > 0 ? (
+        <div key={allVideos[0].id} className="mt-6 bg-white ">
+          <iframe
+            className="w-full h-[200px] lg:h-[375px] rounded-lg"
+            src={allVideos[0].embedUrl}
+            title="YouTube Video Player"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+          ></iframe>
 
-        {/* Video Info */}
-        <div className="mt-4">
-          <h2 className="text-lg font-semibold">
-            The XEV 9e is Mahindra at its best! | First Drive Review |
-            PowerDrift
-          </h2>
-          <div className="flex items-center text-gray-500 text-sm mt-2">
-            <FaYoutube className="text-red-600 mr-1" />
-            <span className="mr-2">GarirHat</span> •
-            <span className="ml-2">6.4K Views • 3 days ago</span>
-          </div>
-          <Divider />
-          <div className="mt-3 flex items-center justify-between text-gray-500">
-            <div className="flex items-center space-x-4">
-              <span className="flex items-center">
-                <AiOutlineLike className="mr-1" /> 4.8K Likes
-              </span>
-              <span className="flex items-center">
-                <AiOutlineComment className="mr-1" /> 34 Comments
-              </span>
-            </div>
-          </div>
-          <div>
-            <Divider />
+          <div className="mt-4">
+            <h2 className="text-lg font-semibold">
+              {allVideos[0].make} {allVideos[0].model} {allVideos[0].trim}
+            </h2>
+            <h4>Year: {allVideos[0].year} </h4>
+            <h4>
+              Video Upload Date:{" "}
+              {new Date(allVideos[0].created_at).toLocaleString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}{" "}
+            </h4>
           </div>
         </div>
-      </div>
+      ) : (
+        <h2 className="text-2xl mt-6">
+          There is no video review for this car. You can watch reviews of other
+          cars if you want.
+        </h2>
+      )}
     </div>
   );
 };

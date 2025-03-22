@@ -1,4 +1,4 @@
-import { Divider, message, Select } from "antd";
+import { Divider, message, Select, Spin } from "antd";
 import CarImage from "../../assets/images/new-car-collection.jpeg";
 import { IoLocationOutline } from "react-icons/io5";
 import { FaChevronCircleRight } from "react-icons/fa";
@@ -18,6 +18,7 @@ const ShowAllCar = () => {
   const [likedCars, setLikedCars] = useState({});
   const { userProfile } = useUserProfile();
   const [loading, setLoading] = useState(false);
+
 
   const [sort, setSort] = useState("");
   const [order, setOrder] = useState("");
@@ -90,7 +91,7 @@ const ShowAllCar = () => {
   const { allVehicles, isLoading } = useAllVehicles(filter);
 
   if (loading) {
-    return;
+    return <Spin />;
   }
 
   const toggleLike = async (carId) => {

@@ -6,7 +6,7 @@ import CarDetails from "../pages/cardetails/CarDetails";
 // import NewsAndStories from "../pages/newsandstory/NewsAndStories";
 // import ExpertReviews from "../pages/carexpertreview/ExpertReviews";
 // import CarCollection from "../pages/carcollection/CarCollection";
-// import CarVideosPage from "../pages/carvideopage/CarVideosPage";
+import CarVideosPage from "../pages/carvideopage/CarVideosPage";
 // import TipsandAdvice from "../pages/tipsandadvice/TipsandAdvice";
 import CarReviewPage from "../pages/carreview/CarReviewPage";
 import FavoritesCar from "../pages/FavoritesCar";
@@ -26,6 +26,15 @@ import PrivateRoute from "./PrivateRoute";
 import ComingSoon from "../components/ComingSoon";
 import ContactUs from "../pages/setting/contact/ContactUs";
 import Feedback from "../pages/setting/Feedback";
+import Auction from "../pages/setting/Auction";
+import Careers from "../pages/setting/Careers";
+import AdvertiseWithUs from "../pages/setting/AdvertiseWithUs";
+import PartnerDealer from "../pages/setting/PartnerDealer";
+import AddVideos from "../pages/carvideopage/AddVideos";
+import SingleVideo from "../pages/carvideopage/SingleVideo";
+import BakeWebsite from "../pages/setting/otherwebsite/BakeWebsite";
+import Test from "../Test";
+import Partshat from "../pages/setting/otherwebsite/Partshat";
 
 const Router = createBrowserRouter([
   {
@@ -36,6 +45,10 @@ const Router = createBrowserRouter([
       {
         path: "/",
         element: <Home></Home>,
+      },
+      {
+        path: "*",
+        element: <ErrorPage />
       },
       {
         path: "/advanced-search",
@@ -78,8 +91,15 @@ const Router = createBrowserRouter([
       },
       {
         path: "/car-videos",
-        // element: <CarVideosPage />
-        element: <ComingSoon />
+        element: <CarVideosPage />
+      },
+      {
+        path: "/add-video",
+        element: <PrivateRoute><AddVideos /></PrivateRoute> 
+      },
+      {
+        path: "/single-video/:videoId",
+        element: <SingleVideo />
       },
       {
         path: "/tips-and-advice",
@@ -123,6 +143,22 @@ const Router = createBrowserRouter([
         element: <Feedback />
       },
       {
+        path: "/auction",
+        element: <Auction />
+      },
+      {
+        path: "/careers",
+        element: <Careers />
+      },
+      {
+        path: "/advertise",
+        element: <AdvertiseWithUs />
+      },
+      {
+        path: "/partner-dealer",
+        element: <PartnerDealer />
+      },
+      {
         path: "/upcoming",
         element: <ComingSoon />
       },
@@ -147,8 +183,16 @@ const Router = createBrowserRouter([
         element : <ResultReviewPage />
       },
       {
-        path: "*",
-        element: <ErrorPage />
+        path: "/bikehat",
+        element: <BakeWebsite />
+      },
+      {
+        path: "/partshat",
+        element: <Partshat />
+      },
+      {
+        path: "/test",
+        element: <Test />
       }
        
     ],

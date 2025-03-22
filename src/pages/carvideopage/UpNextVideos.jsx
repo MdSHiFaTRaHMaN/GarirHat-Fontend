@@ -1,96 +1,47 @@
-import { Card, Pagination } from "antd";
-import { FaPlay } from "react-icons/fa";
-import Youtube from "../../assets/images/youtubet.jpg";
-
-const videos = [
-  {
-    title: "Mahindra XEV 9e First Drive Impressions | Surprisingly...",
-    thumbnail: Youtube,
-    views: "11.8K Views",
-    daysAgo: "3 days ago",
-    channel: "ZigWheels",
-  },
-  {
-    title: "MG Windsor EV Variants Explained: Base Model vs Mid...",
-    thumbnail: Youtube,
-    views: "4.6K Views",
-    daysAgo: "4 days ago",
-    channel: "GarirHat",
-  },
-  {
-    title: "Tata Curvv vs Hyundai Creta: Traditional Or Unique?",
-    thumbnail: Youtube,
-    views: "112K Views",
-    daysAgo: "28 days ago",
-    channel: "GarirHat",
-  },
-  {
-    title: "2024 Honda Amaze Review: Perfect Sedan For Small Family...",
-    thumbnail: Youtube,
-    views: "74K Views",
-    daysAgo: "1 month ago",
-    channel: "GarirHat",
-  },
-  {
-    title: "Tata Curvv vs Hyundai Creta: Traditional Or Unique?",
-    thumbnail: Youtube,
-    views: "112K Views",
-    daysAgo: "28 days ago",
-    channel: "GarirHat",
-  },
-  {
-    title: "2024 Honda Amaze Review: Perfect Sedan For Small Family...",
-    thumbnail: Youtube,
-    views: "74K Views",
-    daysAgo: "1 month ago",
-    channel: "GarirHat",
-  },
-  {
-    title: "Tata Curvv vs Hyundai Creta: Traditional Or Unique?",
-    thumbnail: Youtube,
-    views: "112K Views",
-    daysAgo: "28 days ago",
-    channel: "GarirHat",
-  },
-  {
-    title: "2024 Honda Amaze Review: Perfect Sedan For Small Family...",
-    thumbnail: Youtube,
-    views: "74K Views",
-    daysAgo: "1 month ago",
-    channel: "GarirHat",
-  },
-];
-
+import { useAllVideos } from "../../api/api";
+import { Link, useLocation } from "react-router-dom";
 const UpNextVideos = () => {
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const makeName = params.get("make");
+  const modelName = params.get("model");
+
+  const make = makeName ? makeName : "";
+  const model = modelName ? modelName : "";
+
+  const { allVideos } = useAllVideos(make, model);
+
   return (
-    <div className="p-4 bg-white w-full">
-      <h2 className="text-lg font-semibold mb-4">Up Next</h2>
+    <div className="bg-white w-full">
+      <h2 className="text-lg font-semibold mb-4">More Videos</h2>
       <div className="grid lg:grid-cols-2 gap-4">
-        {videos.map((video, index) => (
-          <div
-            key={index}
-            className="flex items-center space-x-4 p-2 border rounded-lg shadow-md"
-          >
-            <div className="relative w-36 h-24">
-              <img
-                src={video.thumbnail}
-                alt={video.title}
-                className="w-full h-full rounded-md"
-              />
-              <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 rounded-md">
-                <FaPlay className="text-white text-lg" />
+        {allVideos.slice(0, 6).map((video, index) => (
+          <Link to={`/single-video/${video.id}`} key={index}>
+            <div className="flex items-center space-x-4 p-2 border rounded-lg shadow-md">
+              <div className="relative w-36 h-24 bg-gray-100 d">
+                <iframe
+                  className="w-full h-full rounded-lg pointer-events-none"
+                  src={video.embedUrl}
+                  title="YouTube Video Player"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                ></iframe>
+              </div>
+              <div className="flex flex-col justify-between text-sm">
+                <h3 className="font-semibold text-gray-800 leading-tight">
+                  {video.year} {video.make} {video.model} {video.trim}
+                </h3>
+                <p className="text-gray-600">
+                  {new Date(video.created_at).toLocaleString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}{" "}
+                </p>
               </div>
             </div>
-            <div className="flex flex-col justify-between text-sm">
-              <h3 className="font-semibold text-gray-800 leading-tight">
-                {video.title}
-              </h3>
-              <p className="text-gray-500">{video.channel}</p>
-              <p className="text-gray-400">
-                {video.views} • {video.daysAgo}
-              </p>
-            </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

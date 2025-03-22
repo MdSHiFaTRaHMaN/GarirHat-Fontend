@@ -35,7 +35,7 @@ const FavoritesCar = () => {
         .catch((err) => console.error("Failed to copy:", err));
     }
   };
-    //  single delete 
+  //  single delete
   const handleDelete = async (id) => {
     Modal.confirm({
       title: "Are you sure you want to delete this Vehicle?",
@@ -64,8 +64,8 @@ const FavoritesCar = () => {
       },
     });
   };
-    // all delete 
-  const handleAllDelete = async() => {
+  // all delete
+  const handleAllDelete = async () => {
     Modal.confirm({
       title: "Are you sure you want to delete All Vehicle?",
       content: "This action cannot be undone.",
@@ -92,7 +92,7 @@ const FavoritesCar = () => {
         console.log("Deletion cancelled.");
       },
     });
-  }
+  };
 
   return (
     <div className="py-10 w-full lg:w-10/12 mx-auto p-4">
@@ -102,7 +102,9 @@ const FavoritesCar = () => {
         and make your perfect choice with top-notch performance and luxury.
       </p>
       <div className="flex justify-end">
-        <Button onClick={handleAllDelete} danger>Clear All</Button>
+        <Button onClick={handleAllDelete} danger>
+          Clear All
+        </Button>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-10 px-2 lg:px-0.5">
         {isLoading ? (
@@ -125,7 +127,7 @@ const FavoritesCar = () => {
               {/* Car Image */}
               <Link to={`/car-details/${car.vehicle_id}`}>
                 <img
-                  src={car.thumbnail || UpcomingImage}
+                  src={car.thumbnail_image || UpcomingImage}
                   alt="Car"
                   className="w-full h-48 object-cover"
                 />

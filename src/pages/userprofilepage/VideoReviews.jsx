@@ -1,77 +1,23 @@
-import { Button, Divider } from "antd";
+import { Divider } from "antd";
 import { AiOutlineComment, AiOutlineLike } from "react-icons/ai";
-import { FaPlay, FaYoutube } from "react-icons/fa";
-import Youtube from "../../assets/images/youtubet.jpg";
-import { IoVideocam } from "react-icons/io5";
+import { FaYoutube } from "react-icons/fa";
+import VideoAddModel from "./VideoAddModel";
+import { useMyVideos, useUserProfile } from "../../api/api";
 
-const videos = [
-  {
-    title: "Mahindra XEV 9e First Drive Impressions | Surprisingly...",
-    thumbnail: Youtube,
-    views: "11.8K Views",
-    daysAgo: "3 days ago",
-    channel: "ZigWheels",
-  },
-  {
-    title: "MG Windsor EV Variants Explained: Base Model vs Mid...",
-    thumbnail: Youtube,
-    views: "4.6K Views",
-    daysAgo: "4 days ago",
-    channel: "GarirHat",
-  },
-  {
-    title: "Tata Curvv vs Hyundai Creta: Traditional Or Unique?",
-    thumbnail: Youtube,
-    views: "112K Views",
-    daysAgo: "28 days ago",
-    channel: "GarirHat",
-  },
-  {
-    title: "2024 Honda Amaze Review: Perfect Sedan For Small Family...",
-    thumbnail: Youtube,
-    views: "74K Views",
-    daysAgo: "1 month ago",
-    channel: "GarirHat",
-  },
-  {
-    title: "Tata Curvv vs Hyundai Creta: Traditional Or Unique?",
-    thumbnail: Youtube,
-    views: "112K Views",
-    daysAgo: "28 days ago",
-    channel: "GarirHat",
-  },
-  {
-    title: "2024 Honda Amaze Review: Perfect Sedan For Small Family...",
-    thumbnail: Youtube,
-    views: "74K Views",
-    daysAgo: "1 month ago",
-    channel: "GarirHat",
-  },
-  {
-    title: "Tata Curvv vs Hyundai Creta: Traditional Or Unique?",
-    thumbnail: Youtube,
-    views: "112K Views",
-    daysAgo: "28 days ago",
-    channel: "GarirHat",
-  },
-  {
-    title: "2024 Honda Amaze Review: Perfect Sedan For Small Family...",
-    thumbnail: Youtube,
-    views: "74K Views",
-    daysAgo: "1 month ago",
-    channel: "GarirHat",
-  },
-];
 const VideoReviews = () => {
+  const { userProfile } = useUserProfile();
+  const userId = userProfile?.id;
+  const { myVideos, isLoading, refetch } = useMyVideos(userId);
+
+  console.log("myvideo", myVideos);
+
   return (
     <div className="p-3">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold">Cars Video Reviews</h1>
-        <Button className="bg-ButtonColor hover:!bg-ButtonHover !text-white font-semibold">
-          <IoVideocam /> Add Video Review
-        </Button>
+        <h1 className="text-xl font-semibold">My Video Reviews</h1>
+        <VideoAddModel userProfile={userProfile} refetch={refetch} />
       </div>
-      <div className="mt-6 bg-white grid lg:flex gap-5 ">
+      <div className="mt-6 bg-white grid lg:flex gap-5 " id="myvideos">
         <iframe
           className="w-full h-[295px] rounded-lg"
           src="https://www.youtube.com/embed/QEZry7fdej0?si=9XIXPCkdv7KHRq6v"
@@ -108,15 +54,17 @@ const VideoReviews = () => {
           </div>
         </div>
       </div>
-      <div className="p-4 bg-white w-full">
+      <div className="p-1 bg-white w-full">
         <h2 className="text-lg font-semibold mb-4">More Reviews</h2>
-        <div className="grid lg:grid-cols-2 gap-4">
-          {videos.map((video, index) => (
-            <div
-              key={index}
-              className="flex items-center space-x-4 p-2 border rounded-lg shadow-md"
-            >
-              <div className="relative w-36 h-24">
+        {/* <div className="grid lg:grid-cols-2 gap-4">
+          {isLoading
+            ? "Loading..."
+            : myVideos.data.map((video, index) => (
+                <div
+                  key={index}
+                  className="flex items-center space-x-4 p-2 border rounded-lg shadow-md"
+                >
+                  <div className="relative w-36 h-24">
                 <img
                   src={video.thumbnail}
                   alt={video.title}
@@ -135,9 +83,9 @@ const VideoReviews = () => {
                   {video.views} • {video.daysAgo}
                 </p>
               </div>
-            </div>
-          ))}
-        </div>
+                </div>
+              ))}
+        </div> */}
       </div>
     </div>
   );

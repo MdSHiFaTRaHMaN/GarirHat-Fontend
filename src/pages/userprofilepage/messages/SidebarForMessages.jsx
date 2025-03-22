@@ -11,26 +11,25 @@ function SidebarForMessages({ userID }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const userId = "u" + userID;
 
-  const { messageSenderList, isLoading, isError, error, refetch } =
-    useMessagesSender(userId);
+  const { messageSenderList, isLoading, refetch } = useMessagesSender(userId);
 
   // Connect user to socket server
   useEffect(() => {
-    socket.emit("userConnected", userId); // Notify server of user connection
+    socket.emit("userConnected", userId);
   }, [userId]);
 
   useEffect(() => {
-    socket.on("receiveMessage", (message) => {
+    socket.on("receiveMessage", () => {
       refetch();
     });
 
     return () => {
       socket.off("receiveMessage");
     };
-  }, []);
+  }, [refetch]);
 
   const onSearch = (value) => {
-    console.log("value", value);
+    console.log("Search value:", value);
   };
 
   const onSenderSelect = (value) => {
@@ -40,51 +39,45 @@ function SidebarForMessages({ userID }) {
   };
 
   return (
-    <div className=" bg-white border-r">
-      <Link to={`/messages/${userID}`} className="text-lg font-semibold">
+    <div className="bg-white p-1 md:p-2 h-full flex flex-col">
+      <Link className="text-xl font-semibold mb-4">
         Chat
       </Link>
       <Search
-        placeholder="Search sender.."
+        placeholder="Search sender..."
         onSearch={onSearch}
-        className="mb-2"
+        className="mb-4 w-full"
       />
 
-      <div className="h-[70vh] overflow-y-auto border rounded p-2">
+      <div className="flex-1 overflow-y-auto">
         {isLoading ? (
-          <Spin />
+          <div className="flex justify-center items-center h-full">
+            <Spin />
+          </div>
         ) : (
-          messageSenderList?.vendors?.map((senderList, i) => (
+          messageSenderList?.vendors?.map((sender, index) => (
             <div
-              key={i}
-              onClick={() => onSenderSelect(senderList.id)}
-              className="mt-2 bg-gray-300 p-2 rounded cursor-pointer hover:bg-gray-400 transition"
+              key={index}
+              onClick={() => onSenderSelect(sender.id)}
+              className="flex items-center gap-3 p-3 mb-2 bg-gray-100 hover:bg-gray-200 rounded-lg cursor-pointer transition duration-300"
             >
-              <div className="flex w-full">
-                <div className="self-center mr-2 relative">
-                  <Avatar
-                    size="large"
-                    icon={!senderList.profile_pic ? <UserOutlined /> : null}
-                    src={senderList.profile_pic || undefined}
-                  />
-
-                  <span
-                    className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white ${
-                      senderList.is_active ? "bg-green-500" : "bg-gray-400"
-                    }`}
-                  ></span>
-                </div>
-
-                <div className="flex justify-between w-full">
-                  <div>
-                    <h1 className="font-medium">{senderList.name}</h1>
-                    <h2 className="text-sm text-gray-600">
-                      ({senderList.vehicles[0].vehicle_code}){" "}
-                      {senderList.vehicles[0].make}{" "}
-                      {senderList.vehicles[0].model}
-                    </h2>
-                  </div>
-                </div>
+              <div className="relative">
+                <Avatar
+                  size="large"
+                  icon={!sender.profile_picture ? <UserOutlined /> : null}
+                  src={sender.profile_picture || undefined}
+                />
+                <span
+                  className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white ${
+                    sender.is_active ? "bg-green-500" : "bg-gray-400"
+                  }`}
+                />
+              </div>
+              <div>
+                <h1 className="font-semibold">{sender.name}</h1>
+                <p className="text-sm text-gray-600">
+                  ({sender.vehicles[0].vehicle_code}) {sender.vehicles[0].make} {sender.vehicles[0].model}
+                </p>
               </div>
             </div>
           ))

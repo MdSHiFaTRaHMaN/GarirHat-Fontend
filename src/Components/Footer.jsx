@@ -9,13 +9,13 @@ const Footer = () => {
         <Row gutter={[32, 32]}>
           <Col xs={24} sm={12} md={6}>
             <h3 className="font-semibold text-lg">ABOUT GARIRHAT</h3>
-            <ul className="space-y-5 mt-2">
+            <ul className="grid grid-cols-1 space-y-2 mt-2">
               <Link to="/about">
                 <li
                   onClick={() => {
                     window.scrollTo({ top: 0, behavior: "smooth" });
                   }}
-                  className="my-1"
+                  className="font-semibold"
                 >
                   About
                 </li>
@@ -25,9 +25,19 @@ const Footer = () => {
                   onClick={() => {
                     window.scrollTo({ top: 0, behavior: "smooth" });
                   }}
-                  className="my-1"
+                  className="font-semibold"
                 >
                   Terms & Conditions
+                </li>
+              </Link>
+              <Link to="/faqs">
+                <li
+                  onClick={() => {
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }}
+                  className="font-semibold"
+                >
+                  FAQs
                 </li>
               </Link>
               <Link to="/privacy-policy">
@@ -35,7 +45,7 @@ const Footer = () => {
                   onClick={() => {
                     window.scrollTo({ top: 0, behavior: "smooth" });
                   }}
-                  className="my-1"
+                  className="font-semibold"
                 >
                   Privacy Policy
                 </li>
@@ -45,22 +55,12 @@ const Footer = () => {
                   onClick={() => {
                     window.scrollTo({ top: 0, behavior: "smooth" });
                   }}
-                  className="my-1"
+                  className="font-semibold"
                 >
-                  Refund Policy
+                  Return & Refund Policy
                 </li>
               </Link>
-              {/* <Link to="/investors"><li className="my-1">Investors</li></Link> */}
-              <Link to="/faqs">
-                <li
-                  onClick={() => {
-                    window.scrollTo({ top: 0, behavior: "smooth" });
-                  }}
-                  className="my-1"
-                >
-                  FAQs
-                </li>
-              </Link>
+              {/* <Link to="/investors"><li className=">Investors</li></Link> */}
             </ul>
           </Col>
           <Col xs={24} sm={12} md={6}>
@@ -70,6 +70,7 @@ const Footer = () => {
                 onClick={() => {
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
+                className="font-semibold"
                 to="/contact-us"
               >
                 Contact Us
@@ -79,6 +80,7 @@ const Footer = () => {
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
                 to="/feedback"
+                className="font-semibold"
               >
                 Feedback
               </Link>
@@ -86,7 +88,8 @@ const Footer = () => {
                 onClick={() => {
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
-                to="/upcoming"
+                to="/careers"
+                className="font-semibold"
               >
                 Careers With Us
               </Link>
@@ -94,7 +97,8 @@ const Footer = () => {
                 onClick={() => {
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
-                to="/upcoming"
+                to="/advertise"
+                className="font-semibold"
               >
                 Advertise with Us
               </Link>
@@ -102,7 +106,8 @@ const Footer = () => {
                 onClick={() => {
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
-                to="/upcoming"
+                to="/partner-dealer"
+                className="font-semibold"
               >
                 Become Partner Dealer
               </Link>
@@ -114,10 +119,42 @@ const Footer = () => {
               {/* <Link to="/upcoming">TrucksHat</Link > */}
               {/* <Link to="/upcoming">TyreHat</Link > */}
               {/* <Link to="/upcoming">TractorsHat</Link > */}
-              <Link to="/upcoming">BikeHat</Link>
-              <Link to="/upcoming">PartsHat</Link>
-              <Link to="/upcoming">Live Auction</Link>
-              <Link to="/upcoming">Emergency Response</Link>
+              <Link
+                onClick={() => {
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                to="/bikehat"
+                className="font-semibold"
+              >
+                BikeHat
+              </Link>
+              <Link
+                onClick={() => {
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                to="/partshat"
+                className="font-semibold"
+              >
+                PartsHat
+              </Link>
+              <Link
+                onClick={() => {
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                to="/auction"
+                className="font-semibold"
+              >
+                Live Auction
+              </Link>
+              <Link
+                onClick={() => {
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                to="/upcoming"
+                className="font-semibold"
+              >
+                Emergency Response
+              </Link>
             </ul>
           </Col>
           <Col xs={24} sm={12} md={6}>

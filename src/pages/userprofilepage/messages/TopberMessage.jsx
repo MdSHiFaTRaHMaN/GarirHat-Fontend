@@ -22,8 +22,8 @@ function TopberMessage({ senderId, userId, setProfilePic }) {
   }, [senderId, userId, refetch]);
 
   useEffect(() => {
-    if (singleUserMessage?.data?.profile_pic) {
-      setProfilePic(singleUserMessage.data.profile_pic);
+    if (singleUserMessage?.data?.profile_picture) {
+      setProfilePic(singleUserMessage.data.profile_picture);
     }
   }, [singleUserMessage, setProfilePic]);
 
@@ -37,21 +37,21 @@ function TopberMessage({ senderId, userId, setProfilePic }) {
     is_active,
     name,
     phone,
-    profile_pic,
+    profile_picture,
     sign_up_method,
     status,
-    uid,
     vehicles,
   } = singleUserMessage?.data;
 
+  console.log(singleUserMessage)
   return (
-    <div className="mt-2 bg-gray-300 p-2 rounded">
+    <div className="mt-2 bg-gray-200 p-2 rounded ">
       <div className="flex w-full">
         <div className="self-center mr-2 relative">
           <Avatar
             size="large"
-            icon={!profile_pic ? <UserOutlined /> : null}
-            src={profile_pic ? profile_pic : undefined}
+            icon={!profile_picture ? <UserOutlined /> : null}
+            src={profile_picture ? profile_picture : undefined}
           />
 
           <span

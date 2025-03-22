@@ -8,7 +8,6 @@ import ModelYearFilter from "./ModelYearFilter";
 import KilometerFilter from "./KilometerFilter";
 import BodyTypeFilter from "./BodyTypeFilter";
 import TransmissionFilter from "./TransmissionFilter";
-import OwnershipFilter from "./OwnershipFilter";
 import SitesFilter from "./SitesFilter";
 import DiscountFilter from "./DiscountFilter";
 import ColorFilter from "./ColorFilter";
@@ -17,20 +16,9 @@ import VehicleCondition from "./VehicleCondition";
 
 const Sidebar = () => {
   const [activeKeys, setActiveKeys] = useState([
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "10",
-    "11",
-    "12",
+   
   ]);
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
 
   const toggleCollapse = () => {
     if (isCollapsed) {
@@ -42,14 +30,14 @@ const Sidebar = () => {
   };
           //  className="sticky top-0 overflow-x-auto"
   return (
-    <div> 
+    <div className=""> 
       <div >
         <button
           onClick={toggleCollapse}
-          className="border rounded-lg p-3 w-full font-semibold text-lg flex justify-center items-center gap-3"
+          className="border whitespace-nowrap rounded-lg p-3 w-full font-semibold text-lg flex justify-center items-center gap-3"
         >
           <CgOptions />
-          {isCollapsed ? "Expand all filters" : "Collapse all filters"}{" "}
+          {isCollapsed ? "Collapse all filters " : "Expand all filters"}{" "}
           {/* Toggle text */}
         </button>
       </div>
@@ -63,7 +51,7 @@ const Sidebar = () => {
         items={[
           {
             key: "1",
-            label: <span className="font-semibold text-[18px]">Budget</span>,
+            label: <span className="font-semibold text-[18px] whitespace-nowrap">Budget</span>,
             children: <BudgetFilter />,
           },
         ]}
@@ -77,7 +65,7 @@ const Sidebar = () => {
         items={[
           {
             key: "2",
-            label: <span className="font-semibold text-[18px]">Vehicle Conditon</span>,
+            label: <span className="font-semibold text-[18px] whitespace-nowrap">Vehicle Conditon</span>,
             children: <VehicleCondition />,
           },
         ]}
@@ -92,7 +80,7 @@ const Sidebar = () => {
           {
             key: "3",
             label: (
-              <span className="font-semibold text-[18px]">Brand & Model</span>
+              <span className="font-semibold text-[18px] whitespace-nowrap">Brand & Model</span>
             ),
             children: <ModelFilter />,
           },
@@ -108,7 +96,7 @@ const Sidebar = () => {
           {
             key: "4",
             label: (
-              <span className="font-semibold text-[18px]">Model Year</span>
+              <span className="font-semibold text-[18px] whitespace-nowrap">Model Year</span>
             ),
             children: <ModelYearFilter />,
           },
@@ -123,7 +111,7 @@ const Sidebar = () => {
           {
             key: "5",
             label: (
-              <span className="font-semibold text-[18px]">
+              <span className="font-semibold text-[18px] whitespace-nowrap">
                 Kilometer Driven
               </span>
             ),
@@ -140,7 +128,7 @@ const Sidebar = () => {
         items={[
           {
             key: "6",
-            label: <span className="font-semibold text-[18px]">Body Type</span>,
+            label: <span className="font-semibold text-[18px] whitespace-nowrap">Body Type</span>,
             children: <BodyTypeFilter />,
           },
         ]}
@@ -154,7 +142,7 @@ const Sidebar = () => {
           {
             key: "7",
             label: (
-              <span className="font-semibold text-[18px]">Fuel Type Filter</span>
+              <span className="font-semibold text-[18px] whitespace-nowrap">Fuel Type Filter</span>
             ),
             children: <FuelTypeFilter />,
           },
@@ -170,7 +158,7 @@ const Sidebar = () => {
           {
             key: "8",
             label: (
-              <span className="font-semibold text-[18px]">Transmission</span>
+              <span className="font-semibold text-[18px] whitespace-nowrap">Transmission</span>
             ),
             children: <TransmissionFilter />,
           },
@@ -199,7 +187,7 @@ const Sidebar = () => {
         items={[
           {
             key: "10",
-            label: <span className="font-semibold text-[18px]">Seats</span>,
+            label: <span className="font-semibold text-[18px] whitespace-nowrap">Seats</span>,
             children: <SitesFilter />,
           },
         ]}
@@ -212,7 +200,7 @@ const Sidebar = () => {
         items={[
           {
             key: "11",
-            label: <span className="font-semibold text-[18px]">Discount</span>,
+            label: <span className="font-semibold text-[18px] whitespace-nowrap">Discount</span>,
             children: <DiscountFilter />,
           },
         ]}
@@ -226,7 +214,7 @@ const Sidebar = () => {
         items={[
           {
             key: "12",
-            label: <span className="font-semibold text-[18px]">Colors</span>,
+            label: <span className="font-semibold text-[18px] whitespace-nowrap">Colors</span>,
             children: <ColorFilter />,
           },
         ]}

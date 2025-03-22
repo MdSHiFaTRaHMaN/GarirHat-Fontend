@@ -10,7 +10,7 @@ import { LuBadgeInfo } from "react-icons/lu";
 const socket = io("https://api.garirhat.com", { autoConnect: false });
 
 const MessengerModal = ({ isMessangerModel, onClose, vendorId, vechileId }) => {
-  const { userProfile } = useUserProfile();
+  const { userProfile,isLoading } = useUserProfile();
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
   const chatBodyRef = useRef(null);
@@ -19,7 +19,6 @@ const MessengerModal = ({ isMessangerModel, onClose, vendorId, vechileId }) => {
   const { chatList, refetch } = useChatList({ venId, senderId });
   const { singleVendor } = useVendorbyChat({ venId, senderId });
 
-  console.log("Messages:", messages);
 
   // Ensure socket connection
   useEffect(() => {
@@ -71,7 +70,6 @@ const MessengerModal = ({ isMessangerModel, onClose, vendorId, vechileId }) => {
         message: input,
         vehicle_id: vechileId,
       };
-      console.log("ssssss", messageData)
       socket.emit("sendMessage", messageData);
       refetch();
       setMessages((prev) => [...prev, messageData]);
@@ -85,6 +83,10 @@ const MessengerModal = ({ isMessangerModel, onClose, vendorId, vechileId }) => {
       chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
     }
   }, [chatList]);
+
+  if(isLoading){
+    return <div>Loading....</div>
+  }
 
   return (
     <Modal

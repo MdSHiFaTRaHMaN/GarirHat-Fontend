@@ -183,7 +183,7 @@ const Topmenu = () => {
           </Dropdown>
           <a
             target="_blank"
-            href="https://garirhat-admin.onrender.com"
+            href="https://vendor.garirhat.com"
             className="whitespace-nowrap font-semibold text-gray-700 text-sm"
           >
             SELL MY CAR
@@ -220,15 +220,6 @@ const Topmenu = () => {
             </button>
           </div>
           <LocationModel />
-
-          {/* <div
-            onClick={() => setIsModalOpen(true)}
-            className="text-gray-600 font-semibold gap-1 cursor-pointer flex items-center "
-          >
-            <GrLocation className="mt-1" />
-            <h3>{storedLocation || "Select Location"}</h3>
-            <FaSortDown />
-          </div> */}
         </div>
       </div>
 
