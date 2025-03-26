@@ -136,10 +136,6 @@ const CarDetails = () => {
     }
   };
 
-  if (isLoading) {
-    return <LoadingWhile />;
-  }
-
   const navigateToLogin = () => {
     message.warning("Please login to chat with the seller");
     setIsModalOpen(true);
@@ -148,10 +144,8 @@ const CarDetails = () => {
   const handleFacebookShare = () => {
     const ogTitle = `${singleVechile.year_of_manufacture} ${singleVechile.make} ${singleVechile.model} | Bhalogari`;
     const ogDescription =
-      "Bhalogari is a leading car buying and selling website in Bangladesh. Check out this amazing car!";
-    const ogImage =
-      singleVechile.images[0] ||
-      "https://bhalogari-static.s3.amazonaws.com/media/Land_Cruiser_Prado_1644051277_8547344.webp";
+      "GarirHat is a leading car buying and selling website in Bangladesh. Check out this amazing car!";
+    const ogImage = singleVechile.images[0];
     const url = `${window.location.origin}/car-details/${singleVechile.id}`;
 
     const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
@@ -165,6 +159,9 @@ const CarDetails = () => {
   const formatPrice = (price) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
+  if (isLoading) {
+    return <LoadingWhile />;
+  }
 
   return (
     <div className="bg-white">
@@ -196,7 +193,7 @@ const CarDetails = () => {
                     className="absolute bottom-3 right-3 bg-white text-black font-semibold text-xs px-2 py-1 rounded flex items-center gap-1 cursor-pointer hover:scale-105 transition-transform duration-300"
                   >
                     <GrGallery />
-                    {index + 1} photo of {singleVechile.images?.length || 0}
+                    {index + 1} photo of {singleVechile.images?.length || "N/A"}
                   </span>
                 </div>
               ))}
@@ -343,8 +340,8 @@ const CarDetails = () => {
         {/* Left Side Content */}
         <div className="w-full lg:w-7/12 space-y-6">
           <CarOverview singleVechile={singleVechile} />
-          <Features features={singleVechile.features} />
           <Specifications singleVechile={singleVechile} />
+          <Features features={singleVechile.features} />
           <EMICalculator price={singleVechile.price} />
           <CarReviews
             ratings={singleVechile.ratings}
