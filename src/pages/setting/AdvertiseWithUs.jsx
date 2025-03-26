@@ -1,4 +1,4 @@
-import React from "react";
+import { Button } from "antd";
 import {
   FaBullhorn,
   FaChartLine,
@@ -25,6 +25,11 @@ const AdvertiseWithUs = () => {
             Showcase your vehicles to a targeted audience actively searching for
             motor vehicles. Increase your visibility with premium placements.
           </p>
+          <div className="flex justify-end">
+            <Button className="bg-ButtonColor !text-white hover:!bg-ButtonHover hover:!text-white">
+              Start
+            </Button>
+          </div>
         </div>
         <div className="p-4 border border-gray-300 rounded-lg">
           <FaHandshake className="text-2xl mb-2 text-green-500" />
@@ -33,6 +38,11 @@ const AdvertiseWithUs = () => {
             Collaborate with GarirHat to create customized advertising campaigns
             tailored to your business goals.
           </p>
+          <div className="flex justify-end">
+            <Button className="bg-ButtonColor !text-white hover:!bg-ButtonHover hover:!text-white">
+              Start
+            </Button>
+          </div>
         </div>
       </div>
 

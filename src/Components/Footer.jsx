@@ -150,7 +150,7 @@ const Footer = () => {
                 onClick={() => {
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
-                to="/upcoming"
+                to="/emergency-response"
                 className="font-semibold"
               >
                 Emergency Response

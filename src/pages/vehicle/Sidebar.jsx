@@ -30,7 +30,7 @@ const Sidebar = () => {
   };
           //  className="sticky top-0 overflow-x-auto"
   return (
-    <div className=""> 
+    <div> 
       <div >
         <button
           onClick={toggleCollapse}

@@ -4,14 +4,14 @@ const BakeWebsite = () => {
   return (
     <header>
       <div
-        className="w-full bg-center bg-cover h-[38rem]"
+        className="w-full bg-center bg-cover h-[28rem] md:h-[35rem] lg:h-[38rem]"
         style={{
           backgroundImage: `url(${BikeImg})`, // Set the background image using the imported image
         }}
       >
         <div className="flex items-center justify-center w-full h-full bg-gray-900/40">
-          <div className="text-center">
-            <h1 className="text-3xl font-bold text-white lg:text-4xl">
+          <div className="text-center px-4 sm:px-6 lg:px-8">
+            <h1 className="text-2xl font-bold text-white sm:text-3xl lg:text-4xl">
               Bikehat Coming Soon
             </h1>
             <div className="w-full max-w-sm mx-auto mt-6 bg-transparent border bg-white rounded-md">
@@ -24,9 +24,9 @@ const BakeWebsite = () => {
 
                 <button
                   type="button"
-                  className="h-10 px-4 py-2 m-1 text-white transition-colors duration-300 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:bg-blue-400"
+                  className="h-10 px-4 py-2 m-1 text-white transition-colors duration-300 transform bg-ButtonColor rounded-md hover:bg-ButtonHover focus:outline-none focus:bg-blue-400"
                 >
-                  Subscribe
+                  Notify Me
                 </button>
               </form>
             </div>

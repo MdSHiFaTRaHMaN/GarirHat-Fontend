@@ -58,7 +58,10 @@ const TrustedUsedCars = () => {
       <h2 className="text-2xl font-bold mb-4">Trusted used cars by budget</h2>
       <Tabs defaultActiveKey="1" onChange={handleTabChange}>
         {budgetCategories.map((category, idx) => (
-          <TabPane tab={<h3 className="font-semibold">{category.label}</h3>} key={idx + 1}>
+          <TabPane
+            tab={<h3 className="font-semibold">{category.label}</h3>}
+            key={idx + 1}
+          >
             <p className="font-semibold">
               Showing cars within: {startPrice} - {endPrice} Lakh
             </p>
@@ -83,7 +86,9 @@ const TrustedUsedCars = () => {
               <h3 className="text-lg font-semibold mb-2 h-[45px]">
                 {car.year_of_manufacture} {car.make} {car.model}
               </h3>
-              <p className="text-gray-600 mb-4 text-start">৳ {car.price} TK</p>
+              <p className="text-gray-600 mb-4 text-start">
+                ৳ {car.price.toLocaleString()} TK
+              </p>
               <Link to={`/car-details/${car.id}`}>
                 <button className="w-full mb-2 border border-ButtonColor hover:bg-ButtonHover p-2 text-ButtonColor hover:text-white font-semibold rounded-lg">
                   View Car Details

@@ -35,6 +35,8 @@ import SingleVideo from "../pages/carvideopage/SingleVideo";
 import BakeWebsite from "../pages/setting/otherwebsite/BakeWebsite";
 import Test from "../Test";
 import Partshat from "../pages/setting/otherwebsite/Partshat";
+import Share from "../Share";
+import EmergencyResponse from "../pages/setting/EmergencyResponse";
 
 const Router = createBrowserRouter([
   {
@@ -189,6 +191,14 @@ const Router = createBrowserRouter([
       {
         path: "/partshat",
         element: <Partshat />
+      },
+      {
+        path: "/emergency-response",
+        element: <EmergencyResponse />
+      },
+      {
+        path: "/share/:id",
+        element: <Share />
       },
       {
         path: "/test",

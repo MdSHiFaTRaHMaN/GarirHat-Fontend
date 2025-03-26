@@ -6,9 +6,14 @@ import { Link, useParams, useLocation } from "react-router-dom";
 import { FiFilter } from "react-icons/fi";
 import { HeartFilled, HeartOutlined } from "@ant-design/icons";
 import { TbCurrencyTaka } from "react-icons/tb";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LuShare2 } from "react-icons/lu";
-import { API, useAllVehicles, useUserProfile } from "../../api/api";
+import {
+  API,
+  useAllVehicles,
+  useUserProfile,
+  useWishListVechile,
+} from "../../api/api";
 import LoadingWhile from "../../components/LoadingWhile";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -19,6 +24,11 @@ const ShowAllCar = () => {
   const { userProfile } = useUserProfile();
   const [loading, setLoading] = useState(false);
 
+  // console.log("userProfile", userProfile);
+
+  const user_id = userProfile.id;
+
+  // console.log("user_id", user_id);
 
   const [sort, setSort] = useState("");
   const [order, setOrder] = useState("");
@@ -41,6 +51,19 @@ const ShowAllCar = () => {
       setOrder("desc");
     }
   };
+
+  const { wishListVechile } = useWishListVechile(user_id);
+
+  // Wishlist থেকে লাইক করা গাড়িগুলো লোড করা
+  useEffect(() => {
+    if (wishListVechile) {
+      const wishlistData = wishListVechile.reduce((acc, car) => {
+        acc[car.vehicle_id] = true;
+        return acc;
+      }, {});
+      setLikedCars(wishlistData);
+    }
+  }, [wishListVechile]); 
 
   const location = useLocation();
   const params = new URLSearchParams(location.search);
@@ -98,6 +121,8 @@ const ShowAllCar = () => {
     const user_id = userProfile.id;
     const vehicle_id = carId;
 
+    console.log("user_id", user_id);
+
     const wishList = { user_id, vehicle_id };
 
     try {
@@ -142,28 +167,14 @@ const ShowAllCar = () => {
     }
   };
 
-  // if (error) {
-  //   return (
-  //     <div className="flex flex-col items-center justify-center text-red-600 font-semibold p-4 bg-red-100 rounded-md">
-  //       <p>⚠️ Something went wrong. Please try again later.</p>
-  //       <button
-  //         onClick={() => window.location.reload()}
-  //         className="mt-2 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition"
-  //       >
-  //         Retry
-  //       </button>
-  //     </div>
-  //   );
-  // }
-
   return (
-    <div className="px-4 md:px-8 lg:px-10 py-6">
+    <div className="px-4 md:px-8 lg:px-10 py-2">
       {/* Header Section */}
       <div className="mb-6">
         <h1 className="text-2xl font-semibold text-gray-800">
           Buying your dream car? Check Now!
         </h1>
-        <p className="text-sm text-gray-600 my-2">
+        <p className="text-sm text-gray-600 my-2 hidden lg:block">
           GarirHat brings you the latest new & used cars in Bangladesh for 2025
           with updated prices. A wide range of new & used car models from
           various brands is available, offering budget-friendly and
@@ -226,7 +237,7 @@ const ShowAllCar = () => {
                 <img
                   src={car.thumbnail_image || CarImage}
                   alt={`${car.make} ${car.model}`}
-                  className="w-full h-48 object-cover"
+                  className="w-full h-48 object-cover rounded-t-lg"
                 />
               </Link>
 

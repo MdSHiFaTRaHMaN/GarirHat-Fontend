@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ShareAltOutlined,
   MessageOutlined,
@@ -26,17 +26,24 @@ import { TbCurrencyTaka } from "react-icons/tb";
 import ReportAdModel from "./ReportAdModel";
 import SafetyNotice from "./SafetyNotice";
 import InterestedModel from "./InterestedModel";
-import { API, useSingleVechile, useUserProfile } from "../../api/api";
+import {
+  API,
+  useSingleVechile,
+  useUserProfile,
+  useWishListVechile,
+} from "../../api/api";
 import LoadingWhile from "../../components/LoadingWhile";
 import MessengerModal from "./MessangerModel";
 import { useQueryClient } from "@tanstack/react-query";
-import PrivateRoute from "../../routes/PrivateRoute";
 import { FaFacebook } from "react-icons/fa6";
+import LoginModal from "../../components/LoginModel";
+import SoldOutImage from "../../assets/images/soldout.png";
 
 const CarDetails = () => {
   const { vehicleID } = useParams();
   const queryClient = useQueryClient();
   const { singleVechile, isLoading } = useSingleVechile(vehicleID);
+  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMessangerModel, setIsMessangerModel] = useState(false);
   const [isReportModal, setIsReportModal] = useState(false);
@@ -44,6 +51,21 @@ const CarDetails = () => {
   const [likedCars, setLikedCars] = useState(false);
   const { userProfile } = useUserProfile();
   const [loading, setLoading] = useState(false);
+  const user_id = userProfile.id;
+  const vehicle_name = singleVechile.make + " " + singleVechile.model;
+  const { wishListVechile } = useWishListVechile(user_id);
+
+  console.log("singleVechile", singleVechile);
+
+  useEffect(() => {
+    if (wishListVechile) {
+      const wishlistData = wishListVechile.reduce((acc, car) => {
+        acc[car.vehicle_id] = true;
+        return acc;
+      }, {});
+      setLikedCars(wishlistData);
+    }
+  }, [wishListVechile]);
 
   const CustomArrow = ({ type, onClick }) => {
     const isPrev = type === "prev";
@@ -118,47 +140,80 @@ const CarDetails = () => {
     return <LoadingWhile />;
   }
 
+  const navigateToLogin = () => {
+    message.warning("Please login to chat with the seller");
+    setIsModalOpen(true);
+  };
+
   const handleFacebookShare = () => {
-    const ogTitle = "Toyota Land Cruiser Prado Tx-Ltd. 2021 | Bhalogari";
-    const ogDescription = "Bhalogari is a leading car buying and selling website in Bangladesh. Check out this amazing car!";
-    const ogImage = "https://bhalogari-static.s3.amazonaws.com/media/Land_Cruiser_Prado_1644051277_8547344.webp";
-    const url = "https://dev.garirhat.com/car-details/123";
-  
-    const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(ogTitle)}&description=${encodeURIComponent(ogDescription)}&picture=${encodeURIComponent(ogImage)}`;
+    const ogTitle = `${singleVechile.year_of_manufacture} ${singleVechile.make} ${singleVechile.model} | Bhalogari`;
+    const ogDescription =
+      "Bhalogari is a leading car buying and selling website in Bangladesh. Check out this amazing car!";
+    const ogImage =
+      singleVechile.images[0] ||
+      "https://bhalogari-static.s3.amazonaws.com/media/Land_Cruiser_Prado_1644051277_8547344.webp";
+    const url = `${window.location.origin}/car-details/${singleVechile.id}`;
+
+    const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+      url
+    )}&quote=${encodeURIComponent(ogTitle)}&description=${encodeURIComponent(
+      ogDescription
+    )}&picture=${encodeURIComponent(ogImage)}`;
     window.open(facebookShareUrl, "_blank", "width=600,height=400");
   };
 
+  const formatPrice = (price) => {
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
 
   return (
     <div className="bg-white">
       <div className=" w-full lg:w-11/12 mx-auto overflow-hidden flex gap-2.5 flex-col lg:flex-row p-2 lg:p-6">
         {/* Left Image Section */}
+        {/* // singleVechile.status  */}
         <div className="lg:w-3/5">
-          <Carousel
-            arrows
-            prevArrow={<CustomArrow type="prev" />}
-            nextArrow={<CustomArrow type="next" />}
-            infinite={false}
-            autoplay={false}
-            className="h-96 w-[96%]"
-          >
-            {singleVechile.images.map((src, index) => (
-              <div key={index} className="relative">
-                <img
-                  src={src || UpcomingImg}
-                  alt={`Car Image ${index + 1}`}
-                  className="w-full h-[400px] object-cover rounded-lg"
-                />
-                <span
-                  onClick={() => setIsModalOpen(true)}
-                  className="absolute bottom-3 right-3 bg-white text-black font-semibold text-xs px-2 py-1 rounded flex items-center gap-1 cursor-pointer hover:scale-105 transition-transform duration-300"
-                >
-                  <GrGallery />
-                  {singleVechile.images.length} PHOTOS
-                </span>
-              </div>
-            ))}
-          </Carousel>
+          {singleVechile.status === "active" ||
+          singleVechile.status === "Active" ||
+          singleVechile.status === "delete" ||
+          singleVechile.status === "Delete" ? (
+            <Carousel
+              arrows
+              prevArrow={<CustomArrow type="prev" />}
+              nextArrow={<CustomArrow type="next" />}
+              infinite={true}
+              autoplay={false}
+              className=" h-full lg:h-96 w-[96%]"
+            >
+              {singleVechile.images.map((src, index) => (
+                <div key={index} className="relative">
+                  <img
+                    src={src || UpcomingImg}
+                    alt={`Car Image ${index + 1}`}
+                    className="w-full h-full lg:h-[400px] object-cover rounded-lg"
+                  />
+                  <span
+                    onClick={() => setIsGalleryOpen(true)}
+                    className="absolute bottom-3 right-3 bg-white text-black font-semibold text-xs px-2 py-1 rounded flex items-center gap-1 cursor-pointer hover:scale-105 transition-transform duration-300"
+                  >
+                    <GrGallery />
+                    {index + 1} photo of {singleVechile.images?.length || 0}
+                  </span>
+                </div>
+              ))}
+            </Carousel>
+          ) : singleVechile.status === "Sold Out" ? (
+            <img
+              src={SoldOutImage}
+              alt="Sold Out"
+              className="w-[96%] h-full lg:h-[400px] object-cover rounded-lg bg-gray-200"
+            />
+          ) : (
+            <img
+              src={UpcomingImg}
+              alt="Upcoming"
+              className="w-[96%] h-full lg:h-[400px] object-cover rounded-lg"
+            />
+          )}
         </div>
         {/* Right Content Section */}
         <div className="w-full md:w-full lg:w-2/5 mt-2.5 p-6 flex flex-col justify-between bg-white rounded shadow-md transition-transform scale-y-105">
@@ -195,7 +250,10 @@ const CarDetails = () => {
             </p>
             <h3 className="text-xl md:text-2xl font-semibold mt-2 flex items-center">
               <TbCurrencyTaka className="mr-1" />
-              {singleVechile.price || "N/A"} TK
+              {singleVechile.price
+                ? formatPrice(singleVechile.price)
+                : "N/A"}{" "}
+              TK
             </h3>
             <Divider dashed />
             <div className="flex items-center mt-2 text-sm text-gray-700">
@@ -208,7 +266,7 @@ const CarDetails = () => {
           <div className="mt-4">
             <div className="flex w-full gap-2">
               <Link
-                to={`/vendor-info/${singleVechile.vendor_id}`}
+                to={`/vendor-info/${singleVechile.busn_id}`}
                 className="w-full"
               >
                 <Button
@@ -222,7 +280,7 @@ const CarDetails = () => {
                 onClick={() => setInterestedModel(true)}
                 className="w-full font-semibold py-5 text-base bg-gray-50"
               >
-                Make Offer
+                Appointment
               </Button>
             </div>
             <p className="text-gray-600 flex items-center mt-3 text-sm md:text-base">
@@ -248,12 +306,23 @@ const CarDetails = () => {
               <ExclamationCircleOutlined className="mr-1 text-TextColor" />{" "}
               Report Ad
             </span>
-            <span
-              onClick={() => setIsMessangerModel(true)}
-              className="flex items-center cursor-pointer hover:text-blue-500 transition"
-            >
-              <MessageOutlined className="mr-1 text-TextColor" /> Chat
-            </span>
+
+            {user_id ? (
+              <span
+                onClick={() => setIsMessangerModel(true)}
+                className="flex items-center cursor-pointer hover:text-blue-500 transition"
+              >
+                <MessageOutlined className="mr-1 text-TextColor" /> Chat
+              </span>
+            ) : (
+              <span
+                onClick={navigateToLogin}
+                className="flex items-center cursor-pointer hover:text-blue-500 transition"
+              >
+                <MessageOutlined className="mr-1 text-TextColor" /> Chat
+              </span>
+            )}
+
             <span
               onClick={handleFacebookShare}
               className="flex items-center cursor-pointer hover:text-blue-500 transition"
@@ -276,7 +345,7 @@ const CarDetails = () => {
           <CarOverview singleVechile={singleVechile} />
           <Features features={singleVechile.features} />
           <Specifications singleVechile={singleVechile} />
-          <EMICalculator />
+          <EMICalculator price={singleVechile.price} />
           <CarReviews
             ratings={singleVechile.ratings}
             avaregeRating={singleVechile.model_average_rating}
@@ -294,8 +363,8 @@ const CarDetails = () => {
       {/* model  */}
       <GalloryModel
         handleImage={singleVechile.images}
-        isVisible={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        isVisible={isGalleryOpen}
+        onClose={() => setIsGalleryOpen(false)}
       />
       <ReportAdModel
         isVisible={isReportModal}
@@ -307,7 +376,7 @@ const CarDetails = () => {
         isMessangerModel={isMessangerModel}
         onClose={() => setIsMessangerModel(false)}
         vechileId={singleVechile.id}
-        vendorId={singleVechile.vendor_id}
+        vendorId={singleVechile.busn_id}
       />
       {/* </PrivateRoute> */}
 
@@ -315,7 +384,13 @@ const CarDetails = () => {
         isVisible={interestedModel}
         onClose={() => setInterestedModel(false)}
         vechileId={singleVechile.id}
-        vendorId={singleVechile.vendor_id}
+        vendorId={singleVechile.busn_id}
+        vehicle_name={vehicle_name}
+      />
+
+      <LoginModal
+        isVisible={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
       />
     </div>
   );

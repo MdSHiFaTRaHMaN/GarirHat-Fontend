@@ -1,6 +1,11 @@
 import { HeartFilled, HeartOutlined } from "@ant-design/icons";
 import { Divider, message } from "antd";
-import { API, useAllVehicles, useUserProfile } from "../../api/api";
+import {
+  API,
+  useAllVehicles,
+  useUserProfile,
+  useWishListVechile,
+} from "../../api/api";
 import CarImage from "../../assets/images/UpcomingImage.jpg";
 import { IoLocationOutline } from "react-icons/io5";
 import LoadingWhile from "../../components/LoadingWhile";
@@ -8,7 +13,7 @@ import { Link, useParams, useLocation } from "react-router-dom";
 import { TbCurrencyTaka } from "react-icons/tb";
 import { FaChevronCircleRight } from "react-icons/fa";
 import { LuShare2 } from "react-icons/lu";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 
 const SearchResult = () => {
@@ -39,6 +44,20 @@ const SearchResult = () => {
   };
 
   const { allVehicles, isLoading } = useAllVehicles(filter);
+
+  const user_id = userProfile.id;
+
+  const { wishListVechile } = useWishListVechile(user_id);
+
+  useEffect(() => {
+    if (wishListVechile) {
+      const wishlistData = wishListVechile.reduce((acc, car) => {
+        acc[car.vehicle_id] = true;
+        return acc;
+      }, {});
+      setLikedCars(wishlistData);
+    }
+  }, [wishListVechile]);
 
   const handleShare = (id) => {
     console.log("id", id);
@@ -89,7 +108,7 @@ const SearchResult = () => {
 
   return (
     <div className="w-10/12 mx-auto py-6">
-      <h1 className="text-3xl font-bold mb-6">Search Results</h1>
+      <h1 className="text-3xl font-bold mb-6">Search Results </h1>
       <h2 className="text-xl font-semibold text-gray-700 mb-4">
         {selectBrand} <span className="text-gray-500">Car Models</span>
       </h2>

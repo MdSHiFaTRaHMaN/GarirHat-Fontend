@@ -268,7 +268,7 @@ export const useWishListVechile = (user_id) => {
 export const useMostSearchCar = ({ selectBrand }) => {
   const getMostSearchCar = async () => {
     const response = await API.get(
-      `/vehicle/all?make=${encodeURIComponent(selectBrand)}&limit=1000`
+      `/vehicle/web?make=${encodeURIComponent(selectBrand)}&limit=1000`
     );
     return response.data.data;
   };
@@ -291,7 +291,7 @@ export const useMostSearchCar = ({ selectBrand }) => {
 export const useElecticCarList = () => {
   const getElecticCarList = async () => {
     const response = await API.get(
-      `/vehicle/all?fuel_type=Electric&limit=1000`
+      `/vehicle/web?fuel_type=Electric&limit=1000`
     );
     return response.data.data;
   };
@@ -314,7 +314,7 @@ export const useElecticCarList = () => {
 export const useUpcomingCarList = () => {
   const getUpcomingCarList = async () => {
     const response = await API.get(
-      `/vehicle/all?vehicle_condition=Upcoming Car&limit=1000`
+      `/vehicle/web?vehicle_condition=Upcoming Car&limit=1000`
     );
     return response.data.data;
   };
@@ -339,7 +339,7 @@ export const useBudgetCarList = (startPrice, endPrice) => {
   const getBudgetCarList = async () => {
     // /vehicle/web?start_price=1&end_price=1000000&start_price=1000000&end_price=3000000
     const response = await API.get(
-      `/vehicle/all?start_price=${startPrice}&end_price=${endPrice}&limit=1000`
+      `/vehicle/web?start_price=${startPrice}&end_price=${endPrice}&limit=1000`
     );
     return response.data.data;
   };
@@ -363,7 +363,7 @@ export const useBudgetCarList = (startPrice, endPrice) => {
 export const useCarReviewList = (selectModel) => {
   const getCarReviewList = async () => {
     const response = await API.get(
-      `/vehicle/all?model=${selectModel}&limit=1000`
+      `/vehicle/web?model=${selectModel}&limit=1000`
     );
     return response.data.data;
   };
@@ -386,7 +386,7 @@ export const useCarReviewList = (selectModel) => {
 export const useMoreCarinBrand = (searchBrand) => {
   const getMoreCarinBrand = async () => {
     const response = await API.get(
-      `/vehicle/all?make=${searchBrand}&limit=1000`
+      `/vehicle/web?make=${searchBrand}&limit=1000`
     );
     return response.data.data;
   };
@@ -569,7 +569,7 @@ export const useAllVehicles = ({
   end_discount_price = "",
   sort = "",
   order = "",
-  vendor_id = "",
+  busn_id = "",
   district = "",
 }) => {
   const getAllVehicle = async () => {
@@ -593,7 +593,7 @@ export const useAllVehicles = ({
         end_discount_price,
         sort,
         order,
-        vendor_id,
+        busn_id,
         district,
       },
       paramsSerializer: (params) => {
@@ -630,7 +630,7 @@ export const useAllVehicles = ({
       end_discount_price,
       sort,
       order,
-      vendor_id,
+      busn_id,
       district,
     ],
     queryFn: getAllVehicle,
@@ -785,4 +785,24 @@ export const useAllVideos = (make, model) => {
     queryFn: getAllVideos,
   });
   return { allVideos, isLoading, isError, error, refetch };
+};
+
+// single vendor brand 
+
+export const useBrandWithVendor = (vendor_id) => {
+  const getBrandWvendor = async () => {
+    const response = await API.get(`/vehicle/vendor/${vendor_id}`);
+    return response.data.data;
+  };
+  const {
+    data: brandWvendor = [],
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ["brandWvendor", vendor_id],
+    queryFn: getBrandWvendor,
+  });
+  return { brandWvendor, isLoading, isError, error, refetch };
 };

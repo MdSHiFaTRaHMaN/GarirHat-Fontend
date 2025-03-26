@@ -18,7 +18,7 @@ const Features = ({ features = [] }) => {
     .filter((category) => category.name !== "Others")
     .map((category) => ({
       key: category.id.toString(),
-      label: <span className="text-base">{category.name}</span>,
+      label: <span className="text-base font-semibold">{category.name}</span>,
       children: (
         <div className="grid lg:grid-cols-2 gap-4 text-gray-700">
           {category.feature.length > 0 ? (

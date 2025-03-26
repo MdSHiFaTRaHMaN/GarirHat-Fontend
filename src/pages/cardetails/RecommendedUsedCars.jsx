@@ -1,9 +1,11 @@
 import { Collapse, Divider, message } from "antd";
+import { HeartOutlined, HeartFilled } from "@ant-design/icons";
 import {
-  HeartOutlined,
-  HeartFilled,
-} from "@ant-design/icons";
-import { API, useMoreCarinBrand, useUserProfile } from "../../api/api";
+  API,
+  useMoreCarinBrand,
+  useUserProfile,
+  useWishListVechile,
+} from "../../api/api";
 import UpcomingImg from "../../assets/images/UpcomingImage.jpg";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -19,6 +21,20 @@ const RecommendedUsedCars = ({ brandName }) => {
   const [likedCars, setLikedCars] = useState({});
   const { moreCarinBrand } = useMoreCarinBrand(brandName);
   const [loading, setLoading] = useState(false);
+
+  const user_id = userProfile.id;
+
+  const { wishListVechile } = useWishListVechile(user_id);
+
+  useEffect(() => {
+    if (wishListVechile) {
+      const wishlistData = wishListVechile.reduce((acc, car) => {
+        acc[car.vehicle_id] = true;
+        return acc;
+      }, {});
+      setLikedCars(wishlistData);
+    }
+  }, [wishListVechile]);
 
   const handleShare = () => {
     const url = window.location.href;
@@ -38,7 +54,7 @@ const RecommendedUsedCars = ({ brandName }) => {
         .catch((err) => console.error("Failed to copy:", err));
     }
   };
-const items = [
+  const items = [
     {
       key: "1",
       label: (
@@ -64,7 +80,12 @@ const items = [
               </div>
 
               {/* Car Image */}
-              <Link to={`/car-details/${car.id}`}>
+              <Link
+                onClick={() => {
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                to={`/car-details/${car.id}`}
+              >
                 <img
                   src={car.thumbnail || UpcomingImg}
                   alt="Car"
@@ -92,7 +113,12 @@ const items = [
                 </div>
 
                 {/* View Seller Details */}
-                <Link to={`/car-details/${car.id}`}>
+                <Link
+                  onClick={() => {
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }}
+                  to={`/car-details/${car.id}`}
+                >
                   <button className="text-TextColor font-semibold mt-2 flex items-center">
                     View Car Details <FaChevronCircleRight className="ml-1" />
                   </button>
@@ -127,27 +153,26 @@ const items = [
       message.error("You need to log in first!");
       return;
     }
-  
+
     setLikedCars((prev) => ({
       ...prev,
-      [carId]: !prev[carId], 
+      [carId]: !prev[carId],
     }));
-  
+
     const user_id = userProfile.id;
     const vehicle_id = carId;
-  
+
     try {
       setLoading(true);
       const response = await API.post("/wishlist", { user_id, vehicle_id });
-  
+
       queryClient.invalidateQueries(["wishListVechile", user_id]);
-  
+
       if (response.status === 201) {
         message.success("Wishlist Added Successfully");
       } else if (response.status === 200) {
         message.success("Wishlist Removed Successfully");
       }
-  
     } catch (error) {
       console.error("Error:", error);
       message.error("Something went wrong");
@@ -155,30 +180,28 @@ const items = [
       setLoading(false);
     }
   };
-  
-
 
   useEffect(() => {
     const fetchWishlist = async () => {
       try {
         const response = await API.get(`/wishlist/${userProfile.id}`);
         const wishlist = response.data.reduce((acc, car) => {
-          acc[car.vehicle_id] = true; // লাইক করা গাড়িগুলো স্টেটে সেট করুন
+          acc[car.vehicle_id] = true;
           return acc;
         }, {});
-  
-        console.log("Wishlist Data:", wishlist); // কনসোল লগ করে চেক করুন
-        setLikedCars(wishlist); // স্টেটে সেট করুন
+
+        console.log("Wishlist Data:", wishlist);
+        setLikedCars(wishlist);
       } catch (error) {
         console.error("Error fetching wishlist:", error);
       }
     };
-  
+
     if (userProfile.id) {
       fetchWishlist();
     }
   }, [userProfile.id]);
-  
+
   return (
     <div className="p-2 lg:p-6 bg-white">
       <h2 className="text-xl font-bold">Recommended Used Cars</h2>
@@ -196,15 +219,20 @@ const items = [
               onClick={() => toggleLike(car.id)}
               className="absolute top-2 right-2 cursor-pointer bg-white p-1 rounded-full shadow-md"
             >
-              {/* {likedCars[car.id] ? (
+              {likedCars[car.id] ? (
                 <HeartFilled className="text-TextColor text-xl bg-white p-1 rounded-full" />
               ) : (
                 <HeartOutlined className="text-TextColor text-xl bg-white p-1 rounded-full" />
-              )} */}
+              )}
             </div>
 
             {/* Car Image */}
-            <Link to={`/car-details/${car.id}`}>
+            <Link
+              onClick={() => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              to={`/car-details/${car.id}`}
+            >
               <img
                 src={car.thumbnail || UpcomingImg}
                 alt="Car"
@@ -232,7 +260,12 @@ const items = [
               </div>
 
               {/* View Seller Details */}
-              <Link to={`/car-details/${car.id}`}>
+              <Link
+                onClick={() => {
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                to={`/car-details/${car.id}`}
+              >
                 <button className="text-TextColor font-semibold mt-2 flex items-center">
                   View Car Details <FaChevronCircleRight className="ml-1" />
                 </button>

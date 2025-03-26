@@ -14,7 +14,7 @@ const MessengerModal = ({ isMessangerModel, onClose, vendorId, vechileId }) => {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
   const chatBodyRef = useRef(null);
-  const venId = "v" + vendorId;
+  const venId = vendorId ;
   const senderId = "u" + userProfile?.id;
   const { chatList, refetch } = useChatList({ venId, senderId });
   const { singleVendor } = useVendorbyChat({ venId, senderId });

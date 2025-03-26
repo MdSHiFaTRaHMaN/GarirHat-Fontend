@@ -1,54 +1,80 @@
-import { Divider, message, Tabs } from "antd";
-import CarImage from "../../assets/images/UpcomingImage.jpg";
+import { useEffect, useState } from "react";
+import { Divider, message, Spin, Tabs } from "antd";
+import {
+  API,
+  useAllVehicles,
+  useBrandWithVendor,
+  useUserProfile,
+  useWishListVechile,
+} from "../../api/api";
+import LoadingWhile from "../../components/LoadingWhile";
 import { IoLocationOutline } from "react-icons/io5";
 import { FaChevronCircleRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { HeartFilled, HeartOutlined } from "@ant-design/icons";
+import { HeartFilled, HeartOutlined, LoadingOutlined } from "@ant-design/icons";
 import { TbCurrencyTaka } from "react-icons/tb";
-import { useState } from "react";
 import { LuShare2 } from "react-icons/lu";
-import { useAllVehicles } from "../../api/api";
-import LoadingWhile from "../../components/LoadingWhile";
+import CarImage from "../../assets/images/UpcomingImage.jpg";
+import { useQueryClient } from "@tanstack/react-query";
 
 const VendorOtherCar = ({ vendor_id }) => {
   const [likedCars, setLikedCars] = useState({});
-  const [selectedBrand, setSelectBrand] = useState("");
-
-  console.log(selectedBrand);
+  const queryClient = useQueryClient();
+  const [selectedBrand, setSelectedBrand] = useState("");
+  const { brandWvendor } = useBrandWithVendor(vendor_id);
+  const { userProfile } = useUserProfile();
+  const user_id = userProfile.id;
+  const [loading, setLoading] = useState(false);
 
   const filter = {
-    vendor_id: vendor_id || "",
+    busn_id: vendor_id || "",
     make: selectedBrand || "",
   };
+
   const { allVehicles, isLoading } = useAllVehicles(filter);
 
-  const toggleLike = (carId) => {
+  const { wishListVechile } = useWishListVechile(user_id);
+
+  useEffect(() => {
+    if (wishListVechile) {
+      const wishlistData = wishListVechile.reduce((acc, car) => {
+        acc[car.vehicle_id] = true;
+        return acc;
+      }, {});
+      setLikedCars(wishlistData);
+    }
+  }, [wishListVechile]);
+
+  const toggleLike = async (carId) => {
+    const user_id = userProfile.id;
+    const vehicle_id = carId;
+
+    const wishList = { user_id, vehicle_id };
+
+    try {
+      setLoading(true);
+      const response = await API.post("/wishlist", wishList);
+      queryClient.invalidateQueries(["wishListVechile", user_id]);
+      if (response.status == 201) {
+        message.success("Wishlist Added Successfully");
+      }
+      if (response.status == 200) {
+        message.success("Wishlist Remove Successfully");
+      }
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      message.error("Something went wrong");
+      setLoading(false);
+    }
+
     setLikedCars((prev) => ({
       ...prev,
       [carId]: !prev[carId],
     }));
-    message.success("Added to favorites");
   };
-
-  const filterOptions = [
-    { key: "1", label: "All Car" },
-    { key: "2", label: "Toyota" },
-    { key: "3", label: "Honda" },
-    { key: "4", label: "Nissan" },
-    { key: "5", label: "Mitsubishi" },
-    { key: "6", label: "Hyundai" },
-    { key: "7", label: "Mercedes-Benz" },
-    { key: "8", label: "BMW" },
-    { key: "9", label: "Ford" },
-    { key: "10", label: "Kia" },
-    { key: "11", label: "Suzuki" },
-  ];
-
   const handleModelCar = (key) => {
-    const selectedOption = filterOptions.find((option) => option.key === key);
-    setSelectBrand(
-      selectedOption?.label === "All Car" ? "" : selectedOption?.label
-    );
+    setSelectedBrand(key === "all" ? "" : key);
   };
 
   const handleShare = () => {
@@ -66,15 +92,23 @@ const VendorOtherCar = ({ vendor_id }) => {
     }
   };
 
+  const tabItems = [
+    { key: "all", label: "All Cars" },
+    ...brandWvendor.map((item) => ({
+      key: item.make,
+      label: item.make,
+    })),
+  ];
+
   return (
     <div className="px-2 md:px-2 lg:px-1 py-6">
       {/* Tabs & Filter Section */}
       <div className="flex flex-col md:flex-row justify-between items-center gap-4">
         <div className="overflow-x-auto w-full md:w-auto">
           <Tabs
-            defaultActiveKey="1"
-            items={filterOptions}
-            className="whitespace-nowrap" // Prevents wrapping of tabs
+            defaultActiveKey="all"
+            items={tabItems}
+            className="whitespace-nowrap"
             onChange={handleModelCar}
           />
         </div>
@@ -95,7 +129,9 @@ const VendorOtherCar = ({ vendor_id }) => {
                 onClick={() => toggleLike(car.id)}
                 className="absolute top-2 right-2 cursor-pointer bg-white p-1 rounded-full shadow-md"
               >
-                {likedCars[car.id] ? (
+                {loading ? (
+                  <Spin indicator={<LoadingOutlined spin />} />
+                ) : likedCars[car.id] ? (
                   <HeartFilled className="text-TextColor text-xl bg-white p-1 rounded-full" />
                 ) : (
                   <HeartOutlined className="text-TextColor text-xl bg-white p-1 rounded-full" />
@@ -104,7 +140,7 @@ const VendorOtherCar = ({ vendor_id }) => {
 
               {/* Car Image */}
               <img
-                src={car.thumbnail || CarImage}
+                src={car.thumbnail_image || CarImage}
                 alt="Car"
                 className="w-full h-48 object-cover"
               />
@@ -112,7 +148,7 @@ const VendorOtherCar = ({ vendor_id }) => {
               {/* Car Details */}
               <div className="p-4">
                 <h3 className="font-semibold text-lg text-gray-900">
-                  {car.year_of_manufacture} {car.make} {car.model}
+                  {car.year_of_manufacture} {car.make} {car.model} {car.trim}
                 </h3>
                 <div className="flex items-center justify-between">
                   <p className="text-gray-600 text-sm">

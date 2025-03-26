@@ -99,6 +99,7 @@ const Topmenu = () => {
             <Link
               onClick={() => {
                 window.scrollTo({ top: 0, behavior: "smooth" });
+                setIsMobileMenuOpen(false);
                 queryClient.invalidateQueries(["allCarList"]);
               }}
               to="/vehicles?vehicle_condition=used"
@@ -115,6 +116,7 @@ const Topmenu = () => {
               onClick={() => {
                 window.scrollTo({ top: 0, behavior: "smooth" });
                 queryClient.invalidateQueries(["allCarList"]);
+                setIsMobileMenuOpen(false);
               }}
               to="/recondition"
             >
@@ -129,6 +131,7 @@ const Topmenu = () => {
             <Link
               onClick={() => {
                 window.scrollTo({ top: 0, behavior: "smooth" });
+                setIsMobileMenuOpen(false);
                 queryClient.invalidateQueries(["allCarList"]);
               }}
               to="/Pre-own"

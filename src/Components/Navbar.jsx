@@ -91,7 +91,7 @@ const Navbar = () => {
   ];
 
   return (
-    <div className="bg-gray-50 sticky top-0 !z-50 shadow-md">
+    <div className="bg-gray-50 lg:sticky top-0 !z-50 shadow-md">
       {/* First Line: Logo and Tagline */}
       <nav className="p-1.5 w-full lg:w-10/12 mx-auto">
         <div className="container mx-auto flex items-center justify-between">

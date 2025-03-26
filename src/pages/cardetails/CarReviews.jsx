@@ -68,14 +68,14 @@ const CarReviews = ({ ratings, avaregeRating }) => {
         {/* Reviews Section */}
         <div className="mt-6">
           <h3 className="text-lg font-semibold text-gray-800">
-            {ratings.length} Rating and Reviews
+            {ratings.length === 0 ? "Not Available" : ratings.length} Rating and Reviews
           </h3>
 
           {/* Sorting */}
-          <div className="flex justify-end items-center text-gray-500 text-sm mt-2">
+          {/* <div className="flex justify-end items-center text-gray-500 text-sm mt-2">
             <FiFilter className="mr-1" />
             Latest
-          </div>
+          </div> */}
 
           {/* Reviews List */}
           {visibleReviews.map((review) => (

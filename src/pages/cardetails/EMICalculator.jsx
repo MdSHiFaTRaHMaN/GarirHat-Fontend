@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { Slider, Button, Input } from "antd";
+import { Slider, Input } from "antd";
 import CalculatorImg from "../../assets/images/calculatebyemi.png";
 import EMIBackupModel from "./EMIBackupModel";
 import { FaBangladeshiTakaSign } from "react-icons/fa6";
 
-const EMICalculator = () => {
-  const [loanAmount, setLoanAmount] = useState(9000000);
+const EMICalculator = ({price}) => {
+  const [loanAmount, setLoanAmount] = useState(price);
   const [duration, setDuration] = useState(4);
   const [interestRate, setInterestRate] = useState(14.5);
 
@@ -16,9 +16,9 @@ const EMICalculator = () => {
   };
 
   const emi = calculateEMI(loanAmount, interestRate, duration * 12);
-
   const [isModalOpen, setIsModalOpen] = useState([false, false]);
 
+// Toggle Modal 
   const toggleModal = (idx, target) => {
     setIsModalOpen((p) => {
       p[idx] = target;
@@ -30,10 +30,6 @@ const EMICalculator = () => {
       <div className="p-2 lg:p-8 w-full">
         {/* Header Section */}
         <h2 className="text-2xl font-bold text-gray-900">Loan Calculator</h2>
-        {/* <p className="text-gray-500 text-sm mt-1">
-          Avail up to 100% of the car value in finance at attractive interest
-          rates
-        </p> */}
 
         {/* Loan Amount */}
         <div className="mt-6">
@@ -43,12 +39,12 @@ const EMICalculator = () => {
             <span className="bg-gray-200 px-3 py-1 rounded-md text-gray-700 font-semibold">
               ৳{(loanAmount / 100000).toFixed(2)} Lakh
             </span>
-            <span className="text-gray-500 text-sm">৳ 89,99,999</span>
-          </div>
+            <span className="text-gray-500 text-sm">৳ {price}</span>
+          </div> 
           <Slider
             min={0}
-            max={8999999}
-            step={100000}
+            max={price}
+            step={1000}
             value={loanAmount}
             onChange={(value) => setLoanAmount(value)}
             trackStyle={{ backgroundColor: "#3eb4e7" }}
@@ -93,11 +89,15 @@ const EMICalculator = () => {
             className="py-2 !rounded"
             type="number"
             placeholder="Enter Custom Rate of Interest"
-            // onChange={(e) =>
-            //   setInterestRate(Math.max(1, Number(e.target.value)))
-            // }
-            onChange={(e) => setInterestRate(Number(e.target.value))}
+            onChange={(e) => {
+              const value = Number(e.target.value);
+              if (value <= 30) {
+                setInterestRate(value);
+              }
+            }}
             value={interestRate}
+            min={1}
+            max={30}
           />
           Rate of interest <span className="font-bold">@ {interestRate}%</span>{" "}
           for {duration} Years
@@ -108,7 +108,7 @@ const EMICalculator = () => {
           <div>
             <p className="text-gray-500 text-sm">Your Monthly EMI</p>
             <h3 className="text-2xl font-bold flex items-center">
-              <FaBangladeshiTakaSign className="mr-1" /> {emi.toLocaleString()}
+              <FaBangladeshiTakaSign className="mr-1" /> {emi.toLocaleString()} TK 
             </h3>
           </div>
           <button
@@ -126,16 +126,16 @@ const EMICalculator = () => {
         </p>
 
         {/* Call to Action */}
-        <div className="mt-6">
+        {/* <div className="mt-6">
           <Button className="w-full bg-ButtonColor hover:!bg-ButtonHover text-white hover:!text-white font-semibold py-5 rounded-lg">
             Interested in Loan
           </Button>
-        </div>
+        </div> */}
       </div>
       <div className="hidden lg:block">
         <img src={CalculatorImg} alt="CalculatorImg" />
       </div>
-      <EMIBackupModel isModalOpen={isModalOpen} toggleModal={toggleModal} />
+      <EMIBackupModel isModalOpen={isModalOpen} toggleModal={toggleModal}  price={price} />
     </div>
   );
 };

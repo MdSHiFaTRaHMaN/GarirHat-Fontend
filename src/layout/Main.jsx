@@ -6,10 +6,9 @@ import socket from "../socket";
 import { useUserProfile } from "../api/api";
 
 const Main = () => {
-    const { userProfile } = useUserProfile();
-    const userId = "u" + userProfile?.id;
+  const { userProfile } = useUserProfile();
+  const userId = "u" + userProfile?.id;
 
-  
   useEffect(() => {
     socket.emit("userConnected", userId);
   }, [userId]);

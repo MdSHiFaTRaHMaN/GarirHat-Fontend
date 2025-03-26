@@ -13,6 +13,8 @@ function SidebarForMessages({ userID }) {
 
   const { messageSenderList, isLoading, refetch } = useMessagesSender(userId);
 
+  console.log("Message Sender List:", messageSenderList.vendors);
+
   // Connect user to socket server
   useEffect(() => {
     socket.emit("userConnected", userId);
@@ -33,16 +35,27 @@ function SidebarForMessages({ userID }) {
   };
 
   const onSenderSelect = (value) => {
-    const senderId = "v" + value;
+    const senderId = value;
     searchParams.set("sender", senderId);
     setSearchParams(searchParams);
+
+    console.log("Sender ID:", senderId);
   };
+
+  function formatDateTime(dateTime) {
+    const date = new Date(dateTime);
+    const time = date.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+    const formattedDate = date.toLocaleDateString("en-GB").replace(/\//g, "-"); // Format as DD-MM-YYYY
+    return `${time} ${formattedDate}`;
+  }
 
   return (
     <div className="bg-white p-1 md:p-2 h-full flex flex-col">
-      <Link className="text-xl font-semibold mb-4">
-        Chat
-      </Link>
+      <Link className="text-xl font-semibold mb-4">Chat</Link>
       <Search
         placeholder="Search sender..."
         onSearch={onSearch}
@@ -58,7 +71,7 @@ function SidebarForMessages({ userID }) {
           messageSenderList?.vendors?.map((sender, index) => (
             <div
               key={index}
-              onClick={() => onSenderSelect(sender.id)}
+              onClick={() => onSenderSelect(sender.busn_id)}
               className="flex items-center gap-3 p-3 mb-2 bg-gray-100 hover:bg-gray-200 rounded-lg cursor-pointer transition duration-300"
             >
               <div className="relative">
@@ -76,7 +89,7 @@ function SidebarForMessages({ userID }) {
               <div>
                 <h1 className="font-semibold">{sender.name}</h1>
                 <p className="text-sm text-gray-600">
-                  ({sender.vehicles[0].vehicle_code}) {sender.vehicles[0].make} {sender.vehicles[0].model}
+                  {formatDateTime(sender?.last_message_time)}
                 </p>
               </div>
             </div>

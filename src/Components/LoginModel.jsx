@@ -22,6 +22,7 @@ const LoginModal = ({ isVisible, onClose }) => {
     try {
       await handleGoogle(); 
       onClose();
+      window.location.reload();
     } catch (error) {
       console.error("Google login failed:", error);
     }

@@ -4,12 +4,13 @@ import { TbCurrencyTaka } from "react-icons/tb";
 import { useSearchParams } from "react-router-dom";
 
 const priceRanges = [
-  { id: 1, label: "Under 5 Lakh", value: [1, 500000] },
+  { id: 1, label: "Under 5 Lakh", value: [0, 500000] },
   { id: 2, label: "5 - 10 Lakh", value: [500000, 1000000] },
   { id: 3, label: "10 - 20 Lakh", value: [1000000, 2000000] },
   { id: 4, label: "20 - 30 Lakh", value: [2000000, 3000000] },
   { id: 5, label: "30 - 50 Lakh", value: [3000000, 5000000] },
   { id: 6, label: "Above 50 Lakh", value: [5000000, 1000000000000] },
+  { id: 7, label: "No Select", value: ["", ""] },
 ];
 
 const BudgetFilter = () => {
@@ -83,7 +84,7 @@ const BudgetFilter = () => {
           style={style}
           options={priceRanges.map((range) => ({
             value: range.id,
-            label: range.label,
+            label: <h3 className="font-medium">{range.label}</h3>,
           }))}
         />
       </div>

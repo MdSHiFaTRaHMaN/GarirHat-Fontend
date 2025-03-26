@@ -1,5 +1,4 @@
-import { Button, Modal, Select } from "antd";
-import { BiCurrentLocation } from "react-icons/bi";
+import { Modal, Select } from "antd";
 import { useAlDivition, useAlLocation } from "../api/api";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -51,18 +50,19 @@ const LocationModel = () => {
         footer={null}
         centered
         closable={true}
-        width={850}
+        width={750}
         className="rounded-lg"
       >
-        <h2 className="text-center text-2xl font-semibold text-gray-800 mb-4">
-          Do you want to change car location?
+        <h2 className="text-2xl font-semibold">
+        What is your location?
         </h2>
+        <p className="font-semibold text-gray-700">In which city are you looking to buy your car?</p>
 
         <div className="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-3 mt-6 relative">
           <Select
             showSearch
             className="w-full h-[50px]"
-            placeholder="Search Location"
+            placeholder="Select Your City"
             optionFilterProp="label"
             onChange={handleLocationSelect}
             filterSort={(optionA, optionB) =>
@@ -77,18 +77,11 @@ const LocationModel = () => {
               }))
             )}
           />
-          <Button className="flex items-center space-x-1 px-4 py-6 border border-blue-500 text-blue-600 hover:text-white hover:bg-blue-500 transition-all rounded-lg shadow-sm">
-            <BiCurrentLocation />
-            <span>Detect my location</span>
-          </Button>
         </div>
 
-        <div className="w-full bg-gray-50 py-8 px-4 mt-6 rounded-lg">
+        <div className="w-full bg-gray-50 py-4 rounded-lg">
           <div className="max-w-7xl mx-auto">
-            <h2 className="text-xl font-semibold text-gray-700 mb-6 text-center">
-              Get trusted used cars nearby
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-6">
               {isLoading
                 ? "Loading..."
                 : alDivition.map((location, index) => (
@@ -97,7 +90,7 @@ const LocationModel = () => {
                       onClick={() => handleLocationSelect(location.name)}
                       className="flex flex-col items-center bg-white shadow-lg rounded overflow-hidden transition-transform transform hover:scale-105 hover:shadow-xl"
                     >
-                      <div className="w-full h-40">
+                      <div className="w-full h-32">
                         <img
                           src={location.logo}
                           alt={location.name}

@@ -3,14 +3,20 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../authprovider/AuthProvider";
 import { API } from "../../api/api";
 
-const InterestedModal = ({ isVisible, onClose, vechileId, vendorId }) => {
+const InterestedModal = ({
+  isVisible,
+  onClose,
+  vechileId,
+  vendorId,
+  vehicle_name,
+}) => {
   const { user, loadingUser } = useContext(AuthContext);
   const [form] = Form.useForm();
   const [checked, setChecked] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Prefill user data when 
-  
+  // Prefill user data when
+
   useEffect(() => {
     if (!loadingUser && user) {
       form.setFieldsValue({
@@ -20,7 +26,6 @@ const InterestedModal = ({ isVisible, onClose, vechileId, vendorId }) => {
       });
     }
   }, [user, loadingUser]);
-  
 
   // Handle form submission
   const onFinish = async (values) => {
@@ -32,7 +37,9 @@ const InterestedModal = ({ isVisible, onClose, vechileId, vendorId }) => {
       phone: values.phone,
       email: values.email,
     };
-  
+
+    console.log(userInfo);
+
     try {
       setIsLoading(true);
       const response = await API.post("/interest/post", userInfo);
@@ -48,7 +55,6 @@ const InterestedModal = ({ isVisible, onClose, vechileId, vendorId }) => {
       setIsLoading(false);
     }
   };
-  
 
   return (
     <Modal
@@ -101,9 +107,14 @@ const InterestedModal = ({ isVisible, onClose, vechileId, vendorId }) => {
         </Form.Item>
 
         {/* Message */}
-        <Form.Item label="Message (Optional)" name="message">
+        <Form.Item
+          label="Message"
+          name="message"
+          rules={[{ required: true, message: "Please Type Somethings" }]}
+        >
           <Input.TextArea
             rows={3}
+            defaultValue={`I’m interested in ${vehicle_name}`}
             className="rounded-md"
             placeholder="I’m interested in this car and would like more details."
           />

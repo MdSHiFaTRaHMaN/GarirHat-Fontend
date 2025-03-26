@@ -1,4 +1,4 @@
-import { DeleteOutlined, EditOutlined, StarFilled } from "@ant-design/icons";
+import { DeleteOutlined, StarFilled } from "@ant-design/icons";
 import { Avatar, Button, message } from "antd";
 import { API, useMyReviews, useUserProfile } from "../../api/api";
 import LoadingWhile from "../../components/LoadingWhile";
@@ -27,9 +27,9 @@ const MyReviews = () => {
   };
 
   return (
-    <div className="mx-auto bg-white shadow-lg rounded-lg p-6 mt-6">
+    <div className="mx-auto bg-white shadow-lg rounded-lg p-2 lg:p-6 mt-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-semibold mb-6 text-gray-800 flex items-center">
+        <h2 className="text-lg lg:text-2xl font-semibold mb-6 text-gray-800 flex flex-wrap items-center gap-1 mt-5">
           <VscPreview /> My Reviews
         </h2>
         <Link to="/car-review">

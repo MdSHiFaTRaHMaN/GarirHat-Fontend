@@ -2,9 +2,9 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { Tabs } from "antd";
 import { Link } from "react-router-dom";
-import { useMostSearchCar } from "../../api/api";
+import { useAllBrand, useMostSearchCar } from "../../api/api";
 import { useState } from "react";
-import ComingImaage from "../../assets/images/UpcomingImage.jpg";
+import ComingImage from "../../assets/images/UpcomingImage.jpg";
 import ShadowLoading from "../../components/ShadowLoading";
 
 const responsive = {
@@ -27,30 +27,24 @@ const responsive = {
 };
 
 const MostSearchCar = () => {
+  const { allBrand } = useAllBrand();
   const [selectBrand, setSelectBrand] = useState("");
+
   const { mostSearchCar, isLoading } = useMostSearchCar({
     selectBrand,
   });
 
-  const filterOptions = [
-    { key: "1", label: "All Car" },
-    { key: "2", label: "Toyota" },
-    { key: "3", label: "Honda" },
-    { key: "4", label: "Nissan" },
-    { key: "5", label: "Mitsubishi" },
-    { key: "6", label: "Hyundai" },
-    { key: "7", label: "Mercedes-Benz" },
-    { key: "8", label: "BMW" },
-    { key: "9", label: "Ford" },
-    { key: "10", label: "Kia" },
-    { key: "11", label: "Suzuki" },
-  ];
   const handleModelCar = (key) => {
-    const selectedOption = filterOptions.find((option) => option.key === key);
-    setSelectBrand(
-      selectedOption?.label === "All Car" ? "" : selectedOption?.label
-    );
+    setSelectBrand(key === "all" ? "" : key);
   };
+
+  const tabItems = [
+    { key: "all", label: "All Cars" },
+    ...allBrand.map((item) => ({
+      key: item.brand_name,
+      label: item.brand_name,
+    })),
+  ];
 
   return (
     <div className="p-5 w-full lg:w-10/12 mx-auto shadow-lg rounded-lg m-7">
@@ -59,9 +53,9 @@ const MostSearchCar = () => {
       <div className="flex flex-col md:flex-row justify-between items-center gap-4">
       <div className="overflow-x-auto w-full md:w-auto">
         <Tabs
-          defaultActiveKey="1"
-          items={filterOptions}
-          className="whitespace-nowrap" // Prevents wrapping of tabs
+          defaultActiveKey="all"
+          items={tabItems}
+          className="whitespace-nowrap"
           onChange={handleModelCar}
         />
       </div>
@@ -71,14 +65,14 @@ const MostSearchCar = () => {
         {isLoading ? (
           <ShadowLoading />
         ) : mostSearchCar.length === 0 ? (
-          <p className="text-center text-gray-500 font-semibold mt-4">
-            🚗 Car not available
+          <p className="text-center text-2xl text-gray-500 font-semibold mt-4">
+             Car not available This Brand
           </p>
         ) : (
           mostSearchCar.map((car, index) => (
             <div key={index} className="bg-white rounded-lg shadow-lg p-4 m-2 ">
               <img
-                src={car.thumbnail_image || ComingImaage}
+                src={car.thumbnail_image || ComingImage}
                 alt={car.make}
                 className="rounded-lg mb-4 w-full h-40 object-cover"
               />
@@ -86,7 +80,7 @@ const MostSearchCar = () => {
                 {car.year_of_manufacture} {car.make} {car.model}
               </h3>
               <p className="text-gray-600 mb-4 text-start">
-                ৳ {car.discount_price} TK
+                ৳ {car.price.toLocaleString()} TK
               </p>
               <Link to={`/car-details/${car.id}`}>
                 <button className="w-full mb-2 border border-ButtonColor hover:bg-ButtonHover p-2 text-ButtonColor hover:text-white font-semibold rounded-lg">

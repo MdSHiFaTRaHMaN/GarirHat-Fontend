@@ -4,6 +4,7 @@ import { useAllBrand, useAllVideos, useModelByBrand } from "../../api/api";
 import { useState } from "react";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
 import { RiVideoOnAiFill } from "react-icons/ri";
+import LoadingWhile from "../../components/LoadingWhile";
 
 const CarVideo = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -20,7 +21,7 @@ const CarVideo = () => {
   const make = makeName ? makeName : "";
   const model = modelName ? modelName : "";
 
-  const { allVideos } = useAllVideos(make, model);
+  const { allVideos, isLoading } = useAllVideos(make, model);
 
   const onSearch = (value) => {
     console.log("search:", value);
@@ -90,7 +91,7 @@ const CarVideo = () => {
       </div>
 
       {/* Video Section */}
-      {allVideos?.length > 0 ? (
+      {isLoading ? <LoadingWhile /> : allVideos?.length > 0 ? (
         <div key={allVideos[0].id} className="mt-6 bg-white ">
           <iframe
             className="w-full h-[200px] lg:h-[375px] rounded-lg"
